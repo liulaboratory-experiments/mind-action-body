@@ -1,0 +1,82 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","itemB","causal_itemA","similar_itemA","selected_choice","correct_response_attn","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","5","test_nt1r25uxp3","","","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","59577","test_nt1r25uxp3","","","consent","59568","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> This is a study demo; the purpose of the study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 4 minutes</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. <p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. <p> Do you consent to participate? </p>","0","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","137559","test_nt1r25uxp3","","","","77978","","","[{""page_index"":0,""viewing_time"":77978}]","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","151833","test_nt1r25uxp3","","","","14271","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>reach for something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","reach for something","become hungry","kick something","<p style=""font-size: 25px;""><strong>kick something</strong></p>","","","","","",""
+"","","","","","html-button-response","4","2.1.0","164655","test_nt1r25uxp3","","","","12819","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>take a walk</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","take a walk","think about something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","5","2.1.0","169392","test_nt1r25uxp3","","","","4733","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>get sick</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","get sick","see something","get tired","<p style=""font-size: 25px;""><strong>get tired</strong></p>","","","","","",""
+"","","","","","html-button-response","6","2.1.0","172108","test_nt1r25uxp3","","","","2713","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>experience pain</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","experience pain","kick something","get tired","<p style=""font-size: 25px;""><strong>get tired</strong></p>","","","","","",""
+"","","","","","html-button-response","7","2.1.0","174538","test_nt1r25uxp3","","","","2426","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>sit down</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","sit down","experience pain","jump up and down","<p style=""font-size: 25px;""><strong>jump up and down</strong></p>","","","","","",""
+"","","","","","html-button-response","8","2.1.0","176637","test_nt1r25uxp3","","","","2096","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>become hungry</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","become hungry","take a walk","feel scared","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","9","2.1.0","179022","test_nt1r25uxp3","","","","2382","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>think about something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","think about something","get sick","remember something","<p style=""font-size: 25px;""><strong>remember something</strong></p>","","","","","",""
+"","","","","","html-button-response","10","2.1.0","181682","test_nt1r25uxp3","","","","2656","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>kick something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","kick something","think about something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","11","2.1.0","187427","test_nt1r25uxp3","","","","5742","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>see something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","see something","take a walk","hear something","<p style=""font-size: 25px;""><strong>hear something</strong></p>","","","","","",""
+"","","","","","html-button-response","12","2.1.0","189975","test_nt1r25uxp3","","","","2545","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>get tired</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","get tired","jump up and down","feel scared","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","13","2.1.0","195860","test_nt1r25uxp3","","","","5881","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>choose what to do</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","choose what to do","experience pain","remember something","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","","","","","",""
+"","","","","","html-button-response","14","2.1.0","197743","test_nt1r25uxp3","","","","1881","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>jump up and down</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","jump up and down","see something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","15","2.1.0","204098","test_nt1r25uxp3","","","","6352","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>feel scared</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","feel scared","see something","get tired","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","html-button-response","16","2.1.0","207592","test_nt1r25uxp3","","","","3492","<p style=""font-size: 25px;"">For this question, please select ""<strong>choose what to do</strong>""</p>","0","","attention_check_ordinary","","","","choose what to do","choose what to do","","","","",""
+"","","","","","html-button-response","17","2.1.0","209726","test_nt1r25uxp3","","","","2131","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>remember something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","0","","magical","remember something","take a walk","think about something","<p style=""font-size: 25px;""><strong>think about something</strong></p>","","","","","",""
+"","","","","","html-button-response","18","2.1.0","211608","test_nt1r25uxp3","","","","1879","<p style=""font-size: 25px;"">Choose the spell that you think will best lead to the
+              outcome - the one most likely to succeed. <br><br>Suppose you wanted to give a creature the 
+              ability to <strong>hear something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two other spells would most likely accomplish your goal? <br>Granting the 
+               creature the ability to ... </p>","1","","magical","hear something","take a walk","see something","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","instructions","19","2.1.0","213650","test_nt1r25uxp3","","","","2040","","","[{""page_index"":0,""viewing_time"":2040}]","","","","","","","","","","",""
+"","","","","","survey-html-form","20","2.1.0","239396","test_nt1r25uxp3","","","demographics_survey","25738","","{""feedback"":""I tried to pick answers that matched the action as closely as possible."",""age"":""37"",""gender"":""Female"",""other_gender"":"""",""race"":""White"",""other_race"":"""",""ethnicity"":""Non-Hispanic""}","","","","","","","","I tried to pick answers that matched the action as closely as possible.","37","Non-Hispanic","Female","White"

@@ -1,0 +1,421 @@
+subject_id,condition,itemB,causal_itemA,similar_itemA,response,domain_itemB,domain_causalitemA,domain_similarityitemA
+subj_03,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_03,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_03,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_03,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_03,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_03,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_03,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_03,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_03,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_03,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_03,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_03,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_03,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_03,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_03,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_05,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_05,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_05,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_05,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_05,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_05,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_05,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_05,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_05,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_05,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_05,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_05,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_05,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_05,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_05,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_06,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_06,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_06,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_06,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_06,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_06,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_06,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_06,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_06,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_06,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_06,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_06,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_06,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_06,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_06,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_07,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_07,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_07,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_07,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_07,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_07,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_07,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_07,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_07,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_07,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_07,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_07,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_07,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_07,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_07,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_08,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_08,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_08,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_08,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_08,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_08,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_08,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_08,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_08,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_08,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_08,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_08,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_08,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_08,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_08,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_09,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_09,following,feel scared,think about something,become hungry,similar,bio,mind,bio
+subj_09,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_09,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_09,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_09,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_09,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_09,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_09,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_09,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_09,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_09,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_09,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_09,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_09,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_10,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_10,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_10,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_10,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_10,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_10,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_10,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_10,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_10,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_10,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_10,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_10,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_10,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_10,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_10,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_11,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_11,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_11,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_11,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_11,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_11,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_11,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_11,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_11,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_11,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_11,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_11,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_11,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_11,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_11,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_12,following,experience pain,sit down,become hungry,causal,bio,action,bio
+subj_12,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_12,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_12,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_12,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_12,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_12,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_12,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_12,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_12,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_12,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_12,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_12,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_12,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_12,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_13,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_13,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_13,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_13,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_13,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_13,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_13,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_13,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_13,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_13,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_13,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_13,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_13,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_13,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_13,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_14,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_14,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_14,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_14,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_14,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_14,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_14,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_14,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_14,following,feel scared,think about something,become hungry,similar,bio,mind,bio
+subj_14,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_14,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_14,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_14,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_14,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_14,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_15,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_15,following,experience pain,sit down,become hungry,causal,bio,action,bio
+subj_15,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_15,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_15,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_15,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_15,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_15,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_15,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_15,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_15,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_15,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_15,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_15,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_15,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_17,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_17,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_17,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_17,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_17,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_17,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_17,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_17,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_17,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_17,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_17,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_17,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_17,following,experience pain,sit down,become hungry,causal,bio,action,bio
+subj_17,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_17,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_18,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_18,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_18,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_18,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_18,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_18,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_18,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_18,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_18,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_18,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_18,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_18,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_18,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_18,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_18,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_24,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_24,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_24,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_24,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_24,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_24,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_24,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_24,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_24,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_24,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_24,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_24,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_24,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_24,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_24,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_25,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_25,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_25,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_25,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_25,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_25,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_25,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_25,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_25,following,feel scared,think about something,become hungry,similar,bio,mind,bio
+subj_25,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_25,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_25,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_25,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_25,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_25,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_27,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_27,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_27,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_27,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_27,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_27,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_27,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_27,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_27,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_27,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_27,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_27,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_27,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_27,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_27,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_31,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_31,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_31,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_31,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_31,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_31,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_31,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_31,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_31,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_31,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_31,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_31,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_31,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_31,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_31,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_32,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_32,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_32,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_32,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_32,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_32,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_32,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_32,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_32,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_32,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_32,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_32,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_32,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_32,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_32,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_35,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_35,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_35,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_35,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_35,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_35,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_35,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_35,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_35,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_35,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_35,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_35,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_35,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_35,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_35,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_36,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_36,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_36,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_36,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_36,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_36,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_36,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_36,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_36,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_36,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_36,following,feel scared,think about something,become hungry,similar,bio,mind,bio
+subj_36,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_36,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_36,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_36,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_38,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_38,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_38,following,get sick,sit down,become hungry,causal,bio,action,bio
+subj_38,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_38,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_38,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_38,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_38,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_38,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_38,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_38,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_38,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_38,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_38,following,feel scared,think about something,become hungry,similar,bio,mind,bio
+subj_38,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_39,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_39,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_39,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_39,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_39,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_39,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_39,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_39,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_39,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_39,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_39,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_39,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_39,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_39,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_39,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_40,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_40,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_40,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_40,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_40,following,get sick,sit down,become hungry,causal,bio,action,bio
+subj_40,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_40,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_40,following,reach for something,experience pain,take a walk,causal,action,bio,action
+subj_40,following,sit down,think about something,jump up and down,causal,action,mind,action
+subj_40,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_40,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_40,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_40,following,choose what to do,feel scared,hear something,similar,mind,bio,mind
+subj_40,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_40,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_44,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_44,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_44,following,see something,feel scared,hear something,similar,mind,bio,mind
+subj_44,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_44,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_44,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_44,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_44,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_44,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_44,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_44,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_44,following,get sick,sit down,become hungry,causal,bio,action,bio
+subj_44,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_44,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_44,following,get tired,sit down,become hungry,similar,bio,action,bio
+subj_45,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_45,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_45,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_45,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_45,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_45,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_45,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_45,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_45,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_45,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_45,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_45,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_45,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_45,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_45,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_49,following,think about something,feel scared,hear something,causal,mind,bio,mind
+subj_49,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_49,following,see something,feel scared,hear something,causal,mind,bio,mind
+subj_49,following,remember something,feel scared,hear something,causal,mind,bio,mind
+subj_49,following,take a walk,get tired,jump up and down,causal,action,bio,action
+subj_49,following,get sick,sit down,become hungry,similar,bio,action,bio
+subj_49,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_49,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_49,following,become hungry,think about something,feel scared,similar,bio,mind,bio
+subj_49,following,experience pain,sit down,become hungry,similar,bio,action,bio
+subj_49,following,hear something,feel scared,see something,causal,mind,bio,mind
+subj_49,following,jump up and down,get tired,take a walk,causal,action,bio,action
+subj_49,following,kick something,experience pain,NA,causal,action,bio,NA
+subj_49,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_49,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_51,following,hear something,feel scared,see something,similar,mind,bio,mind
+subj_51,following,become hungry,think about something,feel scared,causal,bio,mind,bio
+subj_51,following,think about something,feel scared,hear something,similar,mind,bio,mind
+subj_51,following,reach for something,experience pain,take a walk,similar,action,bio,action
+subj_51,following,get sick,sit down,become hungry,causal,bio,action,bio
+subj_51,following,get tired,sit down,become hungry,causal,bio,action,bio
+subj_51,following,experience pain,sit down,become hungry,causal,bio,action,bio
+subj_51,following,kick something,experience pain,NA,similar,action,bio,NA
+subj_51,following,take a walk,get tired,jump up and down,similar,action,bio,action
+subj_51,following,sit down,think about something,jump up and down,similar,action,mind,action
+subj_51,following,choose what to do,feel scared,hear something,causal,mind,bio,mind
+subj_51,following,jump up and down,get tired,take a walk,similar,action,bio,action
+subj_51,following,remember something,feel scared,hear something,similar,mind,bio,mind
+subj_51,following,feel scared,think about something,become hungry,causal,bio,mind,bio
+subj_51,following,see something,feel scared,hear something,similar,mind,bio,mind

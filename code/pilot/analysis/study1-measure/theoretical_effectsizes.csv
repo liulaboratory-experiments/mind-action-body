@@ -1,0 +1,16 @@
+target_item,causal_choice,similar_choice,causal_distance_causal_choice,freesort_distance_causal_choice,freesort_minus_causal_distance_causal,causal_distance_similar_choice,freesort_distance_similar_choice,freesort_minus_causal_distance_similar,es_theoretical
+see something,take a walk,hear something,0.24,0.62,0.38259999999999994,0.44,0.2,-0.23660000000000003,0.6192
+hear something,take a walk,see something,0.27,0.61,0.33980000000000005,0.41,0.2,-0.21180000000000004,0.5516000000000001
+choose what to do,feel scared,remember something,0.18,0.52,0.3458,0.15,0.34,0.1966,0.1492
+remember something,take a walk,think about something,0.28,0.64,0.36519999999999997,0.09,0.13,0.0436,0.3216
+think about something,take a walk,remember something,0.24,0.64,0.3992,0.08,0.13,0.05500000000000001,0.3442
+reach for something,become hungry,kick something,0.19,0.59,0.40160000000000007,0.61,0.4,-0.21400000000000002,0.6156000000000001
+sit down,experience pain,jump up and down,0.15,0.58,0.43720000000000003,0.56,0.35,-0.20120000000000005,0.6384000000000001
+jump up and down,think about something,sit down,0.34,0.68,0.3386,0.84,0.35,-0.488,0.8266
+kick something,think about something,jump up and down,0.37,0.64,0.26960000000000006,0.59,0.27,-0.3142,0.5838000000000001
+take a walk,think about something,jump up and down,0.26,0.64,0.3764,0.69,0.27,-0.42100000000000004,0.7974000000000001
+get tired,jump up and down,feel scared,0.11,0.56,0.4498,0.48,0.41,-0.07379999999999998,0.5236
+become hungry,take a walk,experience pain,0.18,0.6,0.4124,0.64,0.41,-0.22960000000000003,0.642
+feel scared,see something,become hungry,0.11,0.57,0.4544,0.6,0.49,-0.10680000000000006,0.5612000000000001
+experience pain,kick something,feel scared,0.12,0.58,0.46219999999999994,0.39,0.31,-0.07680000000000003,0.5389999999999999
+get sick,see something,get tired,0.39,0.66,0.2658,0.42,0.34,-0.0806,0.3464

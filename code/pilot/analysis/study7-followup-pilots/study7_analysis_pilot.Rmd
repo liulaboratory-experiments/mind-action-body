@@ -1,0 +1,422 @@
+---
+title: "study 6"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2024-10-28"
+author: ""
+
+---
+
+# ReadMe
+
+This is the analysis for the ordinary vs magical intervention study of the MBC project. 
+
+# Set options
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+pacman::p_load(
+               lme4, 
+               here, 
+               patchwork, 
+               cowplot, 
+               viridis, 
+               effects, 
+               gt,
+               webshot2,
+               knitr,
+               performance,
+               tidyverse,
+               simr,
+               conflicted)
+sessionInfo()
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ conflict_prefer(.x, "dplyr"))
+conflicts_prefer(simr::fixed)
+
+```
+
+# Global variables
+
+```{r}
+base_path <- here("code", "pilot")
+main_path <- here("code", "main") #for grabbing updated items
+snapshots_input_path <- paste0(base_path,
+                               "/analysis/study1-measure/snapshots_study1_pilot_analysis")
+snapshots_input_path_main <- paste0(main_path,
+                               "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
+preceding_distances_path <- paste0(snapshots_input_path_main,
+                                                "/preceding_short_list_domain_constraints.csv")
+following_distances_path <- paste0(snapshots_input_path_main,
+                                                "/following_short_list_domain_constraints.csv")
+
+```
+
+
+# Study 6 - Magical and ordinary intervention
+
+## Prepare data
+
+### read data
+
+```{r, warnings = FALSE}
+data_path_cf <- paste0(base_path, "/data/data-study7-follow-up-pilots/magical_pilot/JO-mbc-main-study7-magical-pilot_50N")
+
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+
+file_paths <- list.files(path = data_path_cf, pattern = "^2025-", full.names = TRUE)
+
+d <- imap_dfr(file_paths, ~ {
+  read_csv(.x, col_types = cols(response = col_character())) %>%
+    mutate(
+      filename = basename(.x),
+      subject_id = paste0("subj_", str_pad(.y, 2, pad = "0"))
+    )}) %>%
+  select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
+  relocate(subject_id, .before = "success")
+
+```
+
+### wrangle data
+
+initial: 30 trials per subject * 48 subjects = 1440 rows.
+dat: (30 trials / 2 trials per row) * 48 subjects = 720 rows.
+
+(after filtering to only relevant trials)
+initial: 15 trials per subject * 2 subjects = 30 rows
+
+TODO: rename itemB to target item.
+
+```{r}
+subjects_to_exclude <- d %>%
+  filter(grepl("attention_check", condition)) %>% 
+  mutate(attn_correct = correct_response_attn == selected_choice) %>% 
+  filter(attn_correct == FALSE) %>%
+  pull(subject_id) %>% 
+  unique()
+
+
+dat <- d %>% 
+  filter(!subject_id %in% subjects_to_exclude) %>% #exclude 1 subject who failed attn check
+  filter(condition %in% c("pilot")) %>%
+  mutate("causal_itemA" = preceding_causal_itemA,
+         "similar_itemA" = preceding_similar_itemA) %>% 
+  mutate(response = as.factor(response)) %>% 
+  mutate(condition = as.factor(condition)) %>%
+  rowwise() %>%
+  mutate(response = case_when(
+    grepl(causal_itemA, selected_choice) ~ "causal",
+    grepl(similar_itemA, selected_choice) ~ "similar",
+    TRUE ~ "other"
+  )) %>% 
+  ungroup() %>% 
+  select(subject_id, condition, itemB, causal_itemA, similar_itemA, response) %>% 
+  mutate(causal_itemA = factor(causal_itemA, levels = desired_order),
+         similar_itemA = factor(similar_itemA, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(domain_itemB = case_when(itemB == "hear something" ~ "mind", #labels for first item of pair
+                                 itemB == "choose what to do" ~ "mind",
+                                 itemB == "remember something" ~ "mind",
+                                 itemB == "think about something" ~ "mind",
+                                 itemB == "see something" ~ "mind",
+                                 itemB == "reach for something" ~ "action",
+                                 itemB == "sit down" ~ "action", 
+                                 itemB == "jump up and down" ~ "action",
+                                 itemB == "kick something" ~ "action",
+                                 itemB == "take a walk" ~ "action",
+                                 itemB == "get tired" ~ "bio", 
+                                 itemB == "become hungry" ~ "bio",
+                                 itemB == "feel scared"~ "bio",
+                                 itemB == "experience pain"~ "bio",
+                                 itemB == "get sick"~ "bio"),
+         domain_causalitemA = case_when(causal_itemA == "hear something" ~ "mind", 
+                                 causal_itemA == "choose what to do" ~ "mind",
+                                 causal_itemA == "remember something" ~ "mind",
+                                 causal_itemA == "think about something" ~ "mind",
+                                 causal_itemA == "see something" ~ "mind",
+                                 causal_itemA == "reach for something" ~ "action",
+                                 causal_itemA == "sit down" ~ "action", 
+                                 causal_itemA == "jump up and down" ~ "action",
+                                 causal_itemA == "kick something" ~ "action",
+                                 causal_itemA == "take a walk" ~ "action",
+                                 causal_itemA == "get tired" ~ "bio", 
+                                 causal_itemA == "become hungry" ~ "bio",
+                                 causal_itemA == "feel scared"~ "bio",
+                                 causal_itemA == "experience pain"~ "bio",
+                                 causal_itemA == "get sick"~ "bio"),
+          domain_similarityitemA = case_when(similar_itemA == "hear something" ~ "mind", 
+                                 similar_itemA == "choose what to do" ~ "mind",
+                                 similar_itemA == "remember something" ~ "mind",
+                                 similar_itemA == "think about something" ~ "mind",
+                                 similar_itemA == "see something" ~ "mind",
+                                 similar_itemA == "reach for something" ~ "action",
+                                 similar_itemA == "sit down" ~ "action", 
+                                 similar_itemA == "jump up and down" ~ "action",
+                                 similar_itemA == "kick something" ~ "action",
+                                 similar_itemA == "take a walk" ~ "action",
+                                 similar_itemA == "get tired" ~ "bio", 
+                                 similar_itemA == "become hungry" ~ "bio",
+                                 similar_itemA == "feel scared"~ "bio",
+                                 similar_itemA == "experience pain"~ "bio",
+                                 similar_itemA == "get sick"~ "bio")) 
+
+```
+
+### demographics
+
+```{r}
+# demographics
+df_demographics <- d %>% 
+  filter(trial_type == "survey-html-form") %>% 
+  select("trial_id", "filename", 
+         "feedback", "age", "ethnicity", "gender", "race") 
+
+summary(df_demographics$filename)
+summary(df_demographics$age)
+table(df_demographics$gender)
+table(df_demographics$ethnicity)
+table(df_demographics$race)
+
+```
+
+## main figure or plot
+
+```{r}
+dat_summarized <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop")
+
+main_fig <- dat_summarized %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+    geom_bar(stat = "identity", colour = "black") +
+    scale_fill_manual(values = c("grey80", "#000000")) + 
+  scale_x_discrete(labels = "Magical") +
+    geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                           ymin = mean_proportion - se),
+                  stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+    theme_cowplot() +
+  labs(y = "Proportion",
+       x = "Intervention Type",
+       fill = "Response",
+       title = "Pilot") +
+  ylim(0, 1) +
+  theme(axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 25),
+
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA),
+        legend.background = element_rect(fill='transparent', color = NA),
+        legend.box.background = element_rect(fill='transparent', color = NA),
+        
+        legend.position = "top",
+        legend.justification = "center",
+        legend.key.size = unit(1, "cm"),
+        legend.spacing.x = unit(1, "cm"),
+        
+        plot.title = element_text(hjust = 0.5, size = 25)
+        ) 
+
+main_fig
+
+# main_fig <- ggsave("spp_study6.png", width = 5, height = 5, plot = main_fig, bg = "transparent")
+main_fig <- ggsave("figures/pilot-thin.png", width = 3, height = 5, plot = main_fig, bg = "white")
+
+```
+
+## item-level plot, includes distances in plot
+
+```{r, fig.width = 12, fig.height = 12}
+d_distances <- read_csv(preceding_distances_path)
+
+dat_summarized_by_item <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  tidyr::complete(response, nesting(condition, itemB, 
+                                    causal_itemA, similar_itemA,
+                                    domain_causalitemA, domain_similarityitemA,
+                                    domain_itemB), fill = list(count = 0)) %>% #fill empty responses
+  group_by(condition, itemB) %>%
+  mutate(total = n()) %>%  #get total responses per condition
+  ungroup() %>% 
+  group_by(condition, itemB, response) %>%
+  mutate(
+    count = n(),  #count responses for each response type
+    total = first(total),  #total responses for the condition
+    mean_proportion = count / total,  #prop response within condition
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total)) %>%
+  distinct(condition, itemB, .keep_all = TRUE) %>%
+  select(-subject_id) %>%
+  ungroup()
+
+dat_labels <- dat_summarized_by_item %>% 
+  distinct(itemB, causal_itemA, similar_itemA) %>% 
+  left_join(d_distances %>% #join distances
+              rename("itemB" = target_item,
+                     "causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice) %>% 
+              select(itemB, causal_itemA, similar_itemA,
+                     causal_distance_causal_choice,
+                     freesort_distance_causal_choice,
+                     freesort_minus_causal_distance_causal,
+                     causal_distance_similar_choice,
+                     freesort_distance_similar_choice,
+                     freesort_minus_causal_distance_similar), 
+            by = c("itemB", "causal_itemA", "similar_itemA")) %>% 
+  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2)) %>% 
+  mutate(facet_label = paste0(
+    itemB, "\n",
+    "", causal_itemA, "\n", 
+    "", similar_itemA   
+  )) %>% 
+  mutate(facet_label = paste0(itemB, "\n",
+                              "causal: ", causal_itemA, "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_causal_choice, ",",
+                              freesort_distance_causal_choice, ",",
+                              freesort_minus_causal_distance_causal, ")", "\n",  
+                              "similar: ", similar_itemA, "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_similar_choice, ",",
+                              freesort_distance_similar_choice, ",",
+                              freesort_minus_causal_distance_similar, ")", "\n"))
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  arrange(itemB) %>%
+  pull(facet_label)
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+dat_summarized_by_item_levels <- dat_summarized_by_item %>%
+  left_join(dat_labels %>% select(itemB, facet_label), by = "itemB") %>% 
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_pilot <- dat_summarized_by_item_levels %>% 
+  ggplot(aes(x =condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", colour = "black") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_errorbar(data = filter(dat_summarized_by_item_levels, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  scale_fill_manual(values = c("grey80", "#000000")) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        # legend.position = "none",
+        plot.title = element_text(hjust = 0.5, size = 25),
+        strip.text = element_text(size = 15)) +
+  labs(y = "proportion",
+       title = "Magical intervention - pilot wording") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_pilot
+
+ggsave(
+  filename = "figures/p_pilot_item-level_stacked.pdf",
+  plot = p_pilot,          
+  device = "pdf",           
+  width = 20,               
+  height = 15,             
+  units = "in")
+
+ggsave(
+  filename = "figures/p_pilot_item-level_stacked.png",
+  plot = p_pilot,  
+  bg = "white",
+  width = 20,               
+  height = 15,             
+  units = "in")
+
+```
+
+# Primary Analysis
+
+## Logistic regression
+
+```{r}
+d_model <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(condition = factor(condition, levels = c("magical", "ordinary")),
+         subject_id = factor(subject_id))
+
+model_effect_of_magical_intervention <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model)
+
+summary(model_effect_of_magical_intervention)
+plogis(fixef(model_effect_of_magical_intervention)[1])
+
+```
+
+## Get specific probabilities
+
+```{r}
+effects_data <- allEffects(model_effect_of_magical_intervention)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+```
+
+
+## Power analysis with simr
+
+### Analysis
+
+Detecting condition difference
+
+```{r}
+#suppose we want a study with 150 participants..
+model_sim <- extend(model_effect_of_magical_intervention, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 150
+
+curve_magical <- powerCurve(model_sim, fixed("(Intercept)",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+
+```
+
+### Plotting power curve
+
+```{r}
+plot(curve_magical)
+print(curve_magical)
+
+```
+
+
+```{r}
+
+```
+
+
+
+

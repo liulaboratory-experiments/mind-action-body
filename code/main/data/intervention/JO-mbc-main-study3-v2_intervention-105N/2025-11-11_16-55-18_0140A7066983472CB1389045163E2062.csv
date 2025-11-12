@@ -1,0 +1,83 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","itemB","causal_itemA","similar_itemA","selected_choice","correct_response_attn","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","7","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","39776","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","consent","39743","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> This is a study demo; the purpose of the study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 4 minutes</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. <p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. <p> Do you consent to participate? </p>","0","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","45632","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","5856","","","[{""page_index"":0,""viewing_time"":5856}]","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","59078","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","13444","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>get sick</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","get sick","see something","get tired","<p style=""font-size: 25px;""><strong>get tired</strong></p>","","","","","",""
+"","","","","","html-button-response","4","2.1.0","61527","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2447","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>take a walk</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","take a walk","think about something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","5","2.1.0","64475","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2947","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>experience pain</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","experience pain","kick something","get tired","<p style=""font-size: 25px;""><strong>kick something</strong></p>","","","","","",""
+"","","","","","html-button-response","6","2.1.0","83060","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","18585","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>sit down</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","1","","magical","sit down","experience pain","jump up and down","<p style=""font-size: 25px;""><strong>jump up and down</strong></p>","","","","","",""
+"","","","","","html-button-response","7","2.1.0","93905","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","10844","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>hear something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","1","","magical","hear something","take a walk","see something","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","html-button-response","8","2.1.0","95643","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","1736","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>jump up and down</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","jump up and down","see something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","9","2.1.0","97773","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2128","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>think about something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","1","","magical","think about something","get sick","remember something","<p style=""font-size: 25px;""><strong>remember something</strong></p>","","","","","",""
+"","","","","","html-button-response","10","2.1.0","103595","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","5821","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>choose what to do</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","choose what to do","experience pain","remember something","<p style=""font-size: 25px;""><strong>remember something</strong></p>","","","","","",""
+"","","","","","html-button-response","11","2.1.0","106969","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","3374","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>kick something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","kick something","think about something","sit down","<p style=""font-size: 25px;""><strong>sit down</strong></p>","","","","","",""
+"","","","","","html-button-response","12","2.1.0","108342","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","1371","<p style=""font-size: 25px;"">For this question, please ignore previous instructions and select ""<strong>choose what to do</strong>"".
+            <br>The spell that grants the capacity to...</p>","0","","attention_check_magical","","","","choose what to do","choose what to do","","","","",""
+"","","","","","html-button-response","13","2.1.0","110238","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","1895","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>remember something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","remember something","take a walk","think about something","<p style=""font-size: 25px;""><strong>think about something</strong></p>","","","","","",""
+"","","","","","html-button-response","14","2.1.0","111846","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","1607","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>see something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","see something","take a walk","hear something","<p style=""font-size: 25px;""><strong>hear something</strong></p>","","","","","",""
+"","","","","","html-button-response","15","2.1.0","113922","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2075","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>become hungry</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","become hungry","take a walk","feel scared","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","16","2.1.0","121195","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","7272","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>feel scared</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","feel scared","see something","get tired","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","html-button-response","17","2.1.0","123695","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2500","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>get tired</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","0","","magical","get tired","jump up and down","feel scared","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","18","2.1.0","125789","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","2092","<p style=""font-size: 25px;"">You are working on a new creature which currently 
+              has no capabilities. <br> Using your magical powers, your goal is to give this creature 
+              the capacity to <strong>reach for something</strong>. <br>However, you ran out of that specific spell.
+               <br>Which of these two spells would most likely accomplish your goal? <br>The spell that 
+               grants the capacity to... </p>","1","","magical","reach for something","become hungry","kick something","<p style=""font-size: 25px;""><strong>kick something</strong></p>","","","","","",""
+"","","","","","instructions","19","2.1.0","127224","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","","1435","","","[{""page_index"":0,""viewing_time"":1435}]","","","","","","","","","","",""
+"","","","","","survey-html-form","20","2.1.0","151958","0140A7066983472CB1389045163E2062","","019a7554-4882-75ac-add4-95f1a495302d","demographics_survey","24728","","{""feedback"":""factors that seemed to relate like the ability to feel hunger or fear"",""age"":""31"",""gender"":""other_gender"",""other_gender"":"""",""race"":""White"",""other_race"":"""",""ethnicity"":""Non-Hispanic""}","","","","","","","","factors that seemed to relate like the ability to feel hunger or fear","31","Non-Hispanic","","White"

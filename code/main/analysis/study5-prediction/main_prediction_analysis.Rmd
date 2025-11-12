@@ -1,0 +1,625 @@
+---
+title: "study 2"
+output: html_document
+date: "2025-9-19"
+---
+
+# ReadMe
+
+This is the analysis script for the explanations study.  
+N = 105 (before exclusions).  
+One between-subjects condition. Independent variable is whether explanations
+The question: 
+
+# Set options
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+pacman::p_load(
+               lme4, 
+               here, 
+               patchwork, 
+               cowplot, 
+               viridis, 
+               effects, 
+               gt,
+               webshot2,
+               knitr,
+               performance,
+               simr,
+               conflicted,
+               tidyverse)
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ conflict_prefer(.x, "dplyr"))
+conflicts_prefer(simr::fixed)
+sessionInfo()
+
+```
+
+# Global variables
+
+```{r}
+base_path <- here("code", "main")
+freesort_and_causal_distances_df_path <- paste0(base_path,
+                                                "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
+
+freesort_and_causal_distances_constrained_df_path <- paste0(base_path,
+                                                "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis/short_list_domain_constraints.csv")
+
+
+```
+
+
+# Study 4 - Explanations
+
+## read data
+
+```{r}
+data_path_pr <- paste0(base_path, "/data/prediction/JO-mbc-main-study5-v2-prediction-105N")
+
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+
+file_paths <- list.files(path = data_path_pr, pattern = "^2025-", full.names = TRUE)
+
+d_pr <- imap_dfr(file_paths, ~ {
+  read_csv(.x, col_types = cols(response = col_character())) %>%
+    mutate(
+      filename = basename(.x),
+      subject_id = paste0("subj_", str_pad(.y, 2, pad = "0"))
+    )}) %>%
+  select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
+  relocate(subject_id, .before = "success")
+
+```
+
+
+## wrangle data
+
+```{r}
+subjects_to_exclude <- d_pr %>%
+  filter(grepl("attention_check", condition)) %>% 
+  mutate(attn_correct = correct_response_attn == selected_choice) %>%
+  filter(attn_correct == FALSE) %>% 
+  pull(subject_id) %>% 
+  unique()
+
+dat_pr <- d_pr %>% 
+  filter(!subject_id %in% subjects_to_exclude) %>% 
+  filter(condition %in% c("event_prediction", "trait_inference")) %>%
+  mutate(response = as.factor(response)) %>% 
+  mutate(condition = ifelse(condition == "event_prediction", "prediction", "inference")) %>% 
+  mutate(condition = as.factor(condition)) %>% 
+  rowwise() %>%
+  mutate(response = case_when(
+    grepl(causal_itemA, selected_choice) ~ "causal",
+    grepl(similar_itemA, selected_choice) ~ "similar",
+    TRUE ~ "other"
+  )) %>% 
+  ungroup() %>% 
+  select(subject_id, condition, itemB, causal_itemA, similar_itemA, response) %>% 
+  mutate(causal_itemA = factor(causal_itemA, levels = desired_order),
+         similar_itemA = factor(similar_itemA, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(domain_itemB = case_when(itemB == "hear something" ~ "mind", #labels for first item of pair
+                                 itemB == "choose what to do" ~ "mind",
+                                 itemB == "remember something" ~ "mind",
+                                 itemB == "think about something" ~ "mind",
+                                 itemB == "see something" ~ "mind",
+                                 itemB == "reach for something" ~ "action",
+                                 itemB == "sit down" ~ "action", 
+                                 itemB == "jump up and down" ~ "action",
+                                 itemB == "kick something" ~ "action",
+                                 itemB == "take a walk" ~ "action",
+                                 itemB == "get tired" ~ "bio", 
+                                 itemB == "become hungry" ~ "bio",
+                                 itemB == "feel scared"~ "bio",
+                                 itemB == "experience pain"~ "bio",
+                                 itemB == "get sick"~ "bio"),
+         domain_causalitemA = case_when(causal_itemA == "hear something" ~ "mind", 
+                                 causal_itemA == "choose what to do" ~ "mind",
+                                 causal_itemA == "remember something" ~ "mind",
+                                 causal_itemA == "think about something" ~ "mind",
+                                 causal_itemA == "see something" ~ "mind",
+                                 causal_itemA == "reach for something" ~ "action",
+                                 causal_itemA == "sit down" ~ "action", 
+                                 causal_itemA == "jump up and down" ~ "action",
+                                 causal_itemA == "kick something" ~ "action",
+                                 causal_itemA == "take a walk" ~ "action",
+                                 causal_itemA == "get tired" ~ "bio", 
+                                 causal_itemA == "become hungry" ~ "bio",
+                                 causal_itemA == "feel scared"~ "bio",
+                                 causal_itemA == "experience pain"~ "bio",
+                                 causal_itemA == "get sick"~ "bio"),
+          domain_similaritemA = case_when(similar_itemA == "hear something" ~ "mind", 
+                                 similar_itemA == "choose what to do" ~ "mind",
+                                 similar_itemA == "remember something" ~ "mind",
+                                 similar_itemA == "think about something" ~ "mind",
+                                 similar_itemA == "see something" ~ "mind",
+                                 similar_itemA == "reach for something" ~ "action",
+                                 similar_itemA == "sit down" ~ "action", 
+                                 similar_itemA == "jump up and down" ~ "action",
+                                 similar_itemA == "kick something" ~ "action",
+                                 similar_itemA == "take a walk" ~ "action",
+                                 similar_itemA == "get tired" ~ "bio", 
+                                 similar_itemA == "become hungry" ~ "bio",
+                                 similar_itemA == "feel scared"~ "bio",
+                                 similar_itemA == "experience pain"~ "bio",
+                                 similar_itemA == "get sick"~ "bio")) 
+
+```
+
+## demographics
+
+```{r}
+# demographics
+df_demographics <- d_pr %>% 
+  filter(trial_type == "survey-html-form") %>% 
+  select("trial_id", "filename", 
+         "feedback", "age", "ethnicity", "gender", "race") 
+
+paste0("pre-exclusion N: ", d_pr %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+paste0("post-exclusion N: ", dat_pr %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+summary(df_demographics$filename)
+summary(df_demographics$age)
+table(df_demographics$gender)
+table(df_demographics$ethnicity)
+table(df_demographics$race)
+
+```
+
+## main figure - condition difference
+
+```{r}
+dat_summarized <- dat_pr %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(condition = ifelse(condition == "prediction", "Prediction", "Inference")) %>% 
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop")
+
+main_fig <- dat_summarized %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+    geom_bar(stat = "identity", colour = "black") +
+    scale_fill_manual(values = c("grey80", "#000000")) + 
+    geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                           ymin = mean_proportion - se),
+                  stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+    theme_cowplot() +
+  labs(y = "Proportion",
+       x = "Intervention Type",
+       fill = "Response") +
+  ylim(0, 1) +
+  theme(axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 25),
+
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA),
+        legend.background = element_rect(fill='transparent', color = NA),
+        legend.box.background = element_rect(fill='transparent', color = NA),
+        
+        legend.position = "top",
+        legend.justification = "center",
+        legend.key.size = unit(1, "cm"),
+        legend.spacing.x = unit(1, "cm")
+        ) 
+
+main_fig
+
+# main_fig <- ggsave("figures/prediction.png", width = 5, height = 5, plot = main_fig, bg = "transparent")
+
+main_fig <- ggsave("figures/prediction.png", width = 6, height = 5, plot = main_fig, bg = "white")
+
+
+```
+
+## main figure - repeated
+
+```{r}
+dat_summarized %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+    geom_bar(stat = "identity", colour = "black") +
+    scale_fill_manual(values = c("grey80", "#000000")) + 
+    geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                           ymin = mean_proportion - se),
+                  stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+    theme_cowplot() +
+  labs(y = "Proportion",
+       x = "Intervention Type",
+       fill = "Response") +
+  ylim(0, 1) +
+  theme(axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 25),
+
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA),
+        legend.background = element_rect(fill='transparent', color = NA),
+        legend.box.background = element_rect(fill='transparent', color = NA),
+        
+        legend.position = "top",
+        legend.justification = "center",
+        legend.key.size = unit(1, "cm"),
+        legend.spacing.x = unit(1, "cm")
+        ) 
+
+```
+
+## item-level breakdown
+
+first appending distances
+
+```{r}
+#appending distances
+d_distances <- read_csv(freesort_and_causal_distances_constrained_df_path)
+
+
+freesort_and_causal_distances_df_path
+
+dat_pr %>% 
+  left_join(d_distances %>% 
+              mutate("itemB" = target_item,
+                     "causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice),
+            by = c("itemB", "causal_itemA", "similar_itemA"))
+  
+
+
+```
+
+then plotting
+
+```{r, fig.height = 12, fig.width = 12}
+dat_summarized_itemlevel <- dat_pr %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  group_by(condition, itemB) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, itemB, response) %>%
+  summarize(count = n(),  
+            total = first(total), 
+            mean_proportion = round(count / total, 2), 
+            se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+            .groups = "drop")
+
+mean_diff <- dat_summarized_itemlevel %>%
+  filter(response == "causal") %>%
+  mutate(condition = tolower(condition)) %>%
+  select(itemB, condition, mean_proportion) %>%
+  tidyr::pivot_wider(names_from = condition, values_from = mean_proportion) %>%
+  mutate(meanPred_minus_meanInf = round(prediction - inference, 2)) %>%
+  select(itemB, meanPred_minus_meanInf)
+
+dat_labels <- dat_pr %>% 
+  left_join(d_distances %>% #join distances
+              mutate("itemB" = target_item,
+                     "causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice),
+            by = c("itemB", "causal_itemA", "similar_itemA")) %>% 
+  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
+  distinct(itemB, causal_itemA, similar_itemA, 
+           causal_distance_causal_choice,
+           freesort_distance_causal_choice,
+           causal_distance_similar_choice,
+           freesort_distance_similar_choice,
+           freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>% 
+  mutate(freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         cds_minus_cdc = causal_distance_similar_choice - causal_distance_causal_choice,
+         fdc_minus_fds = freesort_distance_causal_choice - freesort_distance_similar_choice,
+         fdmcdc_minus_fdmcds = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>% 
+  left_join(mean_diff, by = "itemB") %>%
+  mutate(facet_label = paste0(itemB, 
+                              "\n",
+                              "causal: ", causal_itemA, 
+                              "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_causal_choice,
+                              ",",
+                              freesort_distance_causal_choice,
+                              ",",
+                              freesort_minus_causal_distance_causal,
+                              ")",
+                              "\n",  # black square
+                              "similar: ", similar_itemA, # white square (or use light gray block)
+                              "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_similar_choice,
+                              ",",
+                              freesort_distance_similar_choice,
+                              ",",
+                              freesort_minus_causal_distance_similar,
+                              ")",
+                              "\n",
+                              "cdS - cdC: ",
+                              cds_minus_cdc,
+                              "\n",
+                              "fdC - fdS: ",
+                              fdc_minus_fds,
+                              "\n",
+                              "(f-cC) - (f-cS): ",
+                              fdmcdc_minus_fdmcds,
+                              "\n",
+                              "meanPred(C) - meanInf(C): ",
+                              meanPred_minus_meanInf
+                              ))
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  arrange(itemB) %>%
+  pull(facet_label)
+
+# join labels + ordering AFTER labels exist
+dat_summarized_itemlevel <- dat_summarized_itemlevel %>%
+  left_join(dat_labels %>% select(itemB, facet_label), by = "itemB") %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_itemlvl <- dat_summarized_itemlevel %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+  geom_errorbar(data = filter(dat_summarized_itemlevel, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        # legend.position = "none",
+        strip.text = element_text(size = 18)) +
+  labs(y = "Proportion",
+       title = "main") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_itemlvl
+
+ggsave(
+  filename = "figures/p_prediction_item-level.pdf",
+  plot = p_itemlvl,          
+  device = "pdf",           
+  width = 22,               
+  height = 15,             
+  units = "in")
+
+```
+
+# inspecting inference condition
+
+## duplicates hypothesis
+
+```{r}
+dat_summarized <- dat_pr %>%
+  filter(!itemB %in% c("see something", "hear something", "choose what to do",
+                    "remember something", "think about something",
+                    "experience pain", "get sick")) %>% 
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop")
+
+dat_summarized %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_point() +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+  geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  theme_cowplot() +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  labs(y = "Proportion",
+       x = "Intervention Type")
+
+```
+
+
+
+# Primary Analysis
+
+## Logistic regression
+
+```{r}
+d_model <- dat_pr %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id))
+
+model_prediction_vs_inference <- glmer(response ~ condition + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model)
+
+summary(model_prediction_vs_inference)
+
+```
+
+## Get specific probabilities
+
+```{r}
+effects_data <- allEffects(model_prediction_vs_inference)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+```
+
+## Power analysis with simr
+
+### Both conditions
+
+Detecting condition difference
+
+```{r}
+#suppose we want a study with 150 participants..
+model_sim <- extend(model_prediction_vs_inference, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 100
+
+# #2
+curve_prediction_vs_inference <- powerCurve(model_sim, fixed("conditionprediction",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+## Plot power curve
+plot(curve_prediction_vs_inference)
+print(curve_prediction_vs_inference)
+
+```
+
+## Both conditions: vs new Inference
+
+```{r}
+#MODEL
+d_following <- read_csv(here("code", "pilot", "analysis", "study7-followup-pilots", "following.csv")) %>% 
+  rename("domain_similaritemA" = domain_similarityitemA) %>% 
+  mutate(condition = "inference")
+  
+d_prediction <- dat_pr %>% 
+  mutate(condition = as.character(condition),
+         itemB = as.character(itemB),
+         causal_itemA = as.character(causal_itemA),
+         similar_itemA = as.character(similar_itemA)) %>% 
+  filter(condition == "prediction")
+
+d_joined <- rbind(d_following, dat_prediction)
+
+d_joined_factored <- d_joined %>% 
+  mutate(response = fct_relevel(response, c("similar", "causal")),
+         condition = factor(condition),
+         subject_id = factor(subject_id),
+         itemB = factor(itemB, levels = desired_order)) 
+
+model_prediction_inference <- glmer(response ~ condition + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_joined_factored)
+
+summary(model_prediction_inference)
+
+effects_data <- allEffects(model_prediction_inference)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+#POWER ANALYSIS
+#suppose we want a study with 150 participants..
+model_sim <- extend(model_prediction_inference, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 100
+
+# #2
+curve_prediction_inference <- powerCurve(model_sim, fixed("conditionprediction",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+## Plot power curve
+plot(curve_prediction_inference)
+print(curve_prediction_inference)
+
+```
+
+
+
+### Prediction-only
+
+```{r}
+d_model_prediction <- dat_pr %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(condition = as.character(condition)) %>% 
+  filter(condition == "prediction") %>% 
+  mutate(condition = factor(condition))
+
+model_prediction <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_prediction)
+
+summary(model_prediction)
+
+# plogis(fixef(model_prediction)[1])
+
+# Power Analysis
+model_sim <- extend(model_prediction, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 100
+
+# #2
+curve_prediction <- powerCurve(model_sim, fixed("(Intercept)",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+plot(curve_prediction)
+print(curve_prediction)
+
+```
+
+### Inference-only
+
+
+```{r}
+d_model_inference <- dat_pr %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(condition = as.character(condition)) %>% 
+  filter(condition == "inference") %>% 
+  mutate(condition = factor(condition))
+
+model_inference <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_inference)
+
+summary(model_inference)
+
+plogis(fixef(model_inference)[1])
+
+# Power Analysis
+model_sim <- extend(model_inference, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 150
+
+# #2
+curve_inference <- powerCurve(model_sim, test = fixed("(Intercept)",
+                                               method = "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+plot(curve_inference)
+print(curve_inference)
+
+```
+
+
+```{r}
+
+```
+
+
+
+
+

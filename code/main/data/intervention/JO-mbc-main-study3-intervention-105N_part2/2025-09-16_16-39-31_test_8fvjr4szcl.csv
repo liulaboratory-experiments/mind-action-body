@@ -1,0 +1,67 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","correct_response_attn","selected_choice","itemB","causal_itemA","similar_itemA","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","9","test_8fvjr4szcl","","","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","11807","test_8fvjr4szcl","","","consent","11797","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> This is a study demo; the purpose of the study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 4 minutes</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. <p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. <p> Do you consent to participate? </p>","0","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","20588","test_8fvjr4szcl","","","","8780","","","[{""page_index"":0,""viewing_time"":8780}]","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","22395","test_8fvjr4szcl","","","","1805","<p style=""font-size: 25px;"">For this question, please select ""<strong>choose what to do</strong>""</p>","0","","attention_check_magical","choose what to do","choose what to do","","","","","","","",""
+"","","","","","html-button-response","4","2.1.0","36251","test_8fvjr4szcl","","","","13854","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>kick something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>think about something</strong></p>","kick something","think about something","sit down","","","","",""
+"","","","","","html-button-response","5","2.1.0","46014","test_8fvjr4szcl","","","","9761","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>reach for something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>become hungry</strong></p>","reach for something","become hungry","kick something","","","","",""
+"","","","","","html-button-response","6","2.1.0","55675","test_8fvjr4szcl","","","","9660","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>jump up and down</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>see something</strong></p>","jump up and down","see something","sit down","","","","",""
+"","","","","","html-button-response","7","2.1.0","62502","test_8fvjr4szcl","","","","6826","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>get tired</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>jump up and down</strong></p>","get tired","jump up and down","feel scared","","","","",""
+"","","","","","html-button-response","8","2.1.0","68080","test_8fvjr4szcl","","","","5577","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>experience pain</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>kick something</strong></p>","experience pain","kick something","get tired","","","","",""
+"","","","","","html-button-response","9","2.1.0","75229","test_8fvjr4szcl","","","","7147","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>see something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","see something","take a walk","hear something","","","","",""
+"","","","","","html-button-response","10","2.1.0","78362","test_8fvjr4szcl","","","","3132","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>hear something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","hear something","take a walk","see something","","","","",""
+"","","","","","html-button-response","11","2.1.0","85237","test_8fvjr4szcl","","","","6874","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>get sick</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","0","","ordinary","","<p style=""font-size: 25px;""><strong>get tired</strong></p>","get sick","see something","get tired","","","","",""
+"","","","","","html-button-response","12","2.1.0","90721","test_8fvjr4szcl","","","","5483","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>choose what to do</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>remember something</strong></p>","choose what to do","experience pain","remember something","","","","",""
+"","","","","","html-button-response","13","2.1.0","95149","test_8fvjr4szcl","","","","4428","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>remember something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","0","","ordinary","","<p style=""font-size: 25px;""><strong>think about something</strong></p>","remember something","take a walk","think about something","","","","",""
+"","","","","","html-button-response","14","2.1.0","99544","test_8fvjr4szcl","","","","4393","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>think about something</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>remember something</strong></p>","think about something","get sick","remember something","","","","",""
+"","","","","","html-button-response","15","2.1.0","102880","test_8fvjr4szcl","","","","3335","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>become hungry</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","0","","ordinary","","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","become hungry","take a walk","feel scared","","","","",""
+"","","","","","html-button-response","16","2.1.0","107862","test_8fvjr4szcl","","","","4980","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>sit down</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","0","","ordinary","","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","sit down","experience pain","jump up and down","","","","",""
+"","","","","","html-button-response","17","2.1.0","113245","test_8fvjr4szcl","","","","5383","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>feel scared</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>see something</strong></p>","feel scared","see something","get tired","","","","",""
+"","","","","","html-button-response","18","2.1.0","117698","test_8fvjr4szcl","","","","4451","<p style=""font-size: 25px;"">Choose the action that you think will best lead to the 
+                outcome - the one most likely to succeed. <br><br>Suppose that you wanted to make someone 
+                else <strong>take a walk</strong>. <br>Which of these two actions would most likely
+                accomplish your goal? Making them ... </p>","1","","ordinary","","<p style=""font-size: 25px;""><strong>think about something</strong></p>","take a walk","think about something","sit down","","","","",""
+"","","","","","instructions","19","2.1.0","127185","test_8fvjr4szcl","","","","9487","","","[{""page_index"":0,""viewing_time"":9487}]","","","","","","","","","","",""
+"","","","","","survey-html-form","20","2.1.0","179651","test_8fvjr4szcl","","","demographics_survey","52463","","{""feedback"":""I guess I just thought about which choice was more likely to lead to the action, even if it seemed somewhat unreasonable. "",""age"":""42"",""gender"":""Female"",""other_gender"":"""",""race"":""White"",""other_race"":"""",""ethnicity"":""Non-Hispanic""}","","","","","","","","I guess I just thought about which choice was more likely to lead to the action, even if it seemed somewhat unreasonable. ","42","Non-Hispanic","Female","White"
