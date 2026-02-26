@@ -1526,20 +1526,20 @@ sessionInfo()</code></pre>
 ## other attached packages:
 ##  [1] jsonlite_1.8.8  corrplot_0.95   here_1.0.1      lubridate_1.9.3
 ##  [5] forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4     purrr_1.0.2    
-##  [9] readr_2.1.5     tidyr_1.3.1     tibble_3.2.1    ggplot2_3.5.1  
+##  [9] readr_2.1.5     tidyr_1.3.1     tibble_3.2.1    ggplot2_4.0.1  
 ## [13] tidyverse_2.0.0 pacman_0.5.1   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.5      compiler_4.4.0    tidyselect_1.2.1  jquerylib_0.1.4  
-##  [5] scales_1.3.0      yaml_2.3.8        fastmap_1.1.1     R6_2.5.1         
-##  [9] generics_0.1.3    knitr_1.46        rprojroot_2.0.4   munsell_0.5.1    
-## [13] tzdb_0.4.0        bslib_0.7.0       pillar_1.9.0      rlang_1.1.5      
-## [17] utf8_1.2.4        stringi_1.8.3     cachem_1.0.8      xfun_0.43        
-## [21] sass_0.4.9        timechange_0.3.0  cli_3.6.4         withr_3.0.0      
-## [25] magrittr_2.0.3    digest_0.6.35     grid_4.4.0        rstudioapi_0.16.0
-## [29] hms_1.1.3         lifecycle_1.0.4   vctrs_0.6.5       evaluate_0.23    
-## [33] glue_1.8.0        fansi_1.0.6       colorspace_2.1-0  rmarkdown_2.29   
-## [37] tools_4.4.0       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+##  [1] gtable_0.3.6       compiler_4.4.0     tidyselect_1.2.1   jquerylib_0.1.4   
+##  [5] scales_1.4.0       yaml_2.3.8         fastmap_1.1.1      R6_2.6.1          
+##  [9] generics_0.1.3     knitr_1.46         rprojroot_2.0.4    tzdb_0.4.0        
+## [13] bslib_0.7.0        pillar_1.9.0       RColorBrewer_1.1-3 rlang_1.1.6       
+## [17] utf8_1.2.4         stringi_1.8.3      cachem_1.0.8       xfun_0.43         
+## [21] sass_0.4.9         S7_0.2.1           timechange_0.3.0   cli_3.6.5         
+## [25] withr_3.0.2        magrittr_2.0.3     digest_0.6.35      grid_4.4.0        
+## [29] rstudioapi_0.16.0  hms_1.1.3          lifecycle_1.0.4    vctrs_0.6.5       
+## [33] evaluate_0.23      glue_1.8.0         farver_2.1.2       fansi_1.0.6       
+## [37] rmarkdown_2.29     tools_4.4.0        pkgconfig_2.0.3    htmltools_0.5.8.1</code></pre>
 <pre class="r"><code>library(jsonlite)</code></pre>
 <div id="read-data" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Read data</h1>
@@ -1568,7 +1568,7 @@ desired_order &lt;- c(&quot;see something&quot;, &quot;hear something&quot;, &qu
 
 #paths: data outputs
 rdm_figures_outputs_path &lt;- paste0(base_path, &quot;/analysis/study1-measure/figures/theoretical-rdms/&quot;)
-combined_output_csv &lt;- &quot;main_data_processed_step1&quot;
+combined_output_csv &lt;- &quot;data_processed_step1&quot;
 snapshots_path &lt;- paste0(base_path, &quot;/analysis/study1-measure/snapshots_study1_preprocessing_analysis&quot;)
 combined_output_path &lt;- paste0(snapshots_path, &quot;/&quot;, combined_output_csv, &quot;.csv&quot;) 
 model_predictions_output_path &lt;- paste0(snapshots_path, &quot;/data_model_predictions.csv&quot;) </code></pre>
@@ -1688,15 +1688,17 @@ excluded_participants &lt;- data_causation %&gt;%
     .groups = &quot;drop&quot;
   ) %&gt;%
   filter(num_incorrect &gt;= 2) %&gt;% #identify participants with x or more incorrect
-  pull(subject_id) 
+  pull(subject_id)
 
-data_causation &lt;- data_causation %&gt;%
+print(excluded_participants)</code></pre>
+<pre><code>## character(0)</code></pre>
+<pre class="r"><code>data_causation &lt;- data_causation %&gt;%
   filter(!subject_id %in% excluded_participants)
 
 data_freesort &lt;- data_freesort %&gt;%
   filter(!subject_id %in% excluded_participants)
 
-#excluded 1 subject: subj_14</code></pre>
+#excluded 0 subjects</code></pre>
 </div>
 <div id="add-trial-order-column" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Add trial order

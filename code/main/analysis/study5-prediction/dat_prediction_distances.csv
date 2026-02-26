@@ -1,0 +1,1531 @@
+subject_id,condition,itemB,causal_itemA,similar_itemA,response,domain_itemB,domain_causalitemA,domain_similaritemA,causal_distance_causal_choice,freesort_distance_causal_choice,freesort_minus_causal_distance_causal,causal_distance_similar_choice,freesort_distance_similar_choice,freesort_minus_causal_distance_similar
+subj_01,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_01,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_01,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_01,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_01,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_01,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_01,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_01,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_01,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_01,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_01,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_01,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_01,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_01,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_01,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_02,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_02,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_02,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_02,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_02,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_02,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_02,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_02,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_02,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_02,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_02,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_02,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_02,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_02,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_02,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_03,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_03,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_03,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_03,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_03,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_03,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_03,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_03,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_03,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_03,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_03,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_03,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_03,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_03,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_03,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_04,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_04,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_04,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_04,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_04,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_04,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_04,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_04,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_04,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_04,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_04,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_04,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_04,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_04,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_04,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_05,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_05,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_05,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_05,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_05,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_05,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_05,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_05,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_05,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_05,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_05,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_05,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_05,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_05,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_05,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_06,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_06,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_06,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_06,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_06,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_06,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_06,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_06,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_06,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_06,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_06,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_06,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_06,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_06,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_06,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_07,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_07,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_07,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_07,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_07,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_07,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_07,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_07,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_07,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_07,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_07,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_07,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_07,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_07,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_07,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_08,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_08,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_08,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_08,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_08,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_08,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_08,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_08,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_08,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_08,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_08,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_08,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_08,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_08,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_08,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_09,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_09,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_09,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_09,prediction,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_09,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_09,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_09,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_09,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_09,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_09,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_09,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_09,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_09,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_09,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_09,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_10,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_10,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_10,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_10,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_10,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_10,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_10,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_10,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_10,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_10,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_10,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_10,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_10,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_10,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_10,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_11,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_11,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_11,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_11,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_11,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_11,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_11,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_11,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_11,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_11,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_11,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_11,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_11,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_11,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_11,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_12,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_12,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_12,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_12,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_12,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_12,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_12,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_12,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_12,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_12,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_12,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_12,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_12,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_12,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_12,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_13,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_13,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_13,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_13,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_13,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_13,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_13,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_13,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_13,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_13,prediction,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_13,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_13,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_13,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_13,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_13,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_14,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_14,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_14,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_14,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_14,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_14,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_14,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_14,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_14,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_14,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_14,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_14,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_14,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_14,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_14,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_15,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_15,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_15,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_15,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_15,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_15,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_15,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_15,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_15,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_15,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_15,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_15,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_15,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_15,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_15,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_16,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_16,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_16,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_16,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_16,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_16,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_16,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_16,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_16,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_16,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_16,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_16,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_16,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_16,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_16,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_17,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_17,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_17,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_17,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_17,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_17,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_17,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_17,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_17,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_17,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_17,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_17,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_17,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_17,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_17,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_18,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_18,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_18,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_18,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_18,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_18,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_18,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_18,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_18,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_18,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_18,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_18,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_18,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_18,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_18,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_19,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_19,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_19,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_19,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_19,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_19,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_19,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_19,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_19,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_19,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_19,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_19,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_19,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_19,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_19,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_20,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_20,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_20,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_20,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_20,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_20,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_20,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_20,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_20,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_20,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_20,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_20,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_20,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_20,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_20,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_21,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_21,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_21,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_21,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_21,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_21,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_21,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_21,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_21,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_21,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_21,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_21,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_21,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_21,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_21,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_22,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_22,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_22,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_22,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_22,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_22,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_22,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_22,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_22,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_22,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_22,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_22,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_22,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_22,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_22,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_23,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_23,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_23,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_23,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_23,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_23,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_23,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_23,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_23,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_23,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_23,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_23,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_23,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_23,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_23,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_24,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_24,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_24,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_24,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_24,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_24,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_24,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_24,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_24,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_24,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_24,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_24,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_24,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_24,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_24,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_25,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_25,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_25,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_25,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_25,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_25,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_25,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_25,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_25,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_25,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_25,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_25,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_25,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_25,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_25,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_26,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_26,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_26,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_26,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_26,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_26,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_26,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_26,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_26,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_26,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_26,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_26,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_26,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_26,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_26,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_27,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_27,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_27,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_27,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_27,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_27,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_27,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_27,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_27,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_27,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_27,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_27,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_27,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_27,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_27,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_28,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_28,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_28,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_28,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_28,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_28,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_28,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_28,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_28,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_28,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_28,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_28,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_28,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_28,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_28,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_29,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_29,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_29,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_29,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_29,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_29,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_29,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_29,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_29,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_29,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_29,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_29,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_29,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_29,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_29,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_30,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_30,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_30,prediction,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_30,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_30,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_30,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_30,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_30,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_30,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_30,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_30,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_30,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_30,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_30,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_30,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_31,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_31,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_31,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_31,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_31,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_31,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_31,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_31,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_31,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_31,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_31,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_31,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_31,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_31,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_31,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_32,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_32,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_32,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_32,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_32,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_32,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_32,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_32,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_32,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_32,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_32,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_32,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_32,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_32,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_32,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_33,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_33,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_33,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_33,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_33,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_33,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_33,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_33,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_33,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_33,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_33,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_33,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_33,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_33,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_33,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_34,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_34,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_34,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_34,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_34,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_34,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_34,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_34,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_34,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_34,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_34,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_34,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_34,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_34,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_34,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_35,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_35,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_35,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_35,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_35,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_35,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_35,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_35,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_35,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_35,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_35,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_35,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_35,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_35,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_35,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_36,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_36,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_36,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_36,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_36,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_36,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_36,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_36,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_36,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_36,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_36,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_36,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_36,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_36,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_36,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_37,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_37,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_37,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_37,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_37,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_37,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_37,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_37,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_37,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_37,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_37,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_37,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_37,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_37,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_37,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_38,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_38,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_38,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_38,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_38,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_38,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_38,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_38,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_38,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_38,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_38,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_38,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_38,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_38,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_38,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_40,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_40,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_40,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_40,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_40,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_40,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_40,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_40,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_40,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_40,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_40,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_40,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_40,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_40,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_40,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_41,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_41,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_41,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_41,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_41,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_41,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_41,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_41,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_41,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_41,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_41,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_41,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_41,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_41,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_41,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_42,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_42,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_42,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_42,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_42,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_42,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_42,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_42,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_42,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_42,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_42,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_42,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_42,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_42,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_42,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_43,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_43,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_43,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_43,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_43,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_43,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_43,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_43,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_43,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_43,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_43,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_43,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_43,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_43,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_43,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_44,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_44,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_44,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_44,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_44,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_44,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_44,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_44,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_44,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_44,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_44,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_44,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_44,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_44,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_44,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_45,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_45,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_45,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_45,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_45,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_45,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_45,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_45,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_45,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_45,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_45,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_45,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_45,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_45,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_45,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_46,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_46,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_46,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_46,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_46,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_46,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_46,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_46,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_46,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_46,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_46,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_46,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_46,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_46,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_46,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_47,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_47,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_47,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_47,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_47,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_47,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_47,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_47,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_47,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_47,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_47,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_47,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_47,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_47,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_47,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_48,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_48,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_48,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_48,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_48,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_48,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_48,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_48,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_48,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_48,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_48,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_48,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_48,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_48,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_48,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_49,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_49,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_49,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_49,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_49,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_49,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_49,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_49,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_49,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_49,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_49,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_49,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_49,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_49,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_49,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_50,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_50,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_50,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_50,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_50,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_50,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_50,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_50,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_50,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_50,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_50,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_50,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_50,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_50,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_50,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_51,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_51,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_51,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_51,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_51,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_51,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_51,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_51,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_51,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_51,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_51,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_51,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_51,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_51,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_51,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_52,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_52,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_52,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_52,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_52,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_52,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_52,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_52,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_52,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_52,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_52,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_52,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_52,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_52,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_52,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_53,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_53,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_53,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_53,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_53,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_53,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_53,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_53,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_53,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_53,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_53,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_53,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_53,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_53,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_53,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_54,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_54,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_54,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_54,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_54,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_54,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_54,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_54,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_54,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_54,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_54,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_54,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_54,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_54,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_54,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_55,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_55,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_55,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_55,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_55,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_55,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_55,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_55,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_55,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_55,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_55,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_55,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_55,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_55,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_55,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_56,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_56,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_56,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_56,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_56,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_56,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_56,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_56,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_56,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_56,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_56,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_56,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_56,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_56,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_56,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_57,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_57,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_57,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_57,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_57,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_57,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_57,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_57,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_57,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_57,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_57,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_57,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_57,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_57,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_57,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_58,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_58,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_58,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_58,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_58,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_58,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_58,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_58,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_58,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_58,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_58,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_58,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_58,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_58,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_58,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_59,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_59,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_59,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_59,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_59,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_59,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_59,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_59,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_59,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_59,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_59,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_59,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_59,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_59,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_59,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_60,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_60,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_60,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_60,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_60,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_60,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_60,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_60,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_60,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_60,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_60,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_60,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_60,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_60,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_60,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_61,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_61,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_61,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_61,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_61,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_61,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_61,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_61,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_61,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_61,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_61,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_61,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_61,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_61,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_61,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_62,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_62,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_62,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_62,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_62,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_62,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_62,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_62,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_62,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_62,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_62,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_62,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_62,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_62,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_62,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_63,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_63,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_63,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_63,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_63,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_63,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_63,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_63,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_63,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_63,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_63,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_63,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_63,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_63,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_63,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_64,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_64,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_64,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_64,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_64,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_64,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_64,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_64,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_64,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_64,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_64,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_64,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_64,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_64,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_64,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_65,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_65,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_65,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_65,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_65,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_65,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_65,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_65,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_65,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_65,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_65,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_65,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_65,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_65,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_65,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_66,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_66,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_66,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_66,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_66,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_66,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_66,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_66,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_66,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_66,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_66,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_66,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_66,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_66,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_66,prediction,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_67,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_67,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_67,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_67,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_67,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_67,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_67,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_67,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_67,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_67,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_67,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_67,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_67,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_67,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_67,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_68,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_68,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_68,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_68,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_68,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_68,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_68,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_68,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_68,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_68,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_68,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_68,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_68,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_68,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_68,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_69,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_69,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_69,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_69,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_69,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_69,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_69,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_69,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_69,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_69,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_69,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_69,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_69,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_69,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_69,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_70,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_70,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_70,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_70,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_70,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_70,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_70,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_70,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_70,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_70,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_70,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_70,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_70,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_70,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_70,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_71,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_71,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_71,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_71,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_71,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_71,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_71,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_71,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_71,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_71,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_71,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_71,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_71,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_71,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_71,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_72,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_72,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_72,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_72,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_72,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_72,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_72,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_72,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_72,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_72,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_72,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_72,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_72,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_72,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_72,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_73,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_73,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_73,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_73,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_73,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_73,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_73,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_73,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_73,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_73,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_73,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_73,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_73,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_73,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_73,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_75,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_75,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_75,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_75,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_75,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_75,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_75,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_75,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_75,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_75,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_75,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_75,prediction,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_75,prediction,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_75,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_75,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_76,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_76,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_76,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_76,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_76,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_76,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_76,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_76,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_76,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_76,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_76,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_76,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_76,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_76,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_76,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_77,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_77,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_77,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_77,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_77,prediction,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_77,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_77,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_77,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_77,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_77,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_77,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_77,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_77,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_77,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_77,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_78,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_78,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_78,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_78,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_78,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_78,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_78,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_78,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_78,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_78,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_78,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_78,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_78,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_78,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_78,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_79,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_79,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_79,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_79,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_79,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_79,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_79,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_79,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_79,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_79,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_79,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_79,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_79,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_79,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_79,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_80,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_80,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_80,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_80,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_80,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_80,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_80,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_80,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_80,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_80,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_80,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_80,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_80,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_80,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_80,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_82,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_82,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_82,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_82,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_82,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_82,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_82,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_82,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_82,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_82,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_82,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_82,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_82,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_82,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_82,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_83,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_83,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_83,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_83,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_83,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_83,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_83,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_83,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_83,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_83,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_83,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_83,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_83,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_83,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_83,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_84,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_84,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_84,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_84,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_84,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_84,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_84,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_84,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_84,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_84,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_84,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_84,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_84,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_84,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_84,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_85,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_85,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_85,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_85,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_85,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_85,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_85,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_85,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_85,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_85,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_85,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_85,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_85,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_85,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_85,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_86,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_86,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_86,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_86,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_86,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_86,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_86,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_86,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_86,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_86,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_86,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_86,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_86,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_86,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_86,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_87,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_87,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_87,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_87,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_87,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_87,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_87,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_87,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_87,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_87,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_87,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_87,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_87,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_87,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_87,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_88,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_88,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_88,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_88,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_88,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_88,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_88,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_88,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_88,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_88,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_88,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_88,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_88,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_88,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_88,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_89,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_89,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_89,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_89,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_89,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_89,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_89,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_89,prediction,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_89,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_89,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_89,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_89,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_89,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_89,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_89,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_90,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_90,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_90,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_90,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_90,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_90,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_90,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_90,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_90,prediction,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_90,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_90,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_90,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_90,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_90,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_90,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_91,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_91,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_91,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_91,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_91,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_91,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_91,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_91,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_91,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_91,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_91,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_91,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_91,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_91,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_91,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_92,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_92,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_92,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_92,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_92,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_92,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_92,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_92,inference,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_92,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_92,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_92,inference,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_92,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_92,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_92,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_92,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_93,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_93,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_93,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_93,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_93,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_93,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_93,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_93,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_93,prediction,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_93,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_93,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_93,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_93,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_93,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_93,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_94,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_94,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_94,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_94,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_94,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_94,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_94,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_94,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_94,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_94,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_94,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_94,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_94,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_94,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_94,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_95,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_95,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_95,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_95,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_95,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_95,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_95,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_95,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_95,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_95,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_95,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_95,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_95,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_95,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_95,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_96,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_96,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_96,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_96,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_96,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_96,prediction,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_96,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_96,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_96,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_96,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_96,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_96,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_96,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_96,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_96,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_97,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_97,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_97,inference,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_97,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_97,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_97,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_97,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_97,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_97,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_97,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_97,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_97,inference,feel scared,think about something,become hungry,similar,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_97,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_97,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_97,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_98,inference,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_98,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_98,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_98,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_98,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_98,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_98,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_98,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_98,inference,kick something,experience pain,take a walk,similar,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_98,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_98,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_98,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_98,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_98,inference,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_98,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_99,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_99,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_99,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_99,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_99,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_99,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_99,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_99,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_99,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_99,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_99,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_99,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_99,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_99,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_99,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_100,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_100,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_100,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_100,prediction,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_100,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_100,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_100,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_100,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_100,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_100,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_100,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_100,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_100,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_100,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_100,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_101,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_101,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_101,prediction,remember something,feel scared,hear something,similar,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_101,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_101,prediction,think about something,feel scared,hear something,similar,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_101,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_101,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_101,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_101,prediction,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_101,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_101,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_101,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_101,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_101,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_101,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_102,prediction,reach for something,experience pain,take a walk,causal,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_102,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_102,prediction,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_102,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_102,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_102,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_102,prediction,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_102,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_102,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_102,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_102,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_102,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_102,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_102,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_102,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_103,prediction,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_103,prediction,sit down,think about something,jump up and down,causal,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_103,prediction,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_103,prediction,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_103,prediction,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_103,prediction,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_103,prediction,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_103,prediction,experience pain,sit down,become hungry,causal,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_103,prediction,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_103,prediction,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_103,prediction,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_103,prediction,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_103,prediction,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_103,prediction,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_103,prediction,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_104,inference,become hungry,think about something,feel scared,similar,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_104,inference,see something,feel scared,hear something,causal,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_104,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_104,inference,take a walk,get tired,jump up and down,causal,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_104,inference,get tired,sit down,become hungry,similar,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_104,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_104,inference,choose what to do,feel scared,hear something,causal,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_104,inference,get sick,sit down,become hungry,similar,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_104,inference,hear something,feel scared,see something,similar,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_104,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_104,inference,jump up and down,get tired,take a walk,causal,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_104,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26
+subj_104,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_104,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_104,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_105,inference,become hungry,think about something,feel scared,causal,bio,mind,bio,0.19,0.58,0.39,0.55,0.44,-0.11
+subj_105,inference,jump up and down,get tired,take a walk,similar,action,bio,action,0.1,0.54,0.43,0.64,0.24,-0.41
+subj_105,inference,get tired,sit down,become hungry,causal,bio,action,bio,0.09,0.46,0.37,0.44,0.3,-0.14
+subj_105,inference,get sick,sit down,become hungry,causal,bio,action,bio,0.14,0.55,0.41,0.49,0.36,-0.12
+subj_105,inference,experience pain,sit down,become hungry,similar,bio,action,bio,0.13,0.58,0.45,0.61,0.4,-0.21
+subj_105,inference,remember something,feel scared,hear something,causal,mind,bio,mind,0.15,0.52,0.37,0.51,0.32,-0.19
+subj_105,inference,feel scared,think about something,become hungry,causal,bio,mind,bio,0.14,0.54,0.4,0.67,0.44,-0.22
+subj_105,inference,hear something,feel scared,see something,causal,mind,bio,mind,0.12,0.48,0.36,0.42,0.18,-0.24
+subj_105,inference,sit down,think about something,jump up and down,similar,action,mind,action,0.26,0.61,0.35,0.83,0.3,-0.52
+subj_105,inference,see something,feel scared,hear something,similar,mind,bio,mind,0.12,0.54,0.42,0.44,0.18,-0.27
+subj_105,inference,take a walk,get tired,jump up and down,similar,action,bio,action,0.12,0.53,0.42,0.63,0.24,-0.39
+subj_105,inference,choose what to do,feel scared,hear something,similar,mind,bio,mind,0.28,0.54,0.26,0.5,0.49,-0.01
+subj_105,inference,think about something,feel scared,hear something,causal,mind,bio,mind,0.14,0.54,0.4,0.49,0.34,-0.14
+subj_105,inference,reach for something,experience pain,take a walk,similar,action,bio,action,0.29,0.58,0.29,0.62,0.41,-0.21
+subj_105,inference,kick something,experience pain,take a walk,causal,action,bio,action,0.13,0.51,0.38,0.59,0.33,-0.26

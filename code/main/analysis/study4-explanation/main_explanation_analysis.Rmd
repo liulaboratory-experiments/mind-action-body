@@ -1,7 +1,15 @@
 ---
-title: "study 2"
-output: html_document
-date: "2025-9-19"
+title: "explanation"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-09-19"
+author: ""
+
 ---
 
 # ReadMe
@@ -50,7 +58,7 @@ freesort_and_causal_distances_df_path <- paste0(base_path,
 
 # Study 4 - Explanations
 
-## read data
+# Read data
 
 ```{r}
 data_path_ex <- paste0(base_path, "/data/explanation/JO-mbc-main-study4-explanation-105N")
@@ -73,8 +81,7 @@ d_ex <- imap_dfr(file_paths, ~ {
 
 ```
 
-
-## wrangle data
+# Wrangle data
 
 ```{r}
 subjects_to_exclude_ex <- d_ex %>%
@@ -82,6 +89,9 @@ subjects_to_exclude_ex <- d_ex %>%
   filter(attn_correct == "no") %>% 
   pull(subject_id) %>% 
   unique()
+
+paste("subjects excluded: ", length(subjects_to_exclude_ex))
+paste(subjects_to_exclude_ex, collapse = ", ")
 
 dat_ex <- d_ex %>% 
   filter(condition %in% c("causal", "similar")) %>%
@@ -106,29 +116,31 @@ dat_ex <- d_ex %>%
          "causal_itemA_explanation" = response_causal_itemA,
          "similar_itemA_explanation" = response_similar_itemA) 
 
+rmarkdown::paged_table(dat_ex)
+
 ```
 
+# Plot dv vs condition
 
-## plot dv vs condition
-
-### prepare to plot
+## Prepare to plot
 
 ```{r}
 dat_ex_plot <- dat_ex %>% 
-  rename("causal" = causal_itemA_explanation,
-         "similar" = similar_itemA_explanation) %>% 
-  pivot_longer(cols = c("causal", "similar"), 
+  rename("direct" = causal_itemA_explanation,
+         "essential" = similar_itemA_explanation) %>% 
+  pivot_longer(cols = c(direct, essential), 
                names_to = "explanation_type",
                values_to = "likelihood") 
+
+rmarkdown::paged_table(dat_ex_plot)
 ```
 
+### Plot overall difference
 
-### plot overall
-
-```{r}
-main_fig <-
-dat_ex_plot %>% 
-  mutate(explanation_type = factor(explanation_type, levels = c("similar", "causal"))) %>% 
+```{r, fig.width = 4, fig.height = 6}
+main_fig <-dat_ex_plot %>% 
+  mutate(explanation_type = ifelse(explanation_type == "essential", "Latent", "Direct")) %>% 
+  mutate(explanation_type = factor(explanation_type, levels = c("Direct", "Latent"))) %>% 
   ggplot(aes(x = explanation_type, y = likelihood, fill = explanation_type)) +
 
  # ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
@@ -140,7 +152,7 @@ dat_ex_plot %>%
        fill = "Explanation Type") +
   #scale_x_discrete(labels = c("counterfactual" = "Causal", "similarity" = "Similar")) +
   theme_cowplot() +
-  scale_fill_manual(values = c("grey80", "#000000")) + 
+  scale_fill_manual(values = c("#000000", "grey80")) + 
   theme(axis.text.x = element_text(size = 25),
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 25),
@@ -150,8 +162,6 @@ dat_ex_plot %>%
 
         panel.background = element_rect(fill='transparent', color=NA),
         plot.background = element_rect(fill='transparent', color=NA),
-        # panel.grid.major = element_blank(),
-        # panel.grid.minor = element_blank(),
         legend.background = element_rect(fill='transparent', color = NA),
         legend.box.background = element_rect(fill='transparent', color = NA),
         legend.position = "top",
@@ -163,10 +173,92 @@ dat_ex_plot %>%
 
 main_fig 
 
-# main_fig <- ggsave("figures/explanation.png", width = 5, height = 5, plot = main_fig, bg = "transparent")
-
 main_fig <- ggsave("figures/explanation_white.png", width = 5, height = 5, plot = main_fig, bg = "white")
 ```
+
+# Plot overall with triads
+
+```{r}
+dat_trial_mean <- dat_ex_plot %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(explanation_type, joined) %>% 
+  summarize(mean_likelihood = mean(likelihood)) 
+
+dat_trial_mean %>% 
+  mutate(explanation_type = ifelse(explanation_type == "essential", "Latent", "Direct")) %>% 
+  mutate(explanation_type = factor(explanation_type, levels = c("Direct", "Latent"))) %>% 
+  ggplot(aes(x = explanation_type, y = mean_likelihood, fill = explanation_type)) +
+  stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
+  geom_point(alpha = .9, color = "darkgray") +
+  geom_line(aes(group = joined), alpha = .9, color = "darkgray") +
+  geom_hline(yintercept = 50, linetype = "dashed") +
+  labs(y = "How Satisfactory", 
+       x = "Explanation Type",
+       fill = "Explanation Type") +
+  theme_cowplot() +
+  scale_fill_manual(values = c("#000000", "grey80")) + 
+  theme(axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 25),
+
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA),
+        legend.background = element_rect(fill='transparent', color = NA),
+        legend.box.background = element_rect(fill='transparent', color = NA),
+        legend.position = "top",
+        legend.justification = "center",
+        legend.key.size = unit(1, "cm"),
+        legend.spacing.x = unit(1, "cm")
+        ) +
+  ylim(0, 100)
+
+```
+
+## figure for spp 2026
+
+```{r, fig.width = , fig.height = 5}
+spp_26 <-
+dat_ex_plot %>% 
+  mutate(explanation_type = factor(explanation_type, levels = c("essential", "direct"))) %>% 
+  ggplot(aes(x = explanation_type, y = likelihood, fill = explanation_type)) +
+  stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
+  labs(y = "How Satisfactory", 
+       x = "Explanation Type",
+       fill = "Explanation Type") +
+  scale_x_discrete(labels = c(similar = "Latent", 
+                              causal = "Direct")) +
+  theme_cowplot() +
+  scale_fill_manual(values = c("grey80", "#000000")) + 
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25,
+                                    hjust = 1),
+        axis.title.y = element_text(size = 25),
+        legend.position = "none",
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA)#,
+        ) +
+  ylim(0, 100)
+
+spp_26 
+
+ggsave(paste0(base_path, "/analysis/study4-explanation/figures/spp_26.svg"), 
+       plot = spp_26,
+       device = svglite::svglite,
+       width = 4,
+       height = 5,
+       units = "in",
+       bg = "white")
+
+
+```
+
 
 ### plot, facet by target items
 
@@ -177,23 +269,27 @@ dat_ex_plot_long <- dat_ex_plot %>%
   pivot_longer(cols = c("causal_itemA", "similar_itemA"),
                names_to = "item_type",
                values_to = "item") %>%
+  mutate(explanation_type = ifelse(explanation_type == "causal", "Direct", "Latent")) %>% 
   group_by(subject_id, itemB) %>%
   slice(-c(2, 3))
+
+rmarkdown::paged_table(dat_ex_plot_long)
 
 label_ex_data <- dat_ex_plot_long %>%
   ungroup() %>% 
   distinct(itemB, explanation_type, item)
 
 dat_ex_plot_long %>%
-  ggplot(aes(x = explanation_type, y = likelihood, color = explanation_type)) +
-  geom_violin() +
+  ggplot(aes(x = explanation_type, y = likelihood, fill = explanation_type)) +
+  stat_summary(fun = mean, geom = "bar") +
   geom_jitter(width = .05, alpha = .1) +
-  stat_summary(fun = mean, geom = "point", size = 4, color = "red") +
+  # stat_summary(fun = mean, geom = "point", size = 4, color = "red") +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   geom_hline(yintercept = 50, linetype = "dashed") +
+  scale_fill_manual(values = c("#000000", "grey80")) +
   geom_text(data = label_ex_data, aes(label = item), y = 95, vjust = 1, size = 3.5) +
   labs(y = "How Satisfactory", x = "Explanation type") +
-  theme_bw() +
+  theme_cowplot() +
   theme(
     axis.text.x = element_text(size = 12),
     axis.text.y = element_text(size = 12),
@@ -277,6 +373,229 @@ dat_ex_distances %>%
 
 ```
 
+# distances v2
+
+## rejoining distances for better analyis
+
+```{r}
+dat_ex_plot_distances <- dat_ex_plot %>% 
+  left_join(distances %>% 
+              select(itemA, itemB, mean_causal_distance, 
+                     mean_freesort_distance, freesort_minus_causal) %>% 
+              rename("causal_itemA" = itemA,
+                     "causal_itemA_causal_distance" = mean_causal_distance,
+                     "causal_itemA_freesort_distance" = mean_freesort_distance,
+                     "causal_itemA_freesort_minus_causal" = freesort_minus_causal),
+            by = c("itemB", "causal_itemA")) %>% 
+  left_join(distances %>% 
+              select(itemA, itemB, mean_causal_distance, 
+                     mean_freesort_distance, freesort_minus_causal) %>% 
+              rename("similar_itemA" = itemA,
+                     "similar_itemA_causal_distance" = mean_causal_distance,
+                     "similar_itemA_freesort_distance" = mean_freesort_distance,
+                     "similar_itemA_freesort_minus_causal" = freesort_minus_causal),
+            by = c("itemB", "similar_itemA")) %>% 
+  mutate(causal_itemA_causal_distance = round(causal_itemA_causal_distance, 2),
+         causal_itemA_freesort_distance = round(causal_itemA_freesort_distance, 2),
+         causal_itemA_freesort_minus_causal = round(causal_itemA_freesort_minus_causal, 2),
+         similar_itemA_causal_distance = round(similar_itemA_causal_distance, 2),
+         similar_itemA_freesort_distance = round(similar_itemA_freesort_distance, 2),
+         similar_itemA_freesort_minus_causal = round(similar_itemA_freesort_minus_causal, 2))
+
+write_csv(dat_ex_plot_distances, "dat_explanation_distances.csv")
+
+```
+
+## read back in data frame
+```{r}
+analysis_path <- here("code", "main", "analysis")
+
+dat_plot_distances <- read_csv(paste0(analysis_path,
+                "/study4-explanation/dat_explanation_distances.csv"))
+
+```
+
+## summarize data
+
+```{r}
+dat_plot_distances_summarized <- dat_plot_distances %>% 
+  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>% 
+  mutate(mean_likelihood = mean(likelihood)) %>% 
+  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, likelihood)) %>% 
+  relocate(mean_likelihood, .after = explanation_type) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood)
+  
+```
+
+## distances single x axis
+
+```{r}
+dat_plot_distances_summarized <- dat_plot_distances %>% 
+  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>% 
+  mutate(mean_likelihood = mean(likelihood)) %>% 
+  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, likelihood)) %>% 
+  relocate(mean_likelihood, .after = explanation_type) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood)
+
+dat_diff_distances <- dat_plot_distances_summarized %>%
+  pivot_wider(names_from = explanation_type,
+              values_from = mean_likelihood) %>% 
+  mutate(mean_difference = causal - similar) %>% 
+  # pivot_longer(cols = c(causal_itemA_freesort_minus_causal,
+  #                       similar_itemA_freesort_minus_causal),
+  #              names_to = "distance_name",
+  #              values_to = "joint_distance") %>% 
+  # mutate("distance_name" = ifelse(distance_name == "causal_itemA_freesort_minus_causal", 
+  #                                 "causal", "similar"))
+  mutate(diff_joint_distance = causal_itemA_freesort_minus_causal - similar_itemA_freesort_minus_causal)
+  # mutate(diff_joint_distance = similar_itemA_freesort_minus_causal - causal_itemA_freesort_minus_causal)
+
+#making it all one figure!
+dat_diff_distances %>% 
+  pivot_longer(cols = c(causal, similar),
+               names_to = "item_names",
+               values_to = "likelihood_values") %>% 
+  pivot_longer(cols = c(causal_itemA_freesort_minus_causal, 
+                        similar_itemA_freesort_minus_causal),
+               names_to = "joint_distance_names",
+               values_to = "joint_distance_values") %>% 
+  # ggplot(aes(y = mean_difference, x = diff_joint_distance)) +
+  ggplot(aes(y = likelihood_values, x = joint_distance_values
+             # , 
+             # color = joint_distance_names
+             )) +
+  # geom_point(alpha = .1) +
+  stat_summary(fun.data = mean_se, geom = "point") +
+  geom_smooth(method = "lm") +
+  # geom_hline(yintercept = 0, linetype = "dashed") +
+  theme_bw() +
+  labs(
+  title = "Explanation",
+  color = "Choice Item",
+  fill = "Choice Item",
+  # x = "Distance between choice items (Joint causal - Joint similar)\nCausal is closer to target                                                          Similar is closer to target",
+  # y = "Probability\nSimilar Item                                             Causal Item"
+  # y = "Raw mean difference (causal - similar)",
+  y = "Explanation satisfaction",
+  # x = "Direct item joint distance - Essential item joint distance"
+  )
+
+```
+
+
+
+```{r}
+dat_ex_distances
+colnames(dat_ex_distances)
+
+
+dat_ex_distances <- dat_ex_plot_long %>% 
+  ungroup() %>% 
+  rename("itemA" = item) %>% 
+  left_join(distances %>% 
+              select(itemB, itemA, mean_causal_distance, mean_freesort_distance, freesort_minus_causal),
+            by = c("itemB", "itemA")) %>% 
+  mutate(mean_causal_distance = round(mean_causal_distance, 2),
+         mean_freesort_distance = round(mean_freesort_distance, 2),
+         freesort_minus_causal = round(freesort_minus_causal, 2)) %>% 
+  mutate(itemB = factor(itemB, levels = desired_order)) 
+  #   pivot_wider(names_from = explanation_type,
+  #             values_from = likelihood) %>% 
+  # mutate(mean_difference = Direct - Latent) 
+  
+  
+#summarize data
+dat_ex_distances %>% 
+    pivot_wider(names_from = item_type,
+              values_from = itemA) %>%
+    pivot_wider(names_from = explanation_type,
+              values_from = likelihood) %>%
+# dat_plot_distances_summarized <- dat_plot_distances %>% 
+  group_by(itemB, causal_itemA, similar_itemA, counterfactual_type) %>% 
+  mutate(mean_likelihood = mean(likelihood)) %>% 
+  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, likelihood)) %>% 
+  relocate(mean_likelihood, .after = counterfactual_type) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood)
+
+View(dat_ex_distances)
+```
+
+## Summarize data
+
+```{r}
+dat_plot_distances_summarized <- dat_plot_distances %>% 
+  group_by(itemB, causal_itemA, similar_itemA, counterfactual_type) %>% 
+  mutate(mean_likelihood = mean(likelihood)) %>% 
+  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, likelihood)) %>% 
+  relocate(mean_likelihood, .after = counterfactual_type) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood)
+  
+# View(dat_plot_distances_summarized)
+
+```
+
+# Distances - single x axis
+
+```{r}
+dat_plot_distances_summarized <- dat_plot_distances %>% 
+  group_by(itemB, causal_itemA, similar_itemA, counterfactual_type) %>% 
+  mutate(mean_likelihood = mean(likelihood)) %>% 
+  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, likelihood)) %>% 
+  relocate(mean_likelihood, .after = counterfactual_type) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood)
+
+dat_diff_distances <- dat_plot_distances_summarized %>%
+  pivot_wider(names_from = counterfactual_type,
+              values_from = mean_likelihood) %>% 
+  mutate(mean_difference = causal - similar) %>% 
+  # pivot_longer(cols = c(causal_itemA_freesort_minus_causal,
+  #                       similar_itemA_freesort_minus_causal),
+  #              names_to = "distance_name",
+  #              values_to = "joint_distance") %>% 
+  # mutate("distance_name" = ifelse(distance_name == "causal_itemA_freesort_minus_causal", 
+  #                                 "causal", "similar"))
+  mutate(diff_joint_distance = causal_itemA_freesort_minus_causal - similar_itemA_freesort_minus_causal)
+  # mutate(diff_joint_distance = similar_itemA_freesort_minus_causal - causal_itemA_freesort_minus_causal)
+
+
+dat_diff_distances %>% 
+  # filter(counterfactual_type == "causal") %>% 
+  ggplot(aes(y = mean_difference, x = diff_joint_distance)) +
+  geom_point(alpha = .1) +
+  stat_summary(fun.data = mean_se, geom = "point") +
+  # stat_summary(fun.data = mean_se, geom = "errorbar", width = .001) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  theme_bw() +
+  labs(
+  title = "Counterfactuals",
+  color = "Choice Item",
+  fill = "Choice Item",
+  # x = "Joint Distance to Target Item\nMore similar, less causal                                                    More causal, less similar",
+  # y = "Probability\nSimilar Item                                             Causal Item"
+  y = "Raw mean difference (causal - similar)",
+  x = "Direct item joint distance - Essential item joint distance"
+  )
+
+
+```
+
+
 ### itemwise difference scores
 
 ```{r, fig.width = 12}
@@ -329,15 +648,13 @@ dat_ex_distances %>%
 ## Effect of preceding item type
 
 ```{r}
+str(dat_ex_plot)
 dat_model <- dat_ex_plot %>% 
   rename(satisfactory = likelihood) %>% 
   mutate(explanation_type = factor(explanation_type, levels = c("similar", "causal")), 
          subject_id = as_factor(subject_id),
          causal_itemA = as_factor(causal_itemA),
          similar_itemA = as_factor(similar_itemA)) 
-
-dat_model$explanation_type <- relevel(dat_model$explanation_type, ref = "causal")
-
 
 #model
 model_effect_of_explanation_type <- lmerTest::lmer(satisfactory ~ explanation_type +
@@ -361,8 +678,26 @@ performance::check_model(model_effect_of_explanation_type)
 ```{r}
 summary(model_effect_of_explanation_type)
 fixef(model_effect_of_explanation_type)  # Check the actual parameter names
+or <- exp(fixef(model_effect_of_explanation_type)[1])
+or
 
 ```
+
+
+# Demographics
+
+```{r}
+df_demographics <- d_ex %>% 
+  filter(trial_id == "demographics_survey") %>% 
+  select("subject_id", "trial_id","feedback", "age", "ethnicity", "gender", "race") 
+
+summary(df_demographics$age)
+table(df_demographics$gender)
+table(df_demographics$ethnicity)
+table(df_demographics$race)
+
+```
+
 
 
 

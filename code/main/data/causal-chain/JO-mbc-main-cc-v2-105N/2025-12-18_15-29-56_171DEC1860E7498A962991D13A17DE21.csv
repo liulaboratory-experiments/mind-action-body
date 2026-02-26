@@ -1,0 +1,71 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","first_item","first_past_tense","third_item","middle_causal","middle_similar","biological_substrate","selected_choice","correct_response_attn","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","3","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","","","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","2551","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","consent","2547","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> The purpose of this study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 6 minutes.</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. </p><p><b>Payment:</b> You will be paid $15.00/hour for participating in this study. Given the estimated duration of 6 minutes, your payment will amount to $1.50.</p><p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. </p><p><b>Publication of results:</b> The results of the research may be presented at scientific meetings or published in scientific journals. Your individual responses may be published. We will never publish your name, the date that you participated, and any other information that could be used to identify you. </p><p><b>Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. </p><p><b>Research rights information:</b> If you have questions about your rights as a research participant or feel that you have not been treated fairly, please call the Homewood Institutional Review Board at Johns Hopkins University at (410) 516-6580. If you have any questions or issues completing the survey, please email Shari Liu at sliu199@jhu.edu. </p> </div><p> Do you consent to participate? </p>","0","","","","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","23416","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","20865","","","[{""page_index"":0,""viewing_time"":20865}]","","","","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","32011","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","8594","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>became hungry</strong>,
+      which made them ____________ , which made them <strong>feel scared</strong>.</p>
+      <br>
+      ","1","","causal_chain","become hungry","became hungry","feel scared","think about something","get tired","FTR54","<p style=""font-size: 25px;""><strong>think about something</strong></p>","","","","","",""
+"","","","","","html-button-response","4","2.1.0","38168","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","6156","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>sat down</strong>,
+      which made them ____________ , which made them <strong>jump up and down</strong>.</p>
+      <br>
+      ","1","","causal_chain","sit down","sat down","jump up and down","experience pain","take a walk","ZBT7A","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","","","","","",""
+"","","","","","html-button-response","5","2.1.0","43540","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","5371","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>saw something</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","1","","causal_chain","see something","saw something","hear something","take a walk","remember something","CD8R1","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","","","","","",""
+"","","","","","html-button-response","6","2.1.0","48153","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","4613","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>took a walk</strong>,
+      which made them ____________ , which made them <strong>reach for something</strong>.</p>
+      <br>
+      ","1","","causal_chain","take a walk","took a walk","reach for something","see something","jump up and down","VF501","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","html-button-response","7","2.1.0","52546","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","4392","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>got sick</strong>,
+      which made them ____________ , which made them <strong>become hungry</strong>.</p>
+      <br>
+      ","1","","causal_chain","get sick","got sick","become hungry","remember something","experience pain","BRCA1","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","","","","","",""
+"","","","","","html-button-response","8","2.1.0","62562","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","10015","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>jumped up and down</strong>,
+      which made them ____________ , which made them <strong>sit down</strong>.</p>
+      <br>
+      ","1","","causal_chain","jump up and down","jumped up and down","sit down","get tired","take a walk","APP12","<p style=""font-size: 25px;""><strong>get tired</strong></p>","","","","","",""
+"","","","","","html-button-response","9","2.1.0","70423","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","7860","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>remembered something</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","0","","causal_chain","remember something","remembered something","hear something","feel scared","think about something","UT902","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","10","2.1.0","72474","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","2050","<p style=""font-size: 25px;"">For this question, please select ""<strong>jump up and down</strong>""</p>
+    ","1","","attention_check_causal_chain","","","","","","","jump up and down","jump up and down","","","","",""
+"","","","","","html-button-response","11","2.1.0","82273","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","9799","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>got tired</strong>,
+      which made them ____________ , which made them <strong>feel scared</strong>.</p>
+      <br>
+      ","0","","causal_chain","get tired","got tired","feel scared","choose what to do","become hungry","HFE1A","<p style=""font-size: 25px;""><strong>become hungry</strong></p>","","","","","",""
+"","","","","","html-button-response","12","2.1.0","87827","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","5553","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>chose what to do</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","1","","causal_chain","choose what to do","chose what to do","hear something","take a walk","see something","TRE89","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","","","","","",""
+"","","","","","instructions","13","2.1.0","92037","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","","4210","","","[{""page_index"":0,""viewing_time"":4210}]","","","","","","","","","","","","","",""
+"","","","","","survey-html-form","14","2.1.0","147583","171DEC1860E7498A962991D13A17DE21","019b335e-96f0-7a06-a5eb-82c45b419b04","019b335b-d18e-7912-88ea-7560ffa79034","demographics_survey","55544","","{""feedback"":""I simply tried to use common sense to choose my options. The experiment went by smoothly."",""age"":""26"",""gender"":""Male"",""other_gender"":"""",""race"":""White"",""other_race"":"""",""ethnicity"":""Hispanic""}","","","","","","","","","","","I simply tried to use common sense to choose my options. The experiment went by smoothly.","26","Hispanic","Male","White"

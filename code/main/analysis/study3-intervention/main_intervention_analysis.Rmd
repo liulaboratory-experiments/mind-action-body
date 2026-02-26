@@ -46,12 +46,9 @@ conflicts_prefer(simr::fixed)
 
 ```{r}
 base_path <- here("code", "main")
-# freesort_and_causal_distances_df_path <- paste0(base_path,
-#                                     "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
-# 
 
 snapshots_input_path_main <- paste0(base_path,
-                               "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
+                                    "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
 preceding_distances_path <- paste0(snapshots_input_path_main,
                                                 "/preceding_short_list_domain_constraints.csv")
 following_distances_path <- paste0(snapshots_input_path_main,
@@ -59,12 +56,9 @@ following_distances_path <- paste0(snapshots_input_path_main,
 
 ```
 
+# Prepare data
 
-# Study 6 - Magical and ordinary intervention
-
-## Prepare data
-
-### read data
+## read data
 
 ```{r, warnings = FALSE}
 data_path_cf <- paste0(base_path, "/data/intervention/JO-mbc-main-study3-v2_intervention-105N")
@@ -87,7 +81,7 @@ d <- imap_dfr(file_paths, ~ {
 
 ```
 
-### wrangle data
+## wrangle data
 
 initial: 30 trials per subject * 48 subjects = 1440 rows.
 dat: (30 trials / 2 trials per row) * 48 subjects = 720 rows.
@@ -169,7 +163,7 @@ dat <- d %>%
 
 ```
 
-### demographics
+## demographics
 
 ```{r}
 # demographics
@@ -200,9 +194,11 @@ cond_labels <- d %>%
 
 ```
 
-## main figure
+# Plot 
 
-```{r}
+## Main figure
+
+```{r, fig.width = 6, fig.height = 5}
 dat_summarized <- dat %>%
   mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
   mutate(condition = ifelse(condition == "magical", "Magical", "Ordinary")) %>% 
@@ -220,7 +216,8 @@ dat_summarized <- dat %>%
 main_fig <- dat_summarized %>%
   ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
     geom_bar(stat = "identity", colour = "black") +
-    scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+    scale_fill_manual(values = c("grey80", "#000000"),
+                      labels = c("Latent", "Direct")) + #or whatever you'd like!
   # scale_x_discrete(labels = c("Giving Creature Ability" = "granting", 
   #                             "Making Someone do Something" = "causing")) +
     geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
@@ -259,8 +256,50 @@ main_fig <- ggsave("figures/intervention_white-111125.png", width = 6, height = 
 ```
 
 
+## Figure for spp 2026
 
-## item-level plot, includes distances in plot
+```{r, fig.width = 4, fig.height = 5}
+spp_26 <- dat_summarized %>%
+  mutate(condition = fct_relevel(condition, "Magical")) %>% 
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+    geom_bar(stat = "identity", colour = "black") +
+    scale_fill_manual(values = c("grey80", "#000000")) + 
+    geom_errorbar(data = filter(dat_summarized, response == "causal"), 
+                  aes(ymax = mean_proportion + se,
+                      ymin = mean_proportion - se),
+                  stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion",
+       x = "Intervention Type",
+       fill = "Response") +
+  scale_x_discrete(labels = c("Ordinary" = "Ordinary ", "Magical" = "  Magical")) +
+  ylim(0, 1) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 25),
+        legend.position = "none",
+        panel.background = element_rect(fill='transparent', color=NA),
+        plot.background = element_rect(fill='transparent', color=NA)#,
+        ) 
+
+spp_26
+
+ggsave(paste0(base_path, "/analysis/study3-intervention/figures/spp_26.pdf"), 
+       plot = spp_26,
+       # device = svglite::svglite,
+       width = 4,
+       height = 5,
+       units = "in",
+       bg = "white")
+
+
+```
+
+## Item-level plot
+Includes distances in plot
 
 ```{r, fig.width = 12, fig.height = 12}
 d_distances <- read_csv(preceding_distances_path)
@@ -376,7 +415,7 @@ ggsave(
 
 ```{r}
 d_model <- dat %>%
-  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(response = fct_relevel(response, c("causal", "similar"))) %>%
   mutate(subject_id = factor(subject_id))
 
 model_effect_of_intervention <- glmer(response ~ condition + (1 | subject_id), 
@@ -386,6 +425,31 @@ model_effect_of_intervention <- glmer(response ~ condition + (1 | subject_id),
 summary(model_effect_of_intervention)
 
 ```
+
+## CIs - 2026
+
+```{r}
+d_cis <- dat %>%
+  mutate(response = fct_relevel(response, c("causal", "similar"))) %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop") %>% 
+  mutate(
+    ci_low = pmax(0, mean_proportion - 1.96 * se),
+    ci_high = pmin(1, mean_proportion + 1.96 * se)
+  ) %>% 
+  select(-c(count, total))
+
+d_cis
+```
+
 
 ## Get specific probabilities
 
@@ -399,21 +463,25 @@ effects_df
 ## Ordinary-only model
 ```{r}
 d_ordinary <- d_model %>% 
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
   mutate(condition = as.character(condition)) %>% 
   filter(condition == "ordinary") 
 
 model_effect_of_ordinary <- glmer(response ~ 1 + (1 | subject_id), 
       family = binomial(link = 'logit'), 
       data = d_ordinary)
-plogis(fixef(model_effect_of_ordinary)[1])
+
 summary(model_effect_of_ordinary)
+
+plogis(fixef(model_effect_of_ordinary)[1])
 
 ```
 
-## Magical-only mode
+## Magical-only model
 
 ```{r}
 d_magical <- d_model %>% 
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
   mutate(condition = as.character(condition)) %>% 
   filter(condition == "magical") 
 
@@ -422,8 +490,478 @@ model_effect_of_magical <- glmer(response ~ 1 + (1 | subject_id),
       data = d_magical)
 plogis(fixef(model_effect_of_magical)[1])
 summary(model_effect_of_magical)
+or <- exp(fixef(model_effect_of_magical)[1])
+or
 
 ```
+
+# Distances Analyses
+
+## Join and save distances
+
+```{r}
+distances <- read_csv(preceding_distances_path)
+
+dat_plot_distances_intervention <- dat %>% 
+  left_join(distances %>% 
+              select(causal_choice, similar_choice, target_item, 
+                     causal_distance_causal_choice,
+                     freesort_distance_causal_choice,
+                     freesort_minus_causal_distance_causal,
+                     causal_distance_similar_choice,
+                     freesort_distance_similar_choice,
+                     freesort_minus_causal_distance_similar) %>%
+              rename("causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice,
+                     "itemB" = target_item),
+            by = c("itemB", "causal_itemA", "similar_itemA")) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2),
+         freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2))
+
+# write_csv(dat_plot_distances_intervention, "dat_intervention_distances.csv")
+
+```
+
+
+## Read back in data frame
+
+```{r}
+analysis_path <- here("code", "main", "analysis")
+
+dat_plot_distances_intervention <- read_csv(paste0(analysis_path,
+                "/study3-intervention/dat_intervention_distances.csv"))
+
+#prepare for modelling
+dat_model <- dat_plot_distances_intervention %>% 
+  mutate(subject_id = as.factor(subject_id),
+         response = ifelse(response == "causal", 1, 0)) 
+
+```
+
+## Summarize data 
+
+Not currently using this data frame but summarized just for checking purposes
+
+```{r}
+dat_model_summarized <- dat_model %>% 
+  # mutate(response = fct_relevel(response, c("similar", "causal"))) %>% 
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop")
+
+```
+
+
+## Ordinary distances - clear way
+
+Uses predict(). This is what I'm going with.
+
+```{r}
+model_ordinary <- glmer(response ~ freesort_minus_causal_distance_causal +
+                        freesort_minus_causal_distance_similar + 
+                        (1 | subject_id), 
+    data = dat_model %>% filter(condition == "ordinary"),
+    family = binomial(link = 'logit'))
+
+summary(model_ordinary)
+
+dat_ordinary <- dat_model %>%
+  distinct(condition, response, itemB, causal_itemA, similar_itemA,
+           freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  # mutate(trial_id = paste("T:", itemB, "\n", "C:", 
+  #                         causal_itemA, "\n", "S:", similar_itemA)) %>% 
+  filter(condition == "ordinary")
+
+dat_ordinary_newdata <- dat_ordinary %>% 
+  mutate(p_hat = predict(model_ordinary, 
+                         newdata = ., 
+                         type = "response", 
+                         re.form = NA)) %>% 
+  mutate(p_hat = round(p_hat, 2)) %>% 
+  select(itemB, causal_itemA, similar_itemA, freesort_minus_causal_distance_causal, 
+         freesort_minus_causal_distance_similar, p_hat) %>% 
+  rename("causal_item" = freesort_minus_causal_distance_causal,
+        "similar_item" = freesort_minus_causal_distance_similar)
+
+# View(d_test)
+
+plot_ordinary_distances <- dat_ordinary_newdata %>% 
+  pivot_longer(c(causal_item, similar_item),
+               names_to = "item_type",
+               values_to = "joint_distance") %>% 
+  ggplot(aes(x = joint_distance, y = p_hat, color = item_type)) +
+  geom_point() +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    title = "Ordinary Intervention",
+    color = "Choice Item",
+    fill = "Choice Item"
+  ) +
+  labs(
+  x = "Joint Distance to Target Item\nMore similar, less causal                                                    More causal, less similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  )
+
+plot_ordinary_distances
+
+```
+
+#### Ordinary condition, single x axis
+
+```{r}
+
+dat_ordinary_newdata <- dat_ordinary %>% 
+  mutate(p_hat = predict(model_ordinary, 
+                         newdata = ., 
+                         type = "response", 
+                         re.form = NA)) %>% 
+  mutate(p_hat = round(p_hat, 2)) %>% 
+  select(itemB, causal_itemA, similar_itemA, freesort_minus_causal_distance_causal, 
+         freesort_minus_causal_distance_similar, p_hat) %>% 
+  rename("causal_item" = freesort_minus_causal_distance_causal,
+        "similar_item" = freesort_minus_causal_distance_similar) %>% 
+  mutate(joint_distance_diff = causal_item - similar_item)
+
+plot_ordinary_distances <- dat_ordinary_newdata %>% 
+  pivot_longer(c(causal_item, similar_item),
+               names_to = "item_type",
+               values_to = "joint_distance") %>% 
+  ggplot(aes(x = joint_distance_diff, y = p_hat)) +
+  geom_point() +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    title = "Ordinary Intervention",
+    color = "Choice Item",
+    fill = "Choice Item"
+  ) +
+  labs(
+  x = "Joint causal - Joint similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  )
+
+plot_ordinary_distances
+
+distances_diff_fig <- ggsave("figures/ordinary_diffs_joint.png", 
+                   width = 6, height = 5, plot = plot_ordinary_distances, 
+                   bg = "white")
+
+```
+
+## Magical distances - clear way
+
+```{r}
+model_magical <- glmer(response ~ freesort_minus_causal_distance_causal +
+                        freesort_minus_causal_distance_similar + 
+                        (1 | subject_id), 
+    data = dat_model %>% filter(condition == "magical"),
+    family = binomial(link = 'logit'))
+
+summary(model_magical)
+
+dat_magical_newdata <- dat_model %>%
+  distinct(condition, response, itemB, causal_itemA, similar_itemA,
+           causal_distance_causal_choice,
+           freesort_distance_causal_choice,
+           freesort_minus_causal_distance_causal,
+           
+           causal_distance_similar_choice,
+           freesort_distance_similar_choice,
+           freesort_minus_causal_distance_similar) %>%
+  mutate(trial_id = paste("T:", itemB, "\n", "C:", 
+                          causal_itemA, "\n", "S:", similar_itemA)) %>% 
+  filter(condition == "magical")
+
+dat_magical_newdata_plot <- dat_magical_newdata %>% 
+  mutate(p_hat = predict(model_magical, 
+                         newdata = ., 
+                         type = "response", re.form = NA)) %>% 
+  mutate(p_hat = round(p_hat, 2)) %>% 
+  select(itemB, causal_itemA, similar_itemA, 
+         freesort_distance_causal_choice,
+         causal_distance_causal_choice,
+         freesort_minus_causal_distance_causal,
+         
+         freesort_distance_similar_choice,
+         causal_distance_similar_choice,
+         freesort_minus_causal_distance_similar, 
+         p_hat) %>% 
+  rename("causal_item" = freesort_minus_causal_distance_causal,
+         "similar_item" = freesort_minus_causal_distance_similar,
+         "cd_c" = causal_distance_causal_choice,
+         "fd_c" = freesort_distance_causal_choice,
+         "cd_s" = causal_distance_similar_choice,
+         "fd_s" = freesort_distance_similar_choice,
+         "target" = itemB) %>% 
+  mutate(diff = causal_item + similar_item) 
+
+# View(dat_magical_newdata_plot %>% 
+#        arrange(p_hat) %>% 
+#        distinct(target, .keep_all = TRUE))
+
+plot_magical_distances <- dat_magical_newdata_plot %>% 
+  pivot_longer(c(causal_item, similar_item),
+               names_to = "item_type",
+               values_to = "joint_distance") %>% 
+  ggplot(aes(x = joint_distance, y = p_hat, color = item_type)) +
+  geom_point() +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    title = "Magical Intervention",
+    color = "Choice Item",
+    fill = "Choice Item"
+  ) +
+  labs(
+  x = "Joint Distance to Target Item\nMore similar, less causal                                                    More causal, less similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  )
+
+plot_magical_distances
+#ordinary prediction = borne out in data
+#the more the causal item is causal they choose causal item
+# the more the causal item is similar they choose the similar item (the opposite item)
+
+#magical prediction
+#the more the similar item is similar they choose the similar item
+#the more the similar item is causal, they choose the causal item (the opposite item)
+
+```
+
+#### Magical condition, single x axis
+
+```{r}
+
+dat_magical_newdata_plot <- dat_magical_newdata %>% 
+  mutate(p_hat = predict(model_magical, 
+                         newdata = ., 
+                         type = "response", re.form = NA)) %>% 
+  mutate(p_hat = round(p_hat, 2)) %>% 
+  select(itemB, causal_itemA, similar_itemA, 
+         freesort_distance_causal_choice,
+         causal_distance_causal_choice,
+         freesort_minus_causal_distance_causal,
+         
+         freesort_distance_similar_choice,
+         causal_distance_similar_choice,
+         freesort_minus_causal_distance_similar, 
+         p_hat) %>% 
+  rename("causal_item" = freesort_minus_causal_distance_causal,
+         "similar_item" = freesort_minus_causal_distance_similar,
+         "cd_c" = causal_distance_causal_choice,
+         "fd_c" = freesort_distance_causal_choice,
+         "cd_s" = causal_distance_similar_choice,
+         "fd_s" = freesort_distance_similar_choice,
+         "target" = itemB) %>% 
+  mutate(diff = causal_item + similar_item) %>% 
+  mutate(joint_distance_diff = causal_item - similar_item)
+
+plot_magical_distances <- dat_magical_newdata_plot %>% 
+  pivot_longer(c(causal_item, similar_item),
+               names_to = "item_type",
+               values_to = "joint_distance") %>% 
+  ggplot(aes(x = joint_distance_diff, y = p_hat)) +
+  geom_point() +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    title = "Magical Intervention",
+    color = "Choice Item",
+    fill = "Choice Item"
+  ) +
+  labs(
+  x = "Joint causal - Joint similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  )
+
+plot_magical_distances
+
+distances_diff_fig <- ggsave("figures/magical_diffs_joint.png", 
+                   width = 6, height = 5, plot = plot_magical_distances, 
+                   bg = "white")
+
+```
+
+
+## Figure for troubleshooting Magical condition
+
+```{r, fig.height = 6}
+#
+dat_lab <- dat_magical_newdata_plot %>% 
+  pivot_longer(
+    c(causal_item, similar_item),
+    names_to = "item_type",
+    values_to = "joint_distance"
+  ) %>% 
+  mutate(
+    label = case_when(
+      item_type == "causal_item"  ~ causal_itemA,
+      item_type == "similar_item" ~ similar_itemA
+    )
+  )
+
+dat_magical_newdata_plot %>% 
+  pivot_longer(
+    c(causal_item, similar_item),
+    names_to = "item_type",
+    values_to = "joint_distance"
+  ) %>% 
+  ggplot(aes(y = p_hat)) +
+
+  ## horizontal connectors (fd_c → cd_c)
+  geom_segment(
+    data = dat_magical_newdata_plot,
+    aes(
+      x = causal_item,
+      xend = similar_item,
+      y = p_hat,
+      yend = p_hat
+    ),
+    inherit.aes = FALSE,
+    color = "grey70"
+  ) +
+  geom_point(aes(x = joint_distance, color = item_type)) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_smooth(aes(x = joint_distance, color = item_type),
+              method = "lm") +
+  theme_bw()  + 
+  geom_text(
+    data = dat_lab,
+    aes(x = joint_distance, y = p_hat, label = label, color = item_type),
+    # hjust = 1.1,
+    vjust = 1,
+    size = 3,
+    show.legend = FALSE
+  ) +
+  geom_text(
+    data = dat_magical_newdata_plot,
+    # aes(x = pmin(fd_c, cd_c) - 0.02, 
+     aes(x = ((causal_item + similar_item) / 2), 
+        y = p_hat, label = target),
+    inherit.aes = FALSE,
+    vjust = -0.6,
+    size = 3,
+    color = "black"
+  ) +
+  labs(
+    title = "Magical Condition",
+  x = "Joint Distance to Target Item\nMore similar, less causal                                                    More causal, less similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  ) +
+  theme(legend.position = "top")
+
+
+```
+
+
+## Simulation test
+
+for simulating my plot data
+
+```{r}
+set.seed(1)
+n <- 15
+fmc_c <- round(runif(n, 0, 0.5), 2)
+fmc_s <- round(runif(n, -0.8, 0.2), 2)
+pr_r <- 0.6 + 0.8 * fmc_c - 0.7 * fmc_s + rnorm(n, 0, 0.1)
+pr = round(pr_r, 2)
+pr <- round(rbeta(n, 5, 2), 2)
+
+d_t <- data.frame(pr, fmc_c, fmc_s)
+
+m_dt <- lm(pr ~ fmc_s + fmc_c, data = d_t)
+summary(m_dt)
+
+new_d <- data.frame(
+    fmc_s = c(-0.6, -0.2, 0.1),
+    fmc_c = c(0.1, 0.3, 0.45)
+  )
+
+predict(m_dt, new_d)
+
+```
+
+
+## Ordinary distances - long way
+
+```{r}
+dat_model <- dat_plot_distances_intervention %>% 
+  mutate(subject_id = as.factor(subject_id),
+         response = ifelse(response == "causal", 1, 0)) 
+
+# Ordinary Intervention Condition
+model_ordinary <- glmer(response ~ freesort_minus_causal_distance_causal +
+                        freesort_minus_causal_distance_similar + 
+                        (1 | subject_id), 
+    data = dat_model %>% filter(condition == "ordinary"),
+    family = binomial(link = 'logit'))
+
+# effects_data <- allEffects(model_ordinary)
+
+#extract predictions for all unique joint distance data points in the data
+effects_data <- allEffects(
+  model_ordinary,
+  xlevels = list(
+    freesort_minus_causal_distance_causal  =
+      sort(unique(dat_model$freesort_minus_causal_distance_causal)),
+    freesort_minus_causal_distance_similar =
+      sort(unique(dat_model$freesort_minus_causal_distance_similar))
+  )
+)
+
+causal_effect <- as.data.frame(effects_data$`freesort_minus_causal_distance_causal`)
+similar_effect <- as.data.frame(effects_data$`freesort_minus_causal_distance_similar`)
+
+causal_effect$Predictor <- "Causal Item"
+similar_effect$Predictor <- "Similar Item"
+
+colnames(causal_effect)[1] <- "JointDistance"
+colnames(similar_effect)[1] <- "JointDistance"
+
+combined_effects <- rbind(causal_effect, similar_effect)
+
+combined_effects %>% 
+  ggplot(aes(x = JointDistance, y = fit, color = Predictor)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_bw() +
+  labs(
+    title = "Ordinary Intervention Condition",
+    color = "Choice Item",
+    fill = "Choice Item"
+  ) +
+  labs(
+  x = "Joint Distance to Target Item\nMore similar, less causal                                                    More causal, less similar",
+  y = "Probability\nSimilar Item                                             Causal Item",
+  )
+
+```
+
+# The End
+
+```{r}
+
+```
+
+
+
 
 
 

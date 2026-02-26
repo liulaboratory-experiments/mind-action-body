@@ -1,0 +1,71 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","first_item","first_past_tense","third_item","middle_causal","middle_similar","biological_substrate","selected_choice","correct_response_attn","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","4","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","","","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","3575","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","consent","3570","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> The purpose of this study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 6 minutes.</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. </p><p><b>Payment:</b> You will be paid $15.00/hour for participating in this study. Given the estimated duration of 6 minutes, your payment will amount to $1.50.</p><p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. </p><p><b>Publication of results:</b> The results of the research may be presented at scientific meetings or published in scientific journals. Your individual responses may be published. We will never publish your name, the date that you participated, and any other information that could be used to identify you. </p><p><b>Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. </p><p><b>Research rights information:</b> If you have questions about your rights as a research participant or feel that you have not been treated fairly, please call the Homewood Institutional Review Board at Johns Hopkins University at (410) 516-6580. If you have any questions or issues completing the survey, please email Shari Liu at sliu199@jhu.edu. </p> </div><p> Do you consent to participate? </p>","0","","","","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","123121","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","119544","","","[{""page_index"":0,""viewing_time"":119544}]","","","","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","142155","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","19033","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>became hungry</strong>,
+      which made them ____________ , which made them <strong>feel scared</strong>.</p>
+      <br>
+      ","1","","causal_chain","become hungry","became hungry","feel scared","think about something","get sick","CD8R1","<p style=""font-size: 25px;""><strong>think about something</strong></p>","","","","","",""
+"","","","","","html-button-response","4","2.1.0","176723","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","34566","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>sat down</strong>,
+      which made them ____________ , which made them <strong>jump up and down</strong>.</p>
+      <br>
+      ","1","","causal_chain","sit down","sat down","jump up and down","experience pain","take a walk","UT902","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","","","","","",""
+"","","","","","html-button-response","5","2.1.0","216399","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","39675","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>jumped up and down</strong>,
+      which made them ____________ , which made them <strong>sit down</strong>.</p>
+      <br>
+      ","1","","causal_chain","jump up and down","jumped up and down","sit down","get tired","take a walk","APP12","<p style=""font-size: 25px;""><strong>get tired</strong></p>","","","","","",""
+"","","","","","html-button-response","6","2.1.0","224023","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","7623","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>saw something</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","1","","causal_chain","see something","saw something","hear something","kick something","remember something","VF501","<p style=""font-size: 25px;""><strong>kick something</strong></p>","","","","","",""
+"","","","","","html-button-response","7","2.1.0","225735","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","1710","<p style=""font-size: 25px;"">For this question, please select ""<strong>jump up and down</strong>""</p>
+    ","1","","attention_check_causal_chain","","","","","","","jump up and down","jump up and down","","","","",""
+"","","","","","html-button-response","8","2.1.0","231673","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","5937","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>took a walk</strong>,
+      which made them ____________ , which made them <strong>reach for something</strong>.</p>
+      <br>
+      ","0","","causal_chain","take a walk","took a walk","reach for something","see something","jump up and down","TRE89","<p style=""font-size: 25px;""><strong>see something</strong></p>","","","","","",""
+"","","","","","html-button-response","9","2.1.0","238499","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","6824","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>remembered something</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","1","","causal_chain","remember something","remembered something","hear something","feel scared","think about something","BRCA1","<p style=""font-size: 25px;""><strong>feel scared</strong></p>","","","","","",""
+"","","","","","html-button-response","10","2.1.0","245696","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","7196","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>chose what to do</strong>,
+      which made them ____________ , which made them <strong>hear something</strong>.</p>
+      <br>
+      ","0","","causal_chain","choose what to do","chose what to do","hear something","take a walk","see something","FTR54","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","","","","","",""
+"","","","","","html-button-response","11","2.1.0","256735","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","11037","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>got sick</strong>,
+      which made them ____________ , which made them <strong>become hungry</strong>.</p>
+      <br>
+      ","0","","causal_chain","get sick","got sick","become hungry","remember something","experience pain","HFE1A","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","","","","","",""
+"","","","","","html-button-response","12","2.1.0","269262","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","12526","
+      <p style=""font-size: 25px;"">Which second event best completes this causal chain?</p>
+      <br>
+      <p style=""font-size: 25px;"">Someone <strong>got tired</strong>,
+      which made them ____________ , which made them <strong>feel scared</strong>.</p>
+      <br>
+      ","1","","causal_chain","get tired","got tired","feel scared","choose what to do","get sick","ZBT7A","<p style=""font-size: 25px;""><strong>get sick</strong></p>","","","","","",""
+"","","","","","instructions","13","2.1.0","270514","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","","1251","","","[{""page_index"":0,""viewing_time"":1251}]","","","","","","","","","","","","","",""
+"","","","","","survey-html-form","14","2.1.0","297457","2C9AF02F32E74B3CB12A9FF465453E50","019aae4b-3ad1-7a79-8896-b9ce967bd76b","019aae39-7d6d-7fa9-a44a-fec91b1e72a7","demographics_survey","26934","","{""feedback"":""I just tried to choose something that makes the most sense. "",""age"":""22"",""gender"":""Female"",""other_gender"":"""",""race"":""Asian"",""other_race"":"""",""ethnicity"":""Non-Hispanic""}","","","","","","","","","","","I just tried to choose something that makes the most sense. ","22","Non-Hispanic","Female","Asian"

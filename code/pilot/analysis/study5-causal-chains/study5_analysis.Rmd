@@ -1,58 +1,89 @@
 ---
-title: "study 2"
-output: html_document
-date: "2024-10-28"
+title: "Causal Chain"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-11-22"
+author: Joseph Outa
 ---
 
 # ReadMe
 
-This is the analysis for study 5 of the MBC project, alias the causal chain study.  
+- Study name: Causal chain
+- Research question: Do subjects use direct causes for causal chain, and latent causes for common causes
+- Design: Between-subjects, causal chain condition vs common cause condition
+- Independent variable: choice of middle item in causal chain vs common cause
+- Dependent variable: proportion choosing similar vs causal item
+- Date study ran: 11/22/25 (105N pilot)
+- Some descriptive stats: N of study 105, N per condition (causal_chain = 46, common_cause = 59), Mean age (42y)
+- Location of relevant accessory files: codebook (/code/codebooks), pre-registration (/preregistration)
 
-# Set options
+# Setup
+
+## Load packages
 
 ```{r}
 knitr::opts_chunk$set(echo = TRUE)
+
 library(pacman)
-pacman::p_load(
-               lme4, 
-               here, 
-               patchwork, 
-               cowplot, 
-               viridis, 
-               effects, 
-               gt,
-               webshot2,
-               knitr,
+pacman::p_load(tidyverse,
+               ggforce,
+               conflicted,
+               here,
+               cowplot,
+               lme4,
+               lmerTest,
+               effects,
+               Hmisc,
                performance,
-               tidyverse)
+               rmarkdown,
+               purrr,
+               gt,
+               ragg,
+               readr,
+               scales,
+               patchwork,
+               corrplot,
+               magick,
+               pdftools,
+               simr
+               )
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ conflict_prefer(.x, "dplyr"))
+conflicts_prefer(simr::fixed)
+theme_set(theme_bw())
 sessionInfo()
 
 ```
 
-# Global variables
+## Global variables
 
 ```{r}
 base_path <- here("code", "pilot")
-freesort_and_causal_distances_df_path <- paste0(base_path, "/data/data-study4-explanations/freesort_minus_causals.csv")
+base_path_distances <- here("code", "main")
+data_path <- paste0(base_path, "/data/data-study5-causal-chains/JO-mbc-pilot-cc-v3_105N")
+# data_path <- paste0(base_path, "/data/data-study5-causal-chains/JO-mbc-pilot-cc-v2_105N")
+
+snapshots_input_path_distances <- paste0(base_path_distances,
+                                         "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
+
+distances_path <- paste0(snapshots_input_path_distances,
+                                   "/freesort_minus_causals.csv")
+
+desired_order <- c("see something", "choose what to do", "remember something", 
+                   "sit down", "jump up and down", "take a walk", 
+                   "get tired", "become hungry", "get sick")
 
 ```
 
-
-# Study 5 - Causal chain
-
-## Prepare data
-
-### read data
+## Read data
 
 ```{r, warnings = FALSE}
-data_path_cf <- paste0(base_path, "/data/data-study5-causal-chains/pilot2")
-
-desired_order <- c("see something", "hear something", "choose what to do", 
-                   "remember something", "think about something", "reach for something", 
-                   "sit down", "jump up and down", "kick something", "take a walk", 
-                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
-
-file_paths <- list.files(path = data_path_cf, pattern = "^2025-", full.names = TRUE)
+file_paths <- list.files(path = data_path, pattern = "^2025-", full.names = TRUE)
 
 d <- imap_dfr(file_paths, ~ {
   read_csv(.x, col_types = cols(response = col_character())) %>%
@@ -65,11 +96,12 @@ d <- imap_dfr(file_paths, ~ {
 
 ```
 
-### wrangle data
+# Wrangle Data
+
+## Wrangle
 
 initial: 30 trials * 48 subjects = 1440 rows.
 dat: (30 trials / 2 trials per row) * 48 subjects = 720 rows.
-
 TODO: rename itemB to target item.
 
 ```{r}
@@ -81,88 +113,86 @@ subjects_to_exclude <- d %>%
   unique()
 
 dat <- d %>% 
-  # filter(!subject_id %in% subjects_to_exclude) %>% ##===== Do not exclude for now
-  filter(condition %in% c("main")) %>% 
+  filter(condition %in% c("causal_chain", "common_cause")) %>% 
   mutate(response = as.factor(response)) %>% 
   mutate(condition = as.factor(condition)) %>% 
   rowwise() %>%
   mutate(response = case_when(
-    grepl(causal_itemB, selected_choice) ~ "causal",
-    grepl(similar_itemB, selected_choice) ~ "similar",
+    grepl(middle_causal, selected_choice) ~ "causal",
+    grepl(middle_similar, selected_choice) ~ "similar",
     TRUE ~ "other"
   )) %>% 
-  select(-condition) %>% 
-  select(subject_id, itemA, itemC, causal_itemB, similar_itemB, response) %>% 
-  mutate(causal_itemB = factor(causal_itemB, levels = desired_order),
-         similar_itemB = factor(similar_itemB, levels = desired_order),
-         itemA = factor(itemA, levels = desired_order),
-         itemC = factor(itemC, levels = desired_order)) %>% 
-  mutate(domain_itemA= case_when(itemA == "hear something" ~ "mind", 
-                                 itemA == "choose what to do" ~ "mind",
-                                 itemA == "remember something" ~ "mind",
-                                 itemA == "think about something" ~ "mind",
-                                 itemA == "see something" ~ "mind",
-                                 itemA == "reach for something" ~ "action",
-                                 itemA == "sit down" ~ "action", 
-                                 itemA == "jump up and down" ~ "action",
-                                 itemA == "kick something" ~ "action",
-                                 itemA == "take a walk" ~ "action",
-                                 itemA == "get tired" ~ "bio", 
-                                 itemA == "become hungry" ~ "bio",
-                                 itemA == "feel scared"~ "bio",
-                                 itemA == "experience pain"~ "bio",
-                                 itemA == "get sick"~ "bio"),
-         domain_itemC= case_when(itemC == "hear something" ~ "mind", 
-                                 itemC == "choose what to do" ~ "mind",
-                                 itemC == "remember something" ~ "mind",
-                                 itemC == "think about something" ~ "mind",
-                                 itemC == "see something" ~ "mind",
-                                 itemC == "reach for something" ~ "action",
-                                 itemC == "sit down" ~ "action", 
-                                 itemC == "jump up and down" ~ "action",
-                                 itemC == "kick something" ~ "action",
-                                 itemC == "take a walk" ~ "action",
-                                 itemC == "get tired" ~ "bio", 
-                                 itemC == "become hungry" ~ "bio",
-                                 itemC == "feel scared"~ "bio",
-                                 itemC == "experience pain"~ "bio",
-                                 itemC == "get sick"~ "bio"),
-         domain_causalitemB = case_when(causal_itemB == "hear something" ~ "mind", 
-                                 causal_itemB == "choose what to do" ~ "mind",
-                                 causal_itemB == "remember something" ~ "mind",
-                                 causal_itemB == "think about something" ~ "mind",
-                                 causal_itemB == "see something" ~ "mind",
-                                 causal_itemB == "reach for something" ~ "action",
-                                 causal_itemB == "sit down" ~ "action", 
-                                 causal_itemB == "jump up and down" ~ "action",
-                                 causal_itemB == "kick something" ~ "action",
-                                 causal_itemB == "take a walk" ~ "action",
-                                 causal_itemB == "get tired" ~ "bio", 
-                                 causal_itemB == "become hungry" ~ "bio",
-                                 causal_itemB == "feel scared"~ "bio",
-                                 causal_itemB == "experience pain"~ "bio",
-                                 causal_itemB == "get sick"~ "bio"),
-          domain_similaritemB = case_when(similar_itemB == "hear something" ~ "mind", 
-                                 similar_itemB == "choose what to do" ~ "mind",
-                                 similar_itemB == "remember something" ~ "mind",
-                                 similar_itemB == "think about something" ~ "mind",
-                                 similar_itemB == "see something" ~ "mind",
-                                 similar_itemB == "reach for something" ~ "action",
-                                 similar_itemB == "sit down" ~ "action", 
-                                 similar_itemB == "jump up and down" ~ "action",
-                                 similar_itemB == "kick something" ~ "action",
-                                 similar_itemB == "take a walk" ~ "action",
-                                 similar_itemB == "get tired" ~ "bio", 
-                                 similar_itemB == "become hungry" ~ "bio",
-                                 similar_itemB == "feel scared"~ "bio",
-                                 similar_itemB == "experience pain"~ "bio",
-                                 similar_itemB == "get sick"~ "bio")) 
+  select(subject_id, condition, first_item, middle_causal, 
+         middle_similar, third_item, response) %>% 
+  # mutate(first_item = factor(first_item, levels = desired_order),
+  #        middle_causal = factor(middle_causal, levels = desired_order),
+  #        middle_similar = factor(middle_similar, levels = desired_order),
+  #        third_item = factor(third_item, levels = desired_order)) %>% 
+  mutate(domain_first_item = case_when(first_item == "hear something" ~ "mind", 
+                                 first_item == "choose what to do" ~ "mind",
+                                 first_item == "remember something" ~ "mind",
+                                 first_item == "think about something" ~ "mind",
+                                 first_item == "see something" ~ "mind",
+                                 first_item == "reach for something" ~ "action",
+                                 first_item == "sit down" ~ "action", 
+                                 first_item == "jump up and down" ~ "action",
+                                 first_item == "kick something" ~ "action",
+                                 first_item == "take a walk" ~ "action",
+                                 first_item == "get tired" ~ "bio", 
+                                 first_item == "become hungry" ~ "bio",
+                                 first_item == "feel scared"~ "bio",
+                                 first_item == "experience pain"~ "bio",
+                                 first_item == "get sick"~ "bio"),
+         domain_third_item = case_when(third_item == "hear something" ~ "mind", 
+                                 third_item == "choose what to do" ~ "mind",
+                                 third_item == "remember something" ~ "mind",
+                                 third_item == "think about something" ~ "mind",
+                                 third_item == "see something" ~ "mind",
+                                 third_item == "reach for something" ~ "action",
+                                 third_item == "sit down" ~ "action", 
+                                 third_item == "jump up and down" ~ "action",
+                                 third_item == "kick something" ~ "action",
+                                 third_item == "take a walk" ~ "action",
+                                 third_item == "get tired" ~ "bio", 
+                                 third_item == "become hungry" ~ "bio",
+                                 third_item == "feel scared"~ "bio",
+                                 third_item == "experience pain"~ "bio",
+                                 third_item == "get sick"~ "bio"),
+         domain_middle_causal = case_when(middle_causal == "hear something" ~ "mind", 
+                                 middle_causal == "choose what to do" ~ "mind",
+                                 middle_causal == "remember something" ~ "mind",
+                                 middle_causal == "think about something" ~ "mind",
+                                 middle_causal == "see something" ~ "mind",
+                                 middle_causal == "reach for something" ~ "action",
+                                 middle_causal == "sit down" ~ "action", 
+                                 middle_causal == "jump up and down" ~ "action",
+                                 middle_causal == "kick something" ~ "action",
+                                 middle_causal == "take a walk" ~ "action",
+                                 middle_causal == "get tired" ~ "bio", 
+                                 middle_causal == "become hungry" ~ "bio",
+                                 middle_causal == "feel scared"~ "bio",
+                                 middle_causal == "experience pain"~ "bio",
+                                 middle_causal == "get sick"~ "bio"),
+          domain_middle_similar = case_when(middle_similar == "hear something" ~ "mind", 
+                                 middle_similar == "choose what to do" ~ "mind",
+                                 middle_similar == "remember something" ~ "mind",
+                                 middle_similar == "think about something" ~ "mind",
+                                 middle_similar == "see something" ~ "mind",
+                                 middle_similar == "reach for something" ~ "action",
+                                 middle_similar == "sit down" ~ "action", 
+                                 middle_similar == "jump up and down" ~ "action",
+                                 middle_similar == "kick something" ~ "action",
+                                 middle_similar == "take a walk" ~ "action",
+                                 middle_similar == "get tired" ~ "bio", 
+                                 middle_similar == "become hungry" ~ "bio",
+                                 middle_similar == "feel scared"~ "bio",
+                                 middle_similar == "experience pain"~ "bio",
+                                 middle_similar == "get sick"~ "bio")) %>% 
+  ungroup()
   
-dat %>% 
-  count(response)
 ```
 
-### demographics
+## Demographics
 
 ```{r}
 # demographics
@@ -170,25 +200,45 @@ df_demographics <- d %>%
   filter(trial_type == "survey-html-form") %>% 
   select("trial_id", "filename", 
          "feedback", "age", "ethnicity", "gender", "race") 
+cat("\n") 
 
+paste0("pre-exclusion N: ", d %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+paste0("post-exclusion N: ", dat %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+cat("\n") 
+
+paste0(
+  "Post-exclusion condition count: ",
+  dat %>% 
+    distinct(subject_id, .keep_all = TRUE) %>% 
+    count(condition) %>% 
+    mutate(label = paste0(condition, " = ", n)) %>% 
+    pull(label) %>% 
+    paste(collapse = ", ")
+)
+cat("\n") 
+
+paste0("Age summary: ")
 summary(df_demographics$age)
-table(df_demographics$gender)
-table(df_demographics$ethnicity)
-table(df_demographics$race)
+cat("\n") 
 
+c("Gender: " =  "Count", table(df_demographics$gender))
+cat("\n")
+c("Ethnicity: " =  "Count", table(df_demographics$ethnicity))
+cat("\n")
+c("Race: " =  "Count", table(df_demographics$race))
 
 ```
 
-main figure
+# Plot
+
+## Condition difference
 
 ```{r}
 dat_summarized <- dat %>%
-  mutate(response = as.factor(response)) %>% 
-  mutate(response = fct_relevel(response, c("similar", "causal"))) %>% 
-  ungroup() %>% 
-  # group_by(condition) %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  group_by(condition) %>%
   mutate(total = n()) %>% 
-  group_by(response) %>%
+  group_by(condition, response) %>%
   summarize(
     count = n(),  
     total = first(total), 
@@ -196,56 +246,19 @@ dat_summarized <- dat %>%
     se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
     .groups = "drop")
 
-#stacked
-(fig_result_summary <- ggplot(dat_summarized, aes(x = response, y = mean_proportion, fill = response)) +
-  geom_bar(stat = "identity", colour = "black") +
-  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
-  geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
-                                                                         ymin = mean_proportion - se),
-                stat = "identity", position = "identity", width = 0.3) +
-  theme_cowplot() +
-  labs(y = "Proportion"))
-
-
-#fig_result_summary <- 
-ggplot(dat_summarized, aes(x = response, y = mean_proportion, fill = response)) +
-  geom_bar(stat = "identity", colour = "black") +
-  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
-  # geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
-  #                                                                        ymin = mean_proportion - se),
-  #               stat = "identity", position = "identity", width = 0.3) +
-  geom_errorbar(aes(ymax = mean_proportion + se, ymin = mean_proportion - se),
-                stat = "identity", position = "identity", width = 0.3) +
-  theme_cowplot() +
-  geom_hline(yintercept = .5, linetype = "dashed") +
-  labs(y = "Proportion selecting middle item",
-       x = "Middle item in Causal Chain",) 
- 
-
-
-
- 
-```
-
-## figure
-
-not this
-
-```{r}
-dat_summarized %>% 
-  ggplot( aes(x = response, y = mean_proportion, fill = response)) +
-    geom_bar(stat = "identity", position = "stack", colour = "black") +
-    scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+main_fig <- dat_summarized %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+    geom_bar(stat = "identity", colour = "black") +
+    scale_fill_manual(values = c("grey80", "#000000")) + 
     geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
                                                                            ymin = mean_proportion - se),
                   stat = "identity", position = "identity", width = 0.3) +
   geom_hline(yintercept = 0.5, linetype = "dashed") +
     theme_cowplot() +
-    # labs(y = "Proportion") +
-  labs(y = "Proportion Middle Item", 
-       x = "Middle Item in Causal Chain",
-       fill = "Middle Item") +
-    ylim(0, 1) +
+  labs(y = "Proportion",
+       x = "Condition",
+       fill = "Response") +
+  ylim(0, 1) +
   theme(axis.text.x = element_text(size = 25),
         axis.text.y = element_text(size = 25),
         axis.title.x = element_text(size = 25),
@@ -257,51 +270,570 @@ dat_summarized %>%
         plot.background = element_rect(fill='transparent', color=NA),
         legend.background = element_rect(fill='transparent', color = NA),
         legend.box.background = element_rect(fill='transparent', color = NA),
+        
         legend.position = "top",
         legend.justification = "center",
         legend.key.size = unit(1, "cm"),
         legend.spacing.x = unit(1, "cm")
         ) 
 
-```
-
-## stacked figure for spp
-
-```{r}
-main_fig <- dat_summarized %>%
-  ggplot(aes(x = "Middle Item in Causal Chain", y = mean_proportion, fill = response)) +
-  geom_bar(stat = "identity", position = "stack", colour = "black") +
-  geom_errorbar(data = filter(dat_summarized, response == "causal"), aes(ymax = mean_proportion + se,
-                                                                         ymin = mean_proportion - se),
-                stat = "identity", position = "identity", width = 0.3) +
-  scale_fill_manual(values = c("grey80", "#000000")) +
-  labs(y = "Proportion", x = NULL, fill = "Middle Item") +
-  theme_cowplot() +
-  theme(
-    axis.text.x = element_text(size = 30),
-    axis.text.y = element_text(size = 30),
-    axis.title.y = element_text(size = 30),
-    legend.text = element_text(size = 30),
-    legend.title = element_text(size = 30),
-    panel.background = element_rect(fill='transparent', color=NA),
-    plot.background = element_rect(fill='transparent', color=NA),
-    legend.background = element_rect(fill='transparent', color = NA),
-    legend.box.background = element_rect(fill='transparent', color = NA),
-    legend.position = "top",
-    legend.justification = "center",
-    legend.key.size = unit(1, "cm"),
-    legend.spacing.x = unit(1, "cm")
-  ) +
-  geom_hline(yintercept = .5, linetype = "dashed") +
-  ylim(0, 1)
-
 main_fig
 
-# main_fig <- ggsave("spp_study5.png", width = 4, height = 5, plot = main_fig, bg = "transparent")
-main_fig <- ggsave("figures/spp_study5_white.png", width = 4, height = 5, plot = main_fig, bg = "white")
+# main_fig <- ggsave("figures/prediction.png", width = 5, height = 5, plot = main_fig, bg = "transparent")
+
+main_fig <- ggsave("figures/causal_chain-v2.png", width = 6, height = 5, plot = main_fig, bg = "white")
 
 ```
 
+## Item-level
+
+
+```{r, fig.height = 12, fig.width = 12}
+preceding_distances_path <- distances_path
+
+d_distances <- read_csv(distances_path) %>%
+  mutate(mean_causal_distance = round(mean_causal_distance, 2),
+         mean_freesort_distance = round(mean_freesort_distance, 2),
+         freesort_minus_causal = round(freesort_minus_causal, 2))
+
+dat_summarized_itemlevel <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  group_by(condition, first_third) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, first_third, response) %>%
+  summarize(count = n(),  
+            total = first(total), 
+            mean_proportion = round(count / total, 2), 
+            se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+            .groups = "drop")
+
+dat_labels <- dat %>% 
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  distinct(first_third, middle_causal, middle_similar) %>% 
+  separate(first_third, c("first_item", "third_item"),
+           sep = "_", remove = FALSE) %>%
+  left_join(d_distances %>% #join causal distances
+              rename("third_item" = itemB,
+                     "middle_causal" = itemA,
+                     "causal_distance_causal_third" = mean_causal_distance,
+                     "freesort_distance_causal_third" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_causal,
+                     causal_distance_causal_third,
+                     freesort_distance_causal_third,
+                     freesort_minus_causal_causal_third), 
+            by = c("third_item", "middle_causal")) %>% 
+  left_join(d_distances %>% #join similar distances
+              rename("third_item" = itemB,
+                     "middle_similar" = itemA,
+                     "causal_distance_similar_third" = mean_causal_distance,
+                     "freesort_distance_similar_third" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_similar,
+                     causal_distance_similar_third,
+                     freesort_distance_similar_third,
+                     freesort_minus_causal_similar_third), 
+            by = c("third_item", "middle_similar")) %>% 
+  
+  left_join(d_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_causal" = itemB,
+                     "causal_distance_causal_first" = mean_causal_distance,
+                     "freesort_distance_causal_first" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_causal,
+                     causal_distance_causal_first,
+                     freesort_distance_causal_first,
+                     freesort_minus_causal_causal_first), 
+            by = c("first_item", "middle_causal")) %>% 
+  left_join(d_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_similar" = itemB,
+                     "causal_distance_similar_first" = mean_causal_distance,
+                     "freesort_distance_similar_first" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_similar,
+                     causal_distance_similar_first,
+                     freesort_distance_similar_first,
+                     freesort_minus_causal_similar_first), 
+            by = c("first_item", "middle_similar")) %>% 
+
+  mutate(facet_label = paste0("first item: ", first_item,
+                              "\n",
+                              "third item: ", third_item,
+                              "\n",
+                              "causal: ", middle_causal, 
+                              "\n",  
+                              "similar: ", middle_similar
+                              )) 
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  mutate(first_item = factor(first_item, levels = desired_order)) %>% 
+  arrange(first_item) %>% 
+  pull(facet_label)
+
+#join labels + order AFTER labels exist
+dat_summarized_itemlevel <- dat_summarized_itemlevel %>%
+  left_join(dat_labels %>% select(first_third, facet_label), by = "first_third") %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_itemlvl <- dat_summarized_itemlevel %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+  geom_errorbar(data = filter(dat_summarized_itemlevel, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        # legend.position = "none",
+        strip.text = element_text(size = 18)) +
+  labs(y = "Proportion",
+       title = "Causal Chain - pilot, N = 105") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_itemlvl
+
+ggsave(
+  filename = "figures/p_causal_chain_item-level-v2.pdf",
+  plot = p_itemlvl,          
+  device = "pdf",           
+  width = 22,    
+  bg = "white",
+  height = 15,             
+  units = "in")
+
+```
+
+
+## Item-level with distances
+
+```{r, fig.height = 12, fig.width = 12}
+preceding_distances_path <- distances_path
+# d_distances <- read_csv(preceding_distances_path) %>%
+d_preceding_distances <- read_csv(preceding_distances_path) %>%
+# d_distances <- read_csv(distances_path) %>%
+  mutate(mean_causal_distance = round(mean_causal_distance, 2),
+         mean_freesort_distance = round(mean_freesort_distance, 2),
+         freesort_minus_causal = round(freesort_minus_causal, 2))
+
+# d_following_distances <- read_csv(following_distances_path) %>% 
+#   mutate(mean_causal_distance = round(mean_causal_distance, 2),
+#          mean_freesort_distance = round(mean_freesort_distance, 2),
+#          freesort_minus_causal = round(freesort_minus_causal, 2))
+
+
+dat_summarized_itemlevel <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  group_by(condition, first_third) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, first_third, response) %>%
+  summarize(count = n(),  
+            total = first(total), 
+            mean_proportion = round(count / total, 2), 
+            se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+            .groups = "drop")
+
+dat_labels <- dat %>% 
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  distinct(first_third, middle_causal, middle_similar) %>% 
+  separate(first_third, c("first_item", "third_item"),
+           sep = "_", remove = FALSE) %>%
+  left_join(d_preceding_distances %>% #join causal distances
+              rename("third_item" = itemB,
+                     "middle_causal" = itemA,
+                     "causal_distance_causal_third" = mean_causal_distance,
+                     "freesort_distance_causal_third" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_causal,
+                     causal_distance_causal_third,
+                     freesort_distance_causal_third,
+                     freesort_minus_causal_causal_third), 
+            by = c("third_item", "middle_causal")) %>% 
+  left_join(d_preceding_distances %>% #join similar distances
+              rename("third_item" = itemB,
+                     "middle_similar" = itemA,
+                     "causal_distance_similar_third" = mean_causal_distance,
+                     "freesort_distance_similar_third" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_similar,
+                     causal_distance_similar_third,
+                     freesort_distance_similar_third,
+                     freesort_minus_causal_similar_third), 
+            by = c("third_item", "middle_similar")) %>% 
+  
+  left_join(d_preceding_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_causal" = itemB,
+                     "causal_distance_causal_first" = mean_causal_distance,
+                     "freesort_distance_causal_first" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_causal,
+                     causal_distance_causal_first,
+                     freesort_distance_causal_first,
+                     freesort_minus_causal_causal_first), 
+            by = c("first_item", "middle_causal")) %>% 
+  left_join(d_preceding_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_similar" = itemB,
+                     "causal_distance_similar_first" = mean_causal_distance,
+                     "freesort_distance_similar_first" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_similar,
+                     causal_distance_similar_first,
+                     freesort_distance_similar_first,
+                     freesort_minus_causal_similar_first), 
+            by = c("first_item", "middle_similar")) %>% 
+
+  mutate(facet_label = paste0("first item: ", first_item,
+                              "\n",
+                              "third item: ", third_item,
+                              "\n",
+                              "causal: ", middle_causal, 
+                              "\n",  
+                              "similar: ", middle_similar,
+                              "\n",
+                              "\n",
+                              "1st item-cdS,fdS,cdC,fdC: ", "(", 
+                              causal_distance_similar_first, ",",
+                              freesort_distance_similar_first, ",",
+                              causal_distance_causal_first, ",",
+                              freesort_distance_causal_first, ")", "\n", 
+                              "3rd item-cdS, fdS, cdC, fdC: ", "(", 
+                              causal_distance_similar_third, ",",
+                              freesort_distance_similar_third, ",",
+                              causal_distance_causal_third, ",",
+                              freesort_distance_causal_third, ")"
+                              )) 
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  mutate(first_item = factor(first_item, levels = desired_order)) %>% 
+  arrange(first_item) %>% 
+  pull(facet_label)
+
+#join labels + order AFTER labels exist
+dat_summarized_itemlevel <- dat_summarized_itemlevel %>%
+  left_join(dat_labels %>% select(first_third, facet_label), by = "first_third") %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_itemlvl <- dat_summarized_itemlevel %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+  geom_errorbar(data = filter(dat_summarized_itemlevel, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        # legend.position = "none",
+        strip.text = element_text(size = 18)) +
+  labs(y = "Proportion",
+       title = "Causal Chain - pilot, N = 105") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_itemlvl
+
+ggsave(
+  filename = "figures/p_causal_chain_item-level-distances.pdf",
+  plot = p_itemlvl,          
+  device = "pdf",           
+  width = 22,    
+  bg = "white",
+  height = 15,             
+  units = "in")
+
+```
+
+## Item-level with distances
+
+```{r}
+d_distances <- read_csv(distances_path) %>% 
+  mutate(mean_causal_distance = round(mean_causal_distance, 2),
+         mean_freesort_distance = round(mean_freesort_distance, 2),
+         freesort_minus_causal = round(freesort_minus_causal, 2))
+
+dat_summarized_itemlevel <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  group_by(condition, first_third) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, first_third, response) %>%
+  summarize(count = n(),  
+            total = first(total), 
+            mean_proportion = round(count / total, 2), 
+            se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+            .groups = "drop")
+
+dat_labels <- dat %>% 
+  unite("first_third", c(first_item, third_item), sep = "_") %>% 
+  distinct(first_third, middle_causal, middle_similar) %>% 
+  separate(first_third, c("first_item", "third_item"),
+           sep = "_", remove = FALSE) %>%
+  left_join(d_distances %>% #join causal distances
+              rename("third_item" = itemB,
+                     "middle_causal" = itemA,
+                     "causal_distance_causal_third" = mean_causal_distance,
+                     "freesort_distance_causal_third" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_causal,
+                     causal_distance_causal_third,
+                     freesort_distance_causal_third,
+                     freesort_minus_causal_causal_third), 
+            by = c("third_item", "middle_causal")) %>% 
+  left_join(d_distances %>% #join similar distances
+              rename("third_item" = itemB,
+                     "middle_similar" = itemA,
+                     "causal_distance_similar_third" = mean_causal_distance,
+                     "freesort_distance_similar_third" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_third" = freesort_minus_causal) %>% 
+              select(third_item, 
+                     middle_similar,
+                     causal_distance_similar_third,
+                     freesort_distance_similar_third,
+                     freesort_minus_causal_similar_third), 
+            by = c("third_item", "middle_similar")) %>% 
+  
+  left_join(d_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_causal" = itemB,
+                     "causal_distance_causal_first" = mean_causal_distance,
+                     "freesort_distance_causal_first" = mean_freesort_distance,
+                     "freesort_minus_causal_causal_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_causal,
+                     causal_distance_causal_first,
+                     freesort_distance_causal_first,
+                     freesort_minus_causal_causal_first), 
+            by = c("first_item", "middle_causal")) %>% 
+  left_join(d_distances %>% 
+              rename("first_item" = itemA,
+                     "middle_similar" = itemB,
+                     "causal_distance_similar_first" = mean_causal_distance,
+                     "freesort_distance_similar_first" = mean_freesort_distance,
+                     "freesort_minus_causal_similar_first" = freesort_minus_causal) %>% 
+              select(first_item, 
+                     middle_similar,
+                     causal_distance_similar_first,
+                     freesort_distance_similar_first,
+                     freesort_minus_causal_similar_first), 
+            by = c("first_item", "middle_similar")) %>% 
+
+  mutate(facet_label = paste0("first item: ", first_item,
+                              "\n",
+                              "third item: ", third_item,
+                              "\n",
+                              "Causal: ", middle_causal, 
+                              "\n",  
+                              "Similar: ", middle_similar,
+                              "\n",
+                              "\n",
+                              "1st item (cdS,fdS,cdC,fdC): ", "(", 
+                              causal_distance_similar_first, ",",
+                              freesort_distance_similar_first, ",",
+                              causal_distance_causal_first, ",",
+                              freesort_distance_causal_first, ")", "\n", 
+                              "3rd item (cdS, fdS, cdC, fdC): ", "(", 
+                              causal_distance_similar_third, ",",
+                              freesort_distance_similar_third, ",",
+                              causal_distance_causal_third, ",",
+                              freesort_distance_causal_third, ")"
+                              )) 
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  mutate(first_item = factor(first_item, levels = desired_order)) %>% 
+  arrange(first_item) %>% 
+  pull(facet_label)
+
+#join labels + order AFTER labels exist
+dat_summarized_itemlevel <- dat_summarized_itemlevel %>%
+  left_join(dat_labels %>% select(first_third, facet_label), by = "first_third") %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_itemlvl <- dat_summarized_itemlevel %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("grey80", "#000000")) + #or whatever you'd like!
+  geom_errorbar(data = filter(dat_summarized_itemlevel, response == "causal"), aes(ymax = mean_proportion + se,
+                                                                         ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        # legend.position = "none",
+        strip.text = element_text(size = 18)) +
+  labs(y = "Proportion",
+       title = "Causal Chain - pilot, N = 105") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_itemlvl
+
+ggsave(
+  filename = "figures/p_causal_chain_item-level-distances.pdf",
+  plot = p_itemlvl,          
+  device = "pdf",           
+  width = 22,    
+  bg = "white",
+  height = 15,             
+  units = "in")
+
+```
+
+# Primary Analysis
+
+## Logistic regression
+
+```{r}
+##factor outcome variables
+d_model <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id))
+
+##run the model
+model_chain_vs_common <- glmer(response ~ condition + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model)
+
+summary(model_chain_vs_common)
+
+```
+
+## Get specific probabilities
+
+```{r}
+effects_data <- allEffects(model_chain_vs_common)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+```
+
+# Power analysis with simr 
+
+NB: This only applies to the pilot
+
+### Both conditions
+
+```{r}
+# This will test for power required to detect the condition difference
+
+#Suppose we want a study with 150 participants..
+model_sim <- extend(model_chain_vs_common, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) #confirm that N is now 150
+
+#run simulations
+curve_chain_vs_common <- powerCurve(model_sim, fixed("conditioncommon_cause",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+## Plot power curve
+plot(curve_chain_vs_common)
+print(curve_chain_vs_common)
+
+```
+
+### Causal Chain Only
+
+```{r}
+## Make sure to re-factor your outcome variable after filtering!
+d_model_causal_chain <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(condition = as.character(condition)) %>% 
+  filter(condition == "causal_chain") %>% 
+  mutate(condition = factor(condition))
+
+model_causal_chain <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_causal_chain)
+
+summary(model_causal_chain)
+
+## Convert log odds to probabilities (I think)
+plogis(fixef(model_causal_chain)[1])
+
+# Power Analysis
+model_sim <- extend(model_causal_chain, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) 
+
+curve_causal_chain <- powerCurve(model_sim, fixed("(Intercept)",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+plot(curve_causal_chain)
+print(curve_causal_chain)
+
+```
+
+### Common Cause Only
+
+```{r}
+## Make sure to re-factor your outcome variable after filtering!
+d_model_common_cause <- dat %>%
+  mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(condition = as.character(condition)) %>% 
+  filter(condition == "common_cause") %>% 
+  mutate(condition = factor(condition))
+
+model_common_cause <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_common_cause)
+
+summary(model_common_cause)
+
+## Convert log odds to probabilities (I think)
+plogis(fixef(model_common_cause)[1])
+
+# Power Analysis
+model_sim <- extend(model_common_cause, along = "subject_id", n = 150)
+length(unique(simr::getData(model_sim)$subject_id)) 
+
+curve_common_cause <- powerCurve(model_sim, fixed("(Intercept)",
+                                               "z"),
+                    along = "subject_id", breaks = c(1, 5, 10, 20, 30, 40, 50,
+                                                     60, 70, 80, 90, 100,
+                                                     110, 120, 130, 140, 150), nsim = 100)
+
+plot(curve_common_cause)
+print(curve_common_cause)
+
+```
+
+THE END
 
 
 ```{r}

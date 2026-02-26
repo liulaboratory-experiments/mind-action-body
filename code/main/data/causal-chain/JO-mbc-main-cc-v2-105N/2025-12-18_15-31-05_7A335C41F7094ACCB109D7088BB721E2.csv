@@ -1,0 +1,81 @@
+"success","timeout","failed_images","failed_audio","failed_video","trial_type","trial_index","plugin_version","time_elapsed","mturk_participant_id","mturk_assignment_id","mturk_project_id","trial_id","rt","stimulus","response","view_history","condition","correct_response_attn","selected_choice","first_item","first_past_tense","third_item","middle_causal","middle_similar","biological_substrate","feedback","age","ethnicity","gender","race"
+"true","false","[]","[]","[]","preload","0","2.1.0","6","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","","","","","","","","","","","","","","","","","",""
+"","","","","","html-button-response","1","2.1.0","3715","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","consent","3707","<p><b>Consent Form</b></p> <div style=""text-align:left;background-color:lightblue; padding:2vw; max-width:80vw;""><p><b>Purpose:</b> The purpose of this study is to understand how people think about the physical and social world.</p><p><b>Procedures:</b> In this study, you will watch videos, read sentences, or see pictures, and answer simple questions about them. This study should take approximately 6 minutes.</p><p><b>Participation:</b> Participation in this study is voluntary. If you decide to join now, you can change your mind later. </p><p><b>Payment:</b> You will be paid $15.00/hour for participating in this study. Given the estimated duration of 6 minutes, your payment will amount to $1.50.</p><p><b>Risks and benefits:</b> There are no risks associated with participating in this study. There are no direct benefits associated with participating in this study. </p><p><b>Use of data by study researchers:</b> The research team led by Shari Liu at JHU will have access to your answers. </p><p><b>Publication of results:</b> The results of the research may be presented at scientific meetings or published in scientific journals. Your individual responses may be published. We will never publish your name, the date that you participated, and any other information that could be used to identify you. </p><p><b>Researcher contact information:</b> This study is run by Dr. Shari Liu at JHU. If you have any questions or concerns about this study, or in the very unlikely event of a research-related injury, please contact sliu199@jhu.edu. </p><p><b>Research rights information:</b> If you have questions about your rights as a research participant or feel that you have not been treated fairly, please call the Homewood Institutional Review Board at Johns Hopkins University at (410) 516-6580. If you have any questions or issues completing the survey, please email Shari Liu at sliu199@jhu.edu. </p> </div><p> Do you consent to participate? </p>","0","","","","","","","","","","","","","","",""
+"","","","","","instructions","2","2.1.0","33209","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","29493","","","[{""page_index"":0,""viewing_time"":29493}]","","","","","","","","","","","","","",""
+"","","","","","html-button-response","3","2.1.0","37251","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","4041","
+    <p style=""font-size: 25px;"">For this question, please select ""<strong>choose what to do</strong>""</p>
+    ","0","","attention_check_common_cause","choose what to do","choose what to do","","","","","","","","","","",""
+"","","","","","html-button-response","4","2.1.0","55163","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","17911","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, TRE89, which controls
+        <br>whether a species of creature can <strong>choose what to do</strong>, ____________ , 
+        and <strong>hear something</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>see something</strong></p>","choose what to do","chose what to do","hear something","take a walk","see something","TRE89","","","","",""
+"","","","","","html-button-response","5","2.1.0","63941","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","8777","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, APP12, which controls
+        <br>whether a species of creature can <strong>get sick</strong>, ____________ , 
+        and <strong>become hungry</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>experience pain</strong></p>","get sick","got sick","become hungry","remember something","experience pain","APP12","","","","",""
+"","","","","","html-button-response","6","2.1.0","74379","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","10437","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, UT902, which controls
+        <br>whether a species of creature can <strong>become hungry</strong>, ____________ , 
+        and <strong>feel scared</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>get tired</strong></p>","become hungry","became hungry","feel scared","think about something","get tired","UT902","","","","",""
+"","","","","","html-button-response","7","2.1.0","82421","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","8041","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, HFE1A, which controls
+        <br>whether a species of creature can <strong>take a walk</strong>, ____________ , 
+        and <strong>reach for something</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>jump up and down</strong></p>","take a walk","took a walk","reach for something","see something","jump up and down","HFE1A","","","","",""
+"","","","","","html-button-response","8","2.1.0","92093","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","9671","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, ZBT7A, which controls
+        <br>whether a species of creature can <strong>sit down</strong>, ____________ , 
+        and <strong>jump up and down</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","sit down","sat down","jump up and down","experience pain","take a walk","ZBT7A","","","","",""
+"","","","","","html-button-response","9","2.1.0","108201","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","16107","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, CD8R1, which controls
+        <br>whether a species of creature can <strong>see something</strong>, ____________ , 
+        and <strong>hear something</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>remember something</strong></p>","see something","saw something","hear something","take a walk","remember something","CD8R1","","","","",""
+"","","","","","html-button-response","10","2.1.0","112387","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","4185","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, FTR54, which controls
+        <br>whether a species of creature can <strong>jump up and down</strong>, ____________ , 
+        and <strong>sit down</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>take a walk</strong></p>","jump up and down","jumped up and down","sit down","get tired","take a walk","FTR54","","","","",""
+"","","","","","html-button-response","11","2.1.0","123224","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","10837","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, BRCA1, which controls
+        <br>whether a species of creature can <strong>get tired</strong>, ____________ , 
+        and <strong>feel scared</strong>.</p>
+      <br>
+      ","0","","common_cause","","<p style=""font-size: 25px;""><strong>become hungry</strong></p>","get tired","got tired","feel scared","choose what to do","become hungry","BRCA1","","","","",""
+"","","","","","html-button-response","12","2.1.0","130839","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","7613","
+      <p style=""font-size: 25px;"">Which phrase best fits the blank?</p>
+      <br>
+      <p style=""font-size: 25px;"">You discovered a gene, VF501, which controls
+        <br>whether a species of creature can <strong>remember something</strong>, ____________ , 
+        and <strong>hear something</strong>.</p>
+      <br>
+      ","1","","common_cause","","<p style=""font-size: 25px;""><strong>think about something</strong></p>","remember something","remembered something","hear something","feel scared","think about something","VF501","","","","",""
+"","","","","","instructions","13","2.1.0","135471","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","","4632","","","[{""page_index"":0,""viewing_time"":4632}]","","","","","","","","","","","","","",""
+"","","","","","survey-html-form","14","2.1.0","181923","7A335C41F7094ACCB109D7088BB721E2","019b335f-9ff2-7943-909b-db5ce9e496d1","019b335b-d18e-7912-88ea-7560ffa79034","demographics_survey","46443","","{""feedback"":""If it could be in the same category of the other actions"",""age"":""67"",""gender"":""Male"",""other_gender"":"""",""race"":""White"",""other_race"":"""",""ethnicity"":""Non-Hispanic""}","","","","","","","","","","","If it could be in the same category of the other actions","67","Non-Hispanic","Male","White"

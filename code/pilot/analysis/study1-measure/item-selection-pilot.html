@@ -2833,13 +2833,19 @@ border-radius: 0px;
 </div>
 
 
-<div id="setup" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Setup</h1>
-<div id="load-packages" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> load packages</h2>
+<div id="readme" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> ReadME</h1>
+<ul>
+<li>Purpose: item-selection script for the studies Counterfactuals, Intervention, Explanation</li>
+</ul>
 </div>
-<div id="set-variables" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Set variables</h2>
+<div id="setup" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Setup</h1>
+<div id="load-packages" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> load packages</h2>
+</div>
+<div id="set-variables" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Set variables</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># variables</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>desired_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;see something&quot;</span>, <span class="st">&quot;hear something&quot;</span>, <span class="st">&quot;choose what to do&quot;</span>, </span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                   <span class="st">&quot;remember something&quot;</span>, <span class="st">&quot;think about something&quot;</span>, <span class="st">&quot;reach for something&quot;</span>, </span>
@@ -2853,8 +2859,8 @@ border-radius: 0px;
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>data_input_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(snapshots_input_path, <span class="st">&quot;/data_processed_step2.csv&quot;</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>freesort_minus_causal_distances_output_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(snapshots_input_path, <span class="st">&quot;/freesort_minus_causals.csv&quot;</span>)</span></code></pre></div>
 </div>
-<div id="read-data" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Read data</h2>
+<div id="read-data" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Read data</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df_combined <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(data_input_path)</span></code></pre></div>
 <pre><code>## Rows: 10500 Columns: 8
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -2871,10 +2877,10 @@ border-radius: 0px;
 <pre><code>## [1] &quot;subj_50&quot;</code></pre>
 </div>
 </div>
-<div id="long-list" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Long list</h1>
-<div id="freesort---causal-calculation" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> “Freesort - causal” calculation</h2>
+<div id="plot-long-list" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Plot Long list</h1>
+<div id="freesort---causal-calculation" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> ‘Freesort - causal’ calculation</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#get mean distances by item pairs</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>df_pair_means <span class="ot">&lt;-</span> df_combined <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">select</span>(subject_id, itemA, itemB, freesort_distance, causal_distance) <span class="sc">%&gt;%</span> </span>
@@ -2910,8 +2916,8 @@ border-radius: 0px;
 <span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="fu">write.csv</span>(df_item_pair_means_freesort_minus_causal, </span>
 <span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>          freesort_minus_causal_distances_output_path, <span class="at">row.names =</span> F)</span></code></pre></div>
 </div>
-<div id="plot-long-list" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Plot long list</h2>
+<div id="plot-long-list-1" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Plot long list</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>long_list_items <span class="ot">&lt;-</span> df_item_pair_means_freesort_minus_causal <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">group_by</span>(itemB) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(freesort_minus_causal)) <span class="sc">%&gt;%</span> </span>
@@ -2934,20 +2940,20 @@ border-radius: 0px;
 ## • Please use the `palette` argument to define a color palette.
 ## This warning is displayed once every 8 hours.</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>long_list_items </span></code></pre></div>
-<div id="qhlhnvsnxa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qhlhnvsnxa table {
+<div id="pybjlvxmen" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pybjlvxmen table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#qhlhnvsnxa thead, #qhlhnvsnxa tbody, #qhlhnvsnxa tfoot, #qhlhnvsnxa tr, #qhlhnvsnxa td, #qhlhnvsnxa th {
+#pybjlvxmen thead, #pybjlvxmen tbody, #pybjlvxmen tfoot, #pybjlvxmen tr, #pybjlvxmen td, #pybjlvxmen th {
 border-style: none;
 }
-#qhlhnvsnxa p {
+#pybjlvxmen p {
 margin: 0;
 padding: 0;
 }
-#qhlhnvsnxa .gt_table {
+#pybjlvxmen .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2972,11 +2978,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_caption {
+#pybjlvxmen .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#qhlhnvsnxa .gt_title {
+#pybjlvxmen .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2987,7 +2993,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#qhlhnvsnxa .gt_subtitle {
+#pybjlvxmen .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2998,7 +3004,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#qhlhnvsnxa .gt_heading {
+#pybjlvxmen .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -3009,12 +3015,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_bottom_border {
+#pybjlvxmen .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_col_headings {
+#pybjlvxmen .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3028,7 +3034,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_col_heading {
+#pybjlvxmen .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3047,7 +3053,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#qhlhnvsnxa .gt_column_spanner_outer {
+#pybjlvxmen .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3058,13 +3064,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#qhlhnvsnxa .gt_column_spanner_outer:first-child {
+#pybjlvxmen .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#qhlhnvsnxa .gt_column_spanner_outer:last-child {
+#pybjlvxmen .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#qhlhnvsnxa .gt_column_spanner {
+#pybjlvxmen .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -3075,10 +3081,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#qhlhnvsnxa .gt_spanner_row {
+#pybjlvxmen .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#qhlhnvsnxa .gt_group_heading {
+#pybjlvxmen .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3103,7 +3109,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#qhlhnvsnxa .gt_empty_group_heading {
+#pybjlvxmen .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -3117,13 +3123,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#qhlhnvsnxa .gt_from_md > :first-child {
+#pybjlvxmen .gt_from_md > :first-child {
 margin-top: 0;
 }
-#qhlhnvsnxa .gt_from_md > :last-child {
+#pybjlvxmen .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#qhlhnvsnxa .gt_row {
+#pybjlvxmen .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3141,7 +3147,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#qhlhnvsnxa .gt_stub {
+#pybjlvxmen .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3153,7 +3159,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#qhlhnvsnxa .gt_stub_row_group {
+#pybjlvxmen .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -3166,13 +3172,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#qhlhnvsnxa .gt_row_group_first td {
+#pybjlvxmen .gt_row_group_first td {
 border-top-width: 2px;
 }
-#qhlhnvsnxa .gt_row_group_first th {
+#pybjlvxmen .gt_row_group_first th {
 border-top-width: 2px;
 }
-#qhlhnvsnxa .gt_summary_row {
+#pybjlvxmen .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3181,14 +3187,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#qhlhnvsnxa .gt_first_summary_row {
+#pybjlvxmen .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_first_summary_row.thick {
+#pybjlvxmen .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#qhlhnvsnxa .gt_last_summary_row {
+#pybjlvxmen .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3197,7 +3203,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_grand_summary_row {
+#pybjlvxmen .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -3206,7 +3212,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#qhlhnvsnxa .gt_first_grand_summary_row {
+#pybjlvxmen .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3215,7 +3221,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_last_grand_summary_row_top {
+#pybjlvxmen .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -3224,10 +3230,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_striped {
+#pybjlvxmen .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#qhlhnvsnxa .gt_table_body {
+#pybjlvxmen .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -3235,7 +3241,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_footnotes {
+#pybjlvxmen .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3248,7 +3254,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_footnote {
+#pybjlvxmen .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -3256,7 +3262,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#qhlhnvsnxa .gt_sourcenotes {
+#pybjlvxmen .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -3269,64 +3275,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#qhlhnvsnxa .gt_sourcenote {
+#pybjlvxmen .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#qhlhnvsnxa .gt_left {
+#pybjlvxmen .gt_left {
 text-align: left;
 }
-#qhlhnvsnxa .gt_center {
+#pybjlvxmen .gt_center {
 text-align: center;
 }
-#qhlhnvsnxa .gt_right {
+#pybjlvxmen .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#qhlhnvsnxa .gt_font_normal {
+#pybjlvxmen .gt_font_normal {
 font-weight: normal;
 }
-#qhlhnvsnxa .gt_font_bold {
+#pybjlvxmen .gt_font_bold {
 font-weight: bold;
 }
-#qhlhnvsnxa .gt_font_italic {
+#pybjlvxmen .gt_font_italic {
 font-style: italic;
 }
-#qhlhnvsnxa .gt_super {
+#pybjlvxmen .gt_super {
 font-size: 65%;
 }
-#qhlhnvsnxa .gt_footnote_marks {
+#pybjlvxmen .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#qhlhnvsnxa .gt_asterisk {
+#pybjlvxmen .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#qhlhnvsnxa .gt_indent_1 {
+#pybjlvxmen .gt_indent_1 {
 text-indent: 5px;
 }
-#qhlhnvsnxa .gt_indent_2 {
+#pybjlvxmen .gt_indent_2 {
 text-indent: 10px;
 }
-#qhlhnvsnxa .gt_indent_3 {
+#pybjlvxmen .gt_indent_3 {
 text-indent: 15px;
 }
-#qhlhnvsnxa .gt_indent_4 {
+#pybjlvxmen .gt_indent_4 {
 text-indent: 20px;
 }
-#qhlhnvsnxa .gt_indent_5 {
+#pybjlvxmen .gt_indent_5 {
 text-indent: 25px;
 }
-#qhlhnvsnxa .katex-display {
+#pybjlvxmen .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#qhlhnvsnxa div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pybjlvxmen div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4818,13 +4824,13 @@ height: 0px !important;
   
 </table>
 </div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">gtsave</span>(long_list_items, <span class="st">&quot;figures/item-selection/item-selection-long_Counterfactual-task.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">gtsave</span>(long_list_items, <span class="st">&quot;figures/item-selection/item-selection-long-Counterfactual-task.png&quot;</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="short-list---no-domain-constraints" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Short list - no domain constraints</h1>
-<div id="select-short-list" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Select short list</h2>
+<div id="short-list---no-domain-constraints" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Short list - no domain constraints</h1>
+<div id="select-short-list" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Select short list</h2>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">#similar item (item with lowest freesort_minus_causal)</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>similar_items <span class="ot">&lt;-</span> df_item_pair_means_freesort_minus_causal <span class="sc">%&gt;%</span> </span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">group_by</span>(itemB) <span class="sc">%&gt;%</span> </span>
@@ -4865,8 +4871,8 @@ height: 0px !important;
   </script>
 </div>
 </div>
-<div id="plot-short-list" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Plot short list</h2>
+<div id="plot-short-list" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Plot short list</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>short_list_table <span class="ot">&lt;-</span> short_list_selected_items <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">case_when</span>(</span>
@@ -4938,20 +4944,20 @@ height: 0px !important;
 <span id="cb12-69"><a href="#cb12-69" tabindex="-1"></a>  )</span>
 <span id="cb12-70"><a href="#cb12-70" tabindex="-1"></a></span>
 <span id="cb12-71"><a href="#cb12-71" tabindex="-1"></a>df_table</span></code></pre></div>
-<div id="hrdplnimje" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hrdplnimje table {
+<div id="urmoeibrhy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#urmoeibrhy table {
 font-family: Arial;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#hrdplnimje thead, #hrdplnimje tbody, #hrdplnimje tfoot, #hrdplnimje tr, #hrdplnimje td, #hrdplnimje th {
+#urmoeibrhy thead, #urmoeibrhy tbody, #urmoeibrhy tfoot, #urmoeibrhy tr, #urmoeibrhy td, #urmoeibrhy th {
 border-style: none;
 }
-#hrdplnimje p {
+#urmoeibrhy p {
 margin: 0;
 padding: 0;
 }
-#hrdplnimje .gt_table {
+#urmoeibrhy .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4976,11 +4982,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#hrdplnimje .gt_caption {
+#urmoeibrhy .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#hrdplnimje .gt_title {
+#urmoeibrhy .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4991,7 +4997,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#hrdplnimje .gt_subtitle {
+#urmoeibrhy .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -5002,7 +5008,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#hrdplnimje .gt_heading {
+#urmoeibrhy .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -5013,12 +5019,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#hrdplnimje .gt_bottom_border {
+#urmoeibrhy .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hrdplnimje .gt_col_headings {
+#urmoeibrhy .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5032,7 +5038,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#hrdplnimje .gt_col_heading {
+#urmoeibrhy .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5051,7 +5057,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#hrdplnimje .gt_column_spanner_outer {
+#urmoeibrhy .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5062,13 +5068,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#hrdplnimje .gt_column_spanner_outer:first-child {
+#urmoeibrhy .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#hrdplnimje .gt_column_spanner_outer:last-child {
+#urmoeibrhy .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#hrdplnimje .gt_column_spanner {
+#urmoeibrhy .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -5079,10 +5085,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#hrdplnimje .gt_spanner_row {
+#urmoeibrhy .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#hrdplnimje .gt_group_heading {
+#urmoeibrhy .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5107,7 +5113,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#hrdplnimje .gt_empty_group_heading {
+#urmoeibrhy .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -5121,13 +5127,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#hrdplnimje .gt_from_md > :first-child {
+#urmoeibrhy .gt_from_md > :first-child {
 margin-top: 0;
 }
-#hrdplnimje .gt_from_md > :last-child {
+#urmoeibrhy .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#hrdplnimje .gt_row {
+#urmoeibrhy .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5145,7 +5151,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#hrdplnimje .gt_stub {
+#urmoeibrhy .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5157,7 +5163,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hrdplnimje .gt_stub_row_group {
+#urmoeibrhy .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5170,13 +5176,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#hrdplnimje .gt_row_group_first td {
+#urmoeibrhy .gt_row_group_first td {
 border-top-width: 2px;
 }
-#hrdplnimje .gt_row_group_first th {
+#urmoeibrhy .gt_row_group_first th {
 border-top-width: 2px;
 }
-#hrdplnimje .gt_summary_row {
+#urmoeibrhy .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5185,14 +5191,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hrdplnimje .gt_first_summary_row {
+#urmoeibrhy .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#hrdplnimje .gt_first_summary_row.thick {
+#urmoeibrhy .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#hrdplnimje .gt_last_summary_row {
+#urmoeibrhy .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5201,7 +5207,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hrdplnimje .gt_grand_summary_row {
+#urmoeibrhy .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5210,7 +5216,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hrdplnimje .gt_first_grand_summary_row {
+#urmoeibrhy .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5219,7 +5225,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#hrdplnimje .gt_last_grand_summary_row_top {
+#urmoeibrhy .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5228,10 +5234,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#hrdplnimje .gt_striped {
+#urmoeibrhy .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#hrdplnimje .gt_table_body {
+#urmoeibrhy .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5239,7 +5245,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hrdplnimje .gt_footnotes {
+#urmoeibrhy .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5252,7 +5258,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#hrdplnimje .gt_footnote {
+#urmoeibrhy .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -5260,7 +5266,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hrdplnimje .gt_sourcenotes {
+#urmoeibrhy .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5273,64 +5279,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#hrdplnimje .gt_sourcenote {
+#urmoeibrhy .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hrdplnimje .gt_left {
+#urmoeibrhy .gt_left {
 text-align: left;
 }
-#hrdplnimje .gt_center {
+#urmoeibrhy .gt_center {
 text-align: center;
 }
-#hrdplnimje .gt_right {
+#urmoeibrhy .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#hrdplnimje .gt_font_normal {
+#urmoeibrhy .gt_font_normal {
 font-weight: normal;
 }
-#hrdplnimje .gt_font_bold {
+#urmoeibrhy .gt_font_bold {
 font-weight: bold;
 }
-#hrdplnimje .gt_font_italic {
+#urmoeibrhy .gt_font_italic {
 font-style: italic;
 }
-#hrdplnimje .gt_super {
+#urmoeibrhy .gt_super {
 font-size: 65%;
 }
-#hrdplnimje .gt_footnote_marks {
+#urmoeibrhy .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#hrdplnimje .gt_asterisk {
+#urmoeibrhy .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#hrdplnimje .gt_indent_1 {
+#urmoeibrhy .gt_indent_1 {
 text-indent: 5px;
 }
-#hrdplnimje .gt_indent_2 {
+#urmoeibrhy .gt_indent_2 {
 text-indent: 10px;
 }
-#hrdplnimje .gt_indent_3 {
+#urmoeibrhy .gt_indent_3 {
 text-indent: 15px;
 }
-#hrdplnimje .gt_indent_4 {
+#urmoeibrhy .gt_indent_4 {
 text-indent: 20px;
 }
-#hrdplnimje .gt_indent_5 {
+#urmoeibrhy .gt_indent_5 {
 text-indent: 25px;
 }
-#hrdplnimje .katex-display {
+#urmoeibrhy .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#hrdplnimje div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#urmoeibrhy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -5416,10 +5422,10 @@ height: 0px !important;
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">gtsave</span>(df_table, <span class="st">&quot;figures/item-selection/item-selection-short-Counterfactual-task.png&quot;</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="short-list-domain-constraints" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Short list – domain constraints</h1>
-<div id="select-short-list-1" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Select short list</h2>
+<div id="short-list---domain-constraints" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Short list - domain constraints</h1>
+<div id="select-short-list-1" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Select short list</h2>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>similar_items_same_domain <span class="ot">&lt;-</span> df_item_pair_means_freesort_minus_causal <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">filter</span>(domain_itemA <span class="sc">==</span> domain_itemB) <span class="sc">%&gt;%</span> <span class="co">#first condition</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">group_by</span>(itemB) <span class="sc">%&gt;%</span></span>
@@ -5462,94 +5468,121 @@ height: 0px !important;
 {"columns":[{"label":["target_item"],"name":[1],"type":["fct"],"align":["left"]},{"label":["causal_choice"],"name":[2],"type":["chr"],"align":["left"]},{"label":["similar_choice"],"name":[3],"type":["chr"],"align":["left"]},{"label":["causal_distance_causal_choice"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["freesort_distance_causal_choice"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["freesort_minus_causal_distance_causal"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["causal_distance_similar_choice"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["freesort_distance_similar_choice"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["freesort_minus_causal_distance_similar"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"see something","2":"take a walk","3":"hear something","4":"0.24","5":"0.62","6":"0.3826","7":"0.44","8":"0.20","9":"-0.2366"},{"1":"hear something","2":"take a walk","3":"see something","4":"0.27","5":"0.61","6":"0.3398","7":"0.41","8":"0.20","9":"-0.2118"},{"1":"choose what to do","2":"feel scared","3":"remember something","4":"0.18","5":"0.52","6":"0.3458","7":"0.15","8":"0.34","9":"0.1966"},{"1":"remember something","2":"take a walk","3":"think about something","4":"0.28","5":"0.64","6":"0.3652","7":"0.09","8":"0.13","9":"0.0436"},{"1":"think about something","2":"take a walk","3":"remember something","4":"0.24","5":"0.64","6":"0.3992","7":"0.08","8":"0.13","9":"0.0550"},{"1":"reach for something","2":"become hungry","3":"kick something","4":"0.19","5":"0.59","6":"0.4016","7":"0.61","8":"0.40","9":"-0.2140"},{"1":"sit down","2":"experience pain","3":"jump up and down","4":"0.15","5":"0.58","6":"0.4372","7":"0.56","8":"0.35","9":"-0.2012"},{"1":"jump up and down","2":"think about something","3":"sit down","4":"0.34","5":"0.68","6":"0.3386","7":"0.84","8":"0.35","9":"-0.4880"},{"1":"kick something","2":"think about something","3":"jump up and down","4":"0.37","5":"0.64","6":"0.2696","7":"0.59","8":"0.27","9":"-0.3142"},{"1":"take a walk","2":"think about something","3":"jump up and down","4":"0.26","5":"0.64","6":"0.3764","7":"0.69","8":"0.27","9":"-0.4210"},{"1":"get tired","2":"jump up and down","3":"feel scared","4":"0.11","5":"0.56","6":"0.4498","7":"0.48","8":"0.41","9":"-0.0738"},{"1":"become hungry","2":"take a walk","3":"experience pain","4":"0.18","5":"0.60","6":"0.4124","7":"0.64","8":"0.41","9":"-0.2296"},{"1":"feel scared","2":"see something","3":"become hungry","4":"0.11","5":"0.57","6":"0.4544","7":"0.60","8":"0.49","9":"-0.1068"},{"1":"experience pain","2":"kick something","3":"feel scared","4":"0.12","5":"0.58","6":"0.4622","7":"0.39","8":"0.31","9":"-0.0768"},{"1":"get sick","2":"see something","3":"get tired","4":"0.39","5":"0.66","6":"0.2658","7":"0.42","8":"0.34","9":"-0.0806"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>short_list_selected_items_domain_constraints</span></code></pre></div>
+<pre><code>## # A tibble: 15 × 9
+##    target_item           causal_choice     similar_choice causal_distance_caus…¹
+##    &lt;fct&gt;                 &lt;chr&gt;             &lt;chr&gt;                           &lt;dbl&gt;
+##  1 see something         take a walk       hear something                   0.24
+##  2 hear something        take a walk       see something                    0.27
+##  3 choose what to do     feel scared       remember some…                   0.18
+##  4 remember something    take a walk       think about s…                   0.28
+##  5 think about something take a walk       remember some…                   0.24
+##  6 reach for something   become hungry     kick something                   0.19
+##  7 sit down              experience pain   jump up and d…                   0.15
+##  8 jump up and down      think about some… sit down                         0.34
+##  9 kick something        think about some… jump up and d…                   0.37
+## 10 take a walk           think about some… jump up and d…                   0.26
+## 11 get tired             jump up and down  feel scared                      0.11
+## 12 become hungry         take a walk       experience pa…                   0.18
+## 13 feel scared           see something     become hungry                    0.11
+## 14 experience pain       kick something    feel scared                      0.12
+## 15 get sick              see something     get tired                        0.39
+## # ℹ abbreviated name: ¹​causal_distance_causal_choice
+## # ℹ 5 more variables: freesort_distance_causal_choice &lt;dbl&gt;,
+## #   freesort_minus_causal_distance_causal &lt;dbl&gt;,
+## #   causal_distance_similar_choice &lt;dbl&gt;,
+## #   freesort_distance_similar_choice &lt;dbl&gt;,
+## #   freesort_minus_causal_distance_similar &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="at">file =</span> <span class="st">&quot;snapshots_study1_pilot_analysis/short_list_domain_constraints.csv&quot;</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>          short_list_selected_items_domain_constraints)</span></code></pre></div>
 </div>
-<div id="plot-short-list-1" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Plot short list</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>short_list_table_domain_constraints <span class="ot">&lt;-</span> short_list_selected_items_domain_constraints <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;see something&quot;</span>, <span class="st">&quot;hear something&quot;</span>, <span class="st">&quot;remember something&quot;</span>, <span class="st">&quot;think about something&quot;</span>, <span class="st">&quot;choose what to do&quot;</span>) <span class="sc">~</span> <span class="st">&quot;mind&quot;</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;reach for something&quot;</span>, <span class="st">&quot;sit down&quot;</span>, <span class="st">&quot;jump up and down&quot;</span>, <span class="st">&quot;kick something&quot;</span>, <span class="st">&quot;take a walk&quot;</span>) <span class="sc">~</span> <span class="st">&quot;action&quot;</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;get tired&quot;</span>, <span class="st">&quot;become hungry&quot;</span>, <span class="st">&quot;feel scared&quot;</span>, <span class="st">&quot;experience pain&quot;</span>, <span class="st">&quot;get sick&quot;</span>) <span class="sc">~</span> <span class="st">&quot;body&quot;</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;other&quot;</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>    ),</span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>    <span class="at">causal_choice =</span> <span class="fu">paste0</span>(causal_choice, <span class="st">&quot; (&quot;</span>, causal_distance_causal_choice, <span class="st">&quot;, &quot;</span>, freesort_distance_causal_choice, <span class="st">&quot;)&quot;</span>),</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    <span class="at">similar_choice =</span> <span class="fu">paste0</span>(similar_choice, <span class="st">&quot; (&quot;</span>, causal_distance_similar_choice, <span class="st">&quot;, &quot;</span>, freesort_distance_similar_choice, <span class="st">&quot;)&quot;</span>),</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>        <span class="co">#inline styles to highlight text for &#39;target_item&#39; based on group</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>    <span class="at">target_item =</span> <span class="fu">case_when</span>(</span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;mind&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #f7bf2a; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;action&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #69ad44; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;body&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #f36b2d; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> target_item</span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>    )</span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>  <span class="co">#replace group labels with blanks after the first row of each group</span></span>
-<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
-<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>, group, <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>  <span class="fu">select</span>(group, target_item, causal_choice, similar_choice)  <span class="co"># Keep the domain column</span></span>
-<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a></span>
-<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>df_table_domain_constraints <span class="ot">&lt;-</span> short_list_table_domain_constraints <span class="sc">%&gt;%</span></span>
-<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Target and Choice Items&quot;</span></span>
-<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;Domain&quot;</span>,</span>
-<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a>    <span class="at">target_item =</span> <span class="st">&quot;Target Item&quot;</span>,</span>
-<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a>    <span class="at">causal_choice =</span> <span class="fu">md</span>(<span class="st">&quot;Causal Choice&lt;br&gt;(Causal Distance, Freesort Distance)&quot;</span>),</span>
-<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a>    <span class="at">similar_choice =</span> <span class="fu">md</span>(<span class="st">&quot;Similar Choice&lt;br&gt;(Causal Distance, Freesort Distance)&quot;</span>)</span>
-<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-37"><a href="#cb15-37" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> target_item) <span class="sc">%&gt;%</span>  <span class="co"># Render markdown for inline styles</span></span>
-<span id="cb15-38"><a href="#cb15-38" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> <span class="fu">c</span>(causal_choice, similar_choice)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-39"><a href="#cb15-39" tabindex="-1"></a>  <span class="co">#custom styles for domain (group) column</span></span>
-<span id="cb15-40"><a href="#cb15-40" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb15-41"><a href="#cb15-41" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb15-42"><a href="#cb15-42" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#f7bf2a&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)  </span>
-<span id="cb15-43"><a href="#cb15-43" tabindex="-1"></a>    ),</span>
-<span id="cb15-44"><a href="#cb15-44" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb15-45"><a href="#cb15-45" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
-<span id="cb15-46"><a href="#cb15-46" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;mind&quot;</span></span>
-<span id="cb15-47"><a href="#cb15-47" tabindex="-1"></a>    )</span>
-<span id="cb15-48"><a href="#cb15-48" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-49"><a href="#cb15-49" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb15-50"><a href="#cb15-50" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb15-51"><a href="#cb15-51" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#69ad44&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)</span>
-<span id="cb15-52"><a href="#cb15-52" tabindex="-1"></a>    ),</span>
-<span id="cb15-53"><a href="#cb15-53" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb15-54"><a href="#cb15-54" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
-<span id="cb15-55"><a href="#cb15-55" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;action&quot;</span></span>
-<span id="cb15-56"><a href="#cb15-56" tabindex="-1"></a>    )</span>
-<span id="cb15-57"><a href="#cb15-57" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-58"><a href="#cb15-58" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb15-59"><a href="#cb15-59" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb15-60"><a href="#cb15-60" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#f36b2d&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>) </span>
-<span id="cb15-61"><a href="#cb15-61" tabindex="-1"></a>    ),</span>
-<span id="cb15-62"><a href="#cb15-62" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb15-63"><a href="#cb15-63" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
-<span id="cb15-64"><a href="#cb15-64" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;body&quot;</span></span>
-<span id="cb15-65"><a href="#cb15-65" tabindex="-1"></a>    )</span>
-<span id="cb15-66"><a href="#cb15-66" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-67"><a href="#cb15-67" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb15-68"><a href="#cb15-68" tabindex="-1"></a>    <span class="at">table.font.names =</span> <span class="st">&quot;Arial&quot;</span></span>
-<span id="cb15-69"><a href="#cb15-69" tabindex="-1"></a>  )</span>
-<span id="cb15-70"><a href="#cb15-70" tabindex="-1"></a></span>
-<span id="cb15-71"><a href="#cb15-71" tabindex="-1"></a>df_table_domain_constraints</span></code></pre></div>
-<div id="peukzchedj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#peukzchedj table {
+<div id="plot-short-list-1" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Plot short list</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>short_list_table_domain_constraints <span class="ot">&lt;-</span> short_list_selected_items_domain_constraints <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;see something&quot;</span>, <span class="st">&quot;hear something&quot;</span>, <span class="st">&quot;remember something&quot;</span>, <span class="st">&quot;think about something&quot;</span>, <span class="st">&quot;choose what to do&quot;</span>) <span class="sc">~</span> <span class="st">&quot;mind&quot;</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;reach for something&quot;</span>, <span class="st">&quot;sit down&quot;</span>, <span class="st">&quot;jump up and down&quot;</span>, <span class="st">&quot;kick something&quot;</span>, <span class="st">&quot;take a walk&quot;</span>) <span class="sc">~</span> <span class="st">&quot;action&quot;</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>      target_item <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;get tired&quot;</span>, <span class="st">&quot;become hungry&quot;</span>, <span class="st">&quot;feel scared&quot;</span>, <span class="st">&quot;experience pain&quot;</span>, <span class="st">&quot;get sick&quot;</span>) <span class="sc">~</span> <span class="st">&quot;body&quot;</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">&quot;other&quot;</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>    ),</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>    <span class="at">causal_choice =</span> <span class="fu">paste0</span>(causal_choice, <span class="st">&quot; (&quot;</span>, causal_distance_causal_choice, <span class="st">&quot;, &quot;</span>, freesort_distance_causal_choice, <span class="st">&quot;)&quot;</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>    <span class="at">similar_choice =</span> <span class="fu">paste0</span>(similar_choice, <span class="st">&quot; (&quot;</span>, causal_distance_similar_choice, <span class="st">&quot;, &quot;</span>, freesort_distance_similar_choice, <span class="st">&quot;)&quot;</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>        <span class="co">#inline styles to highlight text for &#39;target_item&#39; based on group</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    <span class="at">target_item =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;mind&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #f7bf2a; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;action&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #69ad44; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>      group <span class="sc">==</span> <span class="st">&quot;body&quot;</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;&lt;span style=&#39;color: #f36b2d; font-weight: bold;&#39;&gt;&quot;</span>, target_item, <span class="st">&quot;&lt;/span&gt;&quot;</span>),</span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> target_item</span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>    )</span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>  <span class="co">#replace group labels with blanks after the first row of each group</span></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">ifelse</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">1</span>, group, <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>  <span class="fu">select</span>(group, target_item, causal_choice, similar_choice)  <span class="co"># Keep the domain column</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>df_table_domain_constraints <span class="ot">&lt;-</span> short_list_table_domain_constraints <span class="sc">%&gt;%</span></span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Target and Choice Items&quot;</span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;Domain&quot;</span>,</span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a>    <span class="at">target_item =</span> <span class="st">&quot;Target Item&quot;</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a>    <span class="at">causal_choice =</span> <span class="fu">md</span>(<span class="st">&quot;Causal Choice&lt;br&gt;(Causal Distance, Freesort Distance)&quot;</span>),</span>
+<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a>    <span class="at">similar_choice =</span> <span class="fu">md</span>(<span class="st">&quot;Similar Choice&lt;br&gt;(Causal Distance, Freesort Distance)&quot;</span>)</span>
+<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> target_item) <span class="sc">%&gt;%</span>  <span class="co"># Render markdown for inline styles</span></span>
+<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> <span class="fu">c</span>(causal_choice, similar_choice)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a>  <span class="co">#custom styles for domain (group) column</span></span>
+<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#f7bf2a&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)  </span>
+<span id="cb18-43"><a href="#cb18-43" tabindex="-1"></a>    ),</span>
+<span id="cb18-44"><a href="#cb18-44" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb18-45"><a href="#cb18-45" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
+<span id="cb18-46"><a href="#cb18-46" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;mind&quot;</span></span>
+<span id="cb18-47"><a href="#cb18-47" tabindex="-1"></a>    )</span>
+<span id="cb18-48"><a href="#cb18-48" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-49"><a href="#cb18-49" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb18-50"><a href="#cb18-50" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb18-51"><a href="#cb18-51" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#69ad44&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb18-52"><a href="#cb18-52" tabindex="-1"></a>    ),</span>
+<span id="cb18-53"><a href="#cb18-53" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb18-54"><a href="#cb18-54" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
+<span id="cb18-55"><a href="#cb18-55" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;action&quot;</span></span>
+<span id="cb18-56"><a href="#cb18-56" tabindex="-1"></a>    )</span>
+<span id="cb18-57"><a href="#cb18-57" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-58"><a href="#cb18-58" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb18-59"><a href="#cb18-59" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb18-60"><a href="#cb18-60" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;#f36b2d&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>) </span>
+<span id="cb18-61"><a href="#cb18-61" tabindex="-1"></a>    ),</span>
+<span id="cb18-62"><a href="#cb18-62" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb18-63"><a href="#cb18-63" tabindex="-1"></a>      <span class="at">columns =</span> group,</span>
+<span id="cb18-64"><a href="#cb18-64" tabindex="-1"></a>      <span class="at">rows =</span> group <span class="sc">==</span> <span class="st">&quot;body&quot;</span></span>
+<span id="cb18-65"><a href="#cb18-65" tabindex="-1"></a>    )</span>
+<span id="cb18-66"><a href="#cb18-66" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-67"><a href="#cb18-67" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb18-68"><a href="#cb18-68" tabindex="-1"></a>    <span class="at">table.font.names =</span> <span class="st">&quot;Arial&quot;</span></span>
+<span id="cb18-69"><a href="#cb18-69" tabindex="-1"></a>  )</span>
+<span id="cb18-70"><a href="#cb18-70" tabindex="-1"></a></span>
+<span id="cb18-71"><a href="#cb18-71" tabindex="-1"></a>df_table_domain_constraints</span></code></pre></div>
+<div id="arxddwtmsn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#arxddwtmsn table {
 font-family: Arial;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#peukzchedj thead, #peukzchedj tbody, #peukzchedj tfoot, #peukzchedj tr, #peukzchedj td, #peukzchedj th {
+#arxddwtmsn thead, #arxddwtmsn tbody, #arxddwtmsn tfoot, #arxddwtmsn tr, #arxddwtmsn td, #arxddwtmsn th {
 border-style: none;
 }
-#peukzchedj p {
+#arxddwtmsn p {
 margin: 0;
 padding: 0;
 }
-#peukzchedj .gt_table {
+#arxddwtmsn .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -5574,11 +5607,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#peukzchedj .gt_caption {
+#arxddwtmsn .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#peukzchedj .gt_title {
+#arxddwtmsn .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -5589,7 +5622,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#peukzchedj .gt_subtitle {
+#arxddwtmsn .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -5600,7 +5633,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#peukzchedj .gt_heading {
+#arxddwtmsn .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -5611,12 +5644,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#peukzchedj .gt_bottom_border {
+#arxddwtmsn .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#peukzchedj .gt_col_headings {
+#arxddwtmsn .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5630,7 +5663,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#peukzchedj .gt_col_heading {
+#arxddwtmsn .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5649,7 +5682,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#peukzchedj .gt_column_spanner_outer {
+#arxddwtmsn .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5660,13 +5693,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#peukzchedj .gt_column_spanner_outer:first-child {
+#arxddwtmsn .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#peukzchedj .gt_column_spanner_outer:last-child {
+#arxddwtmsn .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#peukzchedj .gt_column_spanner {
+#arxddwtmsn .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -5677,10 +5710,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#peukzchedj .gt_spanner_row {
+#arxddwtmsn .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#peukzchedj .gt_group_heading {
+#arxddwtmsn .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5705,7 +5738,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#peukzchedj .gt_empty_group_heading {
+#arxddwtmsn .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -5719,13 +5752,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#peukzchedj .gt_from_md > :first-child {
+#arxddwtmsn .gt_from_md > :first-child {
 margin-top: 0;
 }
-#peukzchedj .gt_from_md > :last-child {
+#arxddwtmsn .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#peukzchedj .gt_row {
+#arxddwtmsn .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5743,7 +5776,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#peukzchedj .gt_stub {
+#arxddwtmsn .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5755,7 +5788,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#peukzchedj .gt_stub_row_group {
+#arxddwtmsn .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5768,13 +5801,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#peukzchedj .gt_row_group_first td {
+#arxddwtmsn .gt_row_group_first td {
 border-top-width: 2px;
 }
-#peukzchedj .gt_row_group_first th {
+#arxddwtmsn .gt_row_group_first th {
 border-top-width: 2px;
 }
-#peukzchedj .gt_summary_row {
+#arxddwtmsn .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5783,14 +5816,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#peukzchedj .gt_first_summary_row {
+#arxddwtmsn .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#peukzchedj .gt_first_summary_row.thick {
+#arxddwtmsn .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#peukzchedj .gt_last_summary_row {
+#arxddwtmsn .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5799,7 +5832,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#peukzchedj .gt_grand_summary_row {
+#arxddwtmsn .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5808,7 +5841,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#peukzchedj .gt_first_grand_summary_row {
+#arxddwtmsn .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5817,7 +5850,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#peukzchedj .gt_last_grand_summary_row_top {
+#arxddwtmsn .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5826,10 +5859,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#peukzchedj .gt_striped {
+#arxddwtmsn .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#peukzchedj .gt_table_body {
+#arxddwtmsn .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5837,7 +5870,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#peukzchedj .gt_footnotes {
+#arxddwtmsn .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5850,7 +5883,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#peukzchedj .gt_footnote {
+#arxddwtmsn .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -5858,7 +5891,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#peukzchedj .gt_sourcenotes {
+#arxddwtmsn .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5871,64 +5904,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#peukzchedj .gt_sourcenote {
+#arxddwtmsn .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#peukzchedj .gt_left {
+#arxddwtmsn .gt_left {
 text-align: left;
 }
-#peukzchedj .gt_center {
+#arxddwtmsn .gt_center {
 text-align: center;
 }
-#peukzchedj .gt_right {
+#arxddwtmsn .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#peukzchedj .gt_font_normal {
+#arxddwtmsn .gt_font_normal {
 font-weight: normal;
 }
-#peukzchedj .gt_font_bold {
+#arxddwtmsn .gt_font_bold {
 font-weight: bold;
 }
-#peukzchedj .gt_font_italic {
+#arxddwtmsn .gt_font_italic {
 font-style: italic;
 }
-#peukzchedj .gt_super {
+#arxddwtmsn .gt_super {
 font-size: 65%;
 }
-#peukzchedj .gt_footnote_marks {
+#arxddwtmsn .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#peukzchedj .gt_asterisk {
+#arxddwtmsn .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#peukzchedj .gt_indent_1 {
+#arxddwtmsn .gt_indent_1 {
 text-indent: 5px;
 }
-#peukzchedj .gt_indent_2 {
+#arxddwtmsn .gt_indent_2 {
 text-indent: 10px;
 }
-#peukzchedj .gt_indent_3 {
+#arxddwtmsn .gt_indent_3 {
 text-indent: 15px;
 }
-#peukzchedj .gt_indent_4 {
+#arxddwtmsn .gt_indent_4 {
 text-indent: 20px;
 }
-#peukzchedj .gt_indent_5 {
+#arxddwtmsn .gt_indent_5 {
 text-indent: 25px;
 }
-#peukzchedj .katex-display {
+#arxddwtmsn .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#peukzchedj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#arxddwtmsn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -6011,13 +6044,59 @@ height: 0px !important;
   
 </table>
 </div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">gtsave</span>(df_table_domain_constraints,</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>       <span class="st">&quot;figures/item-selection/item-selection-short-Counterfactual-task-constrained.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">gtsave</span>(df_table_domain_constraints,</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>       <span class="st">&quot;figures/item-selection/item-selection-short-Counterfactual-task-constrained.png&quot;</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="end" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> END</h1>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">#placeholder</span></span></code></pre></div>
+<div id="effect-size-predictions-9302025" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Effect-Size Predictions (9/30/2025)</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>short_list_selected_items_domain_constraints</span></code></pre></div>
+<pre><code>## # A tibble: 15 × 9
+##    target_item           causal_choice     similar_choice causal_distance_caus…¹
+##    &lt;fct&gt;                 &lt;chr&gt;             &lt;chr&gt;                           &lt;dbl&gt;
+##  1 see something         take a walk       hear something                   0.24
+##  2 hear something        take a walk       see something                    0.27
+##  3 choose what to do     feel scared       remember some…                   0.18
+##  4 remember something    take a walk       think about s…                   0.28
+##  5 think about something take a walk       remember some…                   0.24
+##  6 reach for something   become hungry     kick something                   0.19
+##  7 sit down              experience pain   jump up and d…                   0.15
+##  8 jump up and down      think about some… sit down                         0.34
+##  9 kick something        think about some… jump up and d…                   0.37
+## 10 take a walk           think about some… jump up and d…                   0.26
+## 11 get tired             jump up and down  feel scared                      0.11
+## 12 become hungry         take a walk       experience pa…                   0.18
+## 13 feel scared           see something     become hungry                    0.11
+## 14 experience pain       kick something    feel scared                      0.12
+## 15 get sick              see something     get tired                        0.39
+## # ℹ abbreviated name: ¹​causal_distance_causal_choice
+## # ℹ 5 more variables: freesort_distance_causal_choice &lt;dbl&gt;,
+## #   freesort_minus_causal_distance_causal &lt;dbl&gt;,
+## #   causal_distance_similar_choice &lt;dbl&gt;,
+## #   freesort_distance_similar_choice &lt;dbl&gt;,
+## #   freesort_minus_causal_distance_similar &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>d_es_theoretical <span class="ot">&lt;-</span> short_list_selected_items_domain_constraints <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">es_theoretical =</span> freesort_minus_causal_distance_causal <span class="sc">-</span> freesort_minus_causal_distance_similar) </span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>mean_es <span class="ot">&lt;-</span> d_es_theoretical <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_effectsize =</span> <span class="fu">mean</span>(es_theoretical)) </span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>plot_es_theoretical <span class="ot">&lt;-</span> d_es_theoretical <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> target_item, <span class="at">y =</span> es_theoretical)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> .<span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">data =</span> mean_es, </span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">yintercept =</span> mean_effectsize),</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) </span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;theoretical_effectsizes.png&quot;</span>, plot_es_theoretical)</span></code></pre></div>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="at">file =</span> <span class="st">&quot;theoretical_effectsizes.csv&quot;</span>, d_es_theoretical)</span></code></pre></div>
+</div>
+<div id="end" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> END</h1>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">#placeholder</span></span></code></pre></div>
 </div>
 
 

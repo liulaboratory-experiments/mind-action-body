@@ -184,7 +184,9 @@ excluded_participants <- data_causation %>%
     .groups = "drop"
   ) %>%
   filter(num_incorrect >= 2) %>% #identify participants with x or more incorrect
-  pull(subject_id) 
+  pull(subject_id)
+
+print(excluded_participants)
 
 data_causation <- data_causation %>%
   filter(!subject_id %in% excluded_participants)
@@ -192,7 +194,7 @@ data_causation <- data_causation %>%
 data_freesort <- data_freesort %>%
   filter(!subject_id %in% excluded_participants)
 
-#excluded 1 subject: subj_14
+#excluded 0 subjects
 
 ```
 
