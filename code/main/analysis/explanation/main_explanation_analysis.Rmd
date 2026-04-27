@@ -55,6 +55,25 @@ base_path <- here("code", "main")
 freesort_and_causal_distances_df_path <- paste0(base_path,
                                                 "/analysis/measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
 
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
 ```
 
 
@@ -135,6 +154,21 @@ table(df_demographics$race)
 
 ```
 
+```{r}
+dat_ex_trials_summarized <- dat_ex_plot %>%
+  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>%
+  summarise(
+    mean_satisfactory = mean(satisfactory, na.rm = TRUE),
+    se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
+    .groups = "drop") %>% 
+  mutate(explanation = case_when(
+    explanation_type == "Direct" ~ causal_itemA,
+    explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
+  select(itemB, explanation, explanation_type, mean_satisfactory, se_satisfactory)
+
+rmarkdown::paged_table(dat_ex_trials_summarized)
+```
+
 ## Summary stats
 
 ```{r}
@@ -145,7 +179,12 @@ dat_ex_plot <- dat_ex %>%
   pivot_longer(cols = c(Direct, Intrinsic), 
                names_to = "explanation_type",
                values_to = "satisfactory") %>% 
-  mutate(explanation_type = factor(explanation_type, levels = c("Direct", "Intrinsic"))) 
+  mutate(explanation_type = factor(explanation_type, levels = c("Direct", "Intrinsic"))) %>% 
+  mutate(explanation = case_when(
+    explanation_type == "Direct" ~ causal_itemA,
+    explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
+  select(subject_id, itemB, explanation, explanation_type, satisfactory) %>% 
+  arrange(subject_id, itemB)
 
 rmarkdown::paged_table(dat_ex_plot)
 
@@ -155,7 +194,11 @@ dat_ex_trials_summarized <- dat_ex_plot %>%
   summarise(
     mean_satisfactory = mean(satisfactory, na.rm = TRUE),
     se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
-    .groups = "drop")
+    .groups = "drop") %>% 
+  mutate(explanation = case_when(
+    explanation_type == "Direct" ~ causal_itemA,
+    explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
+  select(itemB, explanation, explanation_type, mean_satisfactory, se_satisfactory)
 
 rmarkdown::paged_table(dat_ex_trials_summarized)
 
@@ -174,11 +217,51 @@ rmarkdown::paged_table(dat_ex_condition_level)
 
 ```
 
+
+```{r}
+dat_items <- dat_ex_trials_summarized %>% 
+  distinct(itemB, causal_itemA, similar_itemA) %>% 
+  rename("Direct" = causal_itemA,
+         "Intrinsic" = similar_itemA) %>% 
+  pivot_longer(cols = c(Direct, Intrinsic),
+               names_to = "item_type",
+               values_to = "item")
+
+dat_numbers <- dat_ex_trials_summarized %>% 
+  select(mean_satisfactory, se_satisfactory)
+
+dat_trials_summarized <- cbind(dat_items, dat_numbers)
+
+
+#==
+
+
+
+```
+
+
 # Figures
 
 ## Figure with slope
 
 ```{r}
+dat_ex_plot_long <- dat_ex_plot %>%
+      mutate(causal_itemA = recode(causal_itemA, !!!short_names),
+             similar_itemA = recode(similar_itemA, !!!short_names)) %>%
+  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
+               names_to = "item_type",
+               values_to = "item") %>%
+  group_by(subject_id, itemB) %>%
+  slice(-c(2, 3)) 
+
+label_ex_data <- dat_ex_plot_long %>%
+  ungroup() %>% 
+  distinct(itemB, explanation_type, item)
+
+dat_ex_trials_summarized %>% 
+  ungroup() %>% 
+  distinct(itemB, explanation_type, item, mean_satisfactory)
+
 fig_slope <- dat_ex_plot %>% 
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
@@ -186,6 +269,10 @@ fig_slope <- dat_ex_plot %>%
   geom_point(data = dat_ex_trials_summarized, 
              aes(x = explanation_type, y = mean_satisfactory), 
              alpha = 0.4, size = 5) +
+  # geom_text(aes(label = itemB), data = label_ex_data) +
+  geom_text(data = label_ex_data, aes(label = item), 
+            y = 
+            y = 95, vjust = 1, size = 6) +
   geom_line(data = dat_ex_trials_summarized
             , aes(x = explanation_type, 
                   y = mean_satisfactory, 
@@ -216,7 +303,7 @@ fig_slope
 
 # fig_slope <- ggsave("figures/explanation_slope_tall.png", width = 3, height = 6, plot = fig_slope, bg = "white")
 
-fig_slope <- ggsave("figures/explanation_slope_tall.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+fig_slope <- ggsave("figures/explanation_slope_tall.png", width = 3, height = 6, plot = fig_slope, bg = "white")
 
 
 ```
@@ -264,54 +351,7 @@ geom_text(
         ) +
   ylim(0, 100)
 
-
 ```
-
-
-## Figure with slope, colors
-colors as in black and white
-```{r}
-
-fig_slope_color <- dat_ex_plot %>% 
-  ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
-  stat_summary(fun.data = mean_se, geom = "bar", aes(color = "black")) +
-  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
-  geom_point(data = dat_ex_trials_summarized, 
-             aes(x = explanation_type, y = mean_satisfactory,
-                 fill = explanation_type),
-             alpha = 0.4, size = 5, shape = 21, color = "black", stroke = 1.5) +
-  geom_line(data = dat_ex_trials_summarized
-            , aes(x = explanation_type, 
-                  y = mean_satisfactory, 
-                  group = interaction(itemB, causal_itemA, similar_itemA)), 
-            alpha = 0.2, color = "black") +
-  labs(y = "How Satisfactory?", 
-       x = "Explanation Type",
-       fill = "Explanation Type") +
-  theme_cowplot() +
-  scale_fill_manual(values = c("#CCCCCC", "white")) +
-  scale_color_manual(values = c("#CCCCCC", "white")) +
-  theme(axis.text.x = element_text(size = 20),
-        axis.text.y = element_text(size = 25),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 25),
-        legend.title = element_text(size = 25),
-        legend.position = "top",
-        legend.justification = "center",
-        legend.key.size = unit(1, "cm"),
-        legend.spacing.x = unit(1, "cm")#,
-        # aspect.ratio = 1.5  #this or fig.width = 3, fig.height = 5 on top of code chunk or specify size in ggsave()
-        ) +
-  ylim(0, 100)
-
-fig_slope_color
-
-fig_slope_color <- ggsave("figures/explanation_slope_tall_color.png", width = 3, height = 6, plot = fig_slope_color, bg = "white")
-
-
-```
-
 
 ## Figure facet by trial
 

@@ -474,7 +474,7 @@ write_csv(dat_plot_distances, "dat_counterfactuals_distances.csv")
 analysis_path <- here("code", "main", "analysis")
 
 dat_plot_distances <- read_csv(paste0(analysis_path,
-                "/study2-counterfactuals/dat_counterfactuals_distances.csv"))
+                "/counterfactuals/dat_counterfactuals_distances.csv"))
 
 ```
 
@@ -708,6 +708,7 @@ confint(model_effect_of_counterfactual_type)
 check_model(model_effect_of_counterfactual_type)
 ```
 
+# THE END
 
 ```{r}
 

@@ -1796,12 +1796,20 @@ flatten_rdm <- function(matrix) {
   matrix[upper.tri(matrix)]
 }
 
-# Extract upper triangles
-causation_rdm_correlation <- cor(flatten_rdm(as.matrix(df_causal_rdm_causation_first)),
-                                 flatten_rdm(as.matrix(df_causal_rdm_freesort_first)),
-                                 # method = "pearson")
-                                 method = "kendall")
+m1 <- as.matrix(df_causal_rdm_causation_first)
+m2 <- as.matrix(df_causal_rdm_freesort_first)
 
+diag(m1) <- NA
+diag(m2) <- NA
+
+# Don't extract upper triangles - causal task
+causation_rdm_correlation <- cor(as.vector(m1),
+                                 as.vector(m2),
+                                 # method = "pearson")
+                                 method = "kendall",
+                                 use = "complete.obs")
+
+# Extract upper triangles - freesort task
 freesort_rdm_correlation <- cor(flatten_rdm(as.matrix(df_freesort_rdm_causation_first)),
                                 flatten_rdm(as.matrix(df_freesort_rdm_freesort_first)),
                                 # method = "pearson")
