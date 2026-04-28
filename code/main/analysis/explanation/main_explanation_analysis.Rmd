@@ -74,8 +74,26 @@ short_names <- c(
   "experience pain" = "pain",
   "get tired" = "tired")
 
-```
+compact_names <- c(
+  "see something" = "see\nsomething",
+  "hear something" = "hear\nsomething",
+  "choose what to do" = "choose",
+  "remember something" = "remember\nsomething",
+  "think about something" = "think\nabout\nsomething",
+  
+  "take a walk" = "take\na walk", 
+  "jump up and down" = "jump up\nand down",
+  "reach for something" = "reach for\nsomething",
+  "sit down" = "sit down",
+  "kick something" = "kick\nsomething",
+  
+  "get sick" = "get sick",
+  "feel scared" = "feel\nscared",
+  "become hungry" = "become\nhungry",
+  "experience pain" = "experience\npain",
+  "get tired" = "get tired")
 
+```
 
 # Prepare data
 
@@ -111,7 +129,8 @@ subjects_to_exclude_ex <- d_ex %>%
   pull(subject_id) %>% 
   unique()
 
-paste("subjects excluded: ", length(subjects_to_exclude_ex))
+paste("no. of subjects excluded: ", length(subjects_to_exclude_ex))
+paste0("subjects excluded:")
 paste(subjects_to_exclude_ex, collapse = ", ")
 
 dat_ex <- d_ex %>% 
@@ -134,7 +153,8 @@ dat_ex <- d_ex %>%
   rename("causal_itemA" = item_causal_itemA,
          "similar_itemA" = item_similar_itemA, 
          "causal_itemA_explanation" = response_causal_itemA,
-         "similar_itemA_explanation" = response_similar_itemA) 
+         "similar_itemA_explanation" = response_similar_itemA,
+         "target" = itemB) 
 
 rmarkdown::paged_table(dat_ex)
 
@@ -154,26 +174,11 @@ table(df_demographics$race)
 
 ```
 
-```{r}
-dat_ex_trials_summarized <- dat_ex_plot %>%
-  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>%
-  summarise(
-    mean_satisfactory = mean(satisfactory, na.rm = TRUE),
-    se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
-    .groups = "drop") %>% 
-  mutate(explanation = case_when(
-    explanation_type == "Direct" ~ causal_itemA,
-    explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
-  select(itemB, explanation, explanation_type, mean_satisfactory, se_satisfactory)
-
-rmarkdown::paged_table(dat_ex_trials_summarized)
-```
-
 ## Summary stats
 
 ```{r}
 # Raw Long form data
-dat_ex_plot <- dat_ex %>% 
+dat_ex_long <- dat_ex %>% 
   rename("Direct" = causal_itemA_explanation,
          "Intrinsic" = similar_itemA_explanation) %>% 
   pivot_longer(cols = c(Direct, Intrinsic), 
@@ -183,32 +188,22 @@ dat_ex_plot <- dat_ex %>%
   mutate(explanation = case_when(
     explanation_type == "Direct" ~ causal_itemA,
     explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
-  select(subject_id, itemB, explanation, explanation_type, satisfactory) %>% 
-  arrange(subject_id, itemB)
+  select(subject_id, target, explanation, explanation_type, satisfactory) %>% 
+  arrange(subject_id, target)
 
-rmarkdown::paged_table(dat_ex_plot)
+rmarkdown::paged_table(dat_ex_long)
 
 # Trial-level summary
-dat_ex_trials_summarized <- dat_ex_plot %>%
-  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>%
-  summarise(
-    mean_satisfactory = mean(satisfactory, na.rm = TRUE),
-    se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
-    .groups = "drop") %>% 
-  mutate(explanation = case_when(
-    explanation_type == "Direct" ~ causal_itemA,
-    explanation_type == "Intrinsic" ~ similar_itemA)) %>% 
-  select(itemB, explanation, explanation_type, mean_satisfactory, se_satisfactory)
+dat_ex_trials_summarized <- dat_ex_long %>%
+  group_by(target, explanation, explanation_type) %>%
+  summarise(mean_satisfactory = mean(satisfactory, na.rm = TRUE),
+            se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
+            .groups = "drop") 
 
 rmarkdown::paged_table(dat_ex_trials_summarized)
 
-# Condition-level
-dat_ex_condition_level <- dat_ex %>% 
-  rename("Direct" = causal_itemA_explanation,
-         "Intrinsic" = similar_itemA_explanation) %>% 
-  pivot_longer(cols = c(Direct, Intrinsic), 
-               names_to = "explanation_type",
-               values_to = "satisfactory") %>% 
+# Condition-level summary
+dat_ex_condition_level <- dat_ex_long %>% 
   group_by(explanation_type) %>% 
   summarize(mean = mean(satisfactory, na.rm = TRUE),
             sd = sd(satisfactory, na.rm = TRUE))
@@ -217,66 +212,26 @@ rmarkdown::paged_table(dat_ex_condition_level)
 
 ```
 
-
-```{r}
-dat_items <- dat_ex_trials_summarized %>% 
-  distinct(itemB, causal_itemA, similar_itemA) %>% 
-  rename("Direct" = causal_itemA,
-         "Intrinsic" = similar_itemA) %>% 
-  pivot_longer(cols = c(Direct, Intrinsic),
-               names_to = "item_type",
-               values_to = "item")
-
-dat_numbers <- dat_ex_trials_summarized %>% 
-  select(mean_satisfactory, se_satisfactory)
-
-dat_trials_summarized <- cbind(dat_items, dat_numbers)
-
-
-#==
-
-
-
-```
-
-
 # Figures
 
 ## Figure with slope
 
-```{r}
-dat_ex_plot_long <- dat_ex_plot %>%
-      mutate(causal_itemA = recode(causal_itemA, !!!short_names),
-             similar_itemA = recode(similar_itemA, !!!short_names)) %>%
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>%
-  slice(-c(2, 3)) 
-
-label_ex_data <- dat_ex_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, explanation_type, item)
-
-dat_ex_trials_summarized %>% 
-  ungroup() %>% 
-  distinct(itemB, explanation_type, item, mean_satisfactory)
-
-fig_slope <- dat_ex_plot %>% 
+```{r, fig.width = 3.5, fig.height = 6}
+fig_slope <- dat_ex_long %>% 
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
   geom_point(data = dat_ex_trials_summarized, 
              aes(x = explanation_type, y = mean_satisfactory), 
              alpha = 0.4, size = 5) +
-  # geom_text(aes(label = itemB), data = label_ex_data) +
-  geom_text(data = label_ex_data, aes(label = item), 
-            y = 
-            y = 95, vjust = 1, size = 6) +
-  geom_line(data = dat_ex_trials_summarized
-            , aes(x = explanation_type, 
-                  y = mean_satisfactory, 
-                  group = interaction(itemB, causal_itemA, similar_itemA)), 
+  # geom_text(data = dat_ex_trials_summarized %>%
+  #             mutate(explanation = recode(explanation, !!!short_names)),
+  #           aes(label = explanation, y = mean_satisfactory),
+  #           vjust = 1, size = 6) +
+  geom_line(data = dat_ex_trials_summarized, 
+            aes(x = explanation_type, 
+                y = mean_satisfactory, 
+                group = target), 
             alpha = 0.2, color = "black") +
   labs(y = "How Satisfactory?", 
        x = "Explanation Type",
@@ -292,121 +247,39 @@ fig_slope <- dat_ex_plot %>%
         legend.position = "top",
         legend.justification = "center",
         legend.key.size = unit(1, "cm"),
-        # aspect.ratio = 1.5,  #this or fig.width = 3, fig.height = 5 on top of code chunk or specify size in ggsave()
         legend.spacing.x = unit(1, "cm")
         ) +
   ylim(0, 100)
 
 fig_slope
 
-# fig_slope <- ggsave("figures/explanation_slope.png", plot = fig_slope, bg = "white") #no need to specify size because using aspect.ratio in theme()
-
-# fig_slope <- ggsave("figures/explanation_slope_tall.png", width = 3, height = 6, plot = fig_slope, bg = "white")
-
-fig_slope <- ggsave("figures/explanation_slope_tall.png", width = 3, height = 6, plot = fig_slope, bg = "white")
-
+fig_slope <- ggsave("figures/explanation_slope.png", width = 3, height = 6, plot = fig_slope, bg = "white")
 
 ```
 
-## for mbc pbs talk 4/17/26
-
-```{r, fig.height = 12, fig.width = 8}
-dat_ex_plot %>% 
+```{r}
+dat_ex_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
-  stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
-  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
-  geom_point(data = dat_ex_trials_summarized, 
-             aes(x = explanation_type, y = mean_satisfactory), 
-             alpha = 0.4, size = 5) +
-geom_text(
-  data = dat_ex_trials_summarized,
-  aes(
-    x = explanation_type,
-    y = mean_satisfactory,
-    label = itemB
-  )
-) +
-  # geom_text(aes(label = itemB), data = item_labels) +
-  geom_line(data = dat_ex_trials_summarized
-            , aes(x = explanation_type, 
-                  y = mean_satisfactory, 
-                  group = interaction(itemB, causal_itemA, similar_itemA)), 
-            alpha = 0.2, color = "black") +
-  labs(y = "How Satisfactory?", 
-       x = "Explanation Type",
-       fill = "Explanation Type") +
-  theme_cowplot() +
-  scale_fill_manual(values = c("#CCCCCC", "white")) +
-  theme(axis.text.x = element_text(size = 20),
-        axis.text.y = element_text(size = 25),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 25),
-        legend.title = element_text(size = 25),
-        legend.position = "top",
-        legend.justification = "center",
-        legend.key.size = unit(1, "cm"),
-        # aspect.ratio = 1.5,  #this or fig.width = 3, fig.height = 5 on top of code chunk or specify size in ggsave()
-        legend.spacing.x = unit(1, "cm")
-        ) +
-  ylim(0, 100)
-
+  stat_summary(fun = mean, geom = "bar", color = "black") +
+  geom_jitter(width = .05, alpha = .1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) 
 ```
 
 ## Figure facet by trial
 
 ```{r, fig.width = 12, fig.height = 12}
-short_names <- c(
-  "see something" = "see",
-  "hear something" = "hear",
-  "choose what to do" = "choose",
-  "remember something" = "remember",
-  "think about something" = "think",
-  
-  "take a walk" = "walk", 
-  "jump up and down" = "jump",
-  "reach for something" = "reach",
-  "sit down" = "sit",
-  "kick something" = "kick",
-  
-  "get sick" = "sick",
-  "feel scared" = "scared",
-  "become hungry" = "hungry",
-  "experience pain" = "pain",
-  "get tired" = "tired")
-
-# short_names <- factor(short_names, levels = desired_order)
-
 # Wide version fig - short names
-dat_ex_plot_long <- dat_ex_plot %>%
-      mutate(causal_itemA = recode(causal_itemA, !!!short_names),
-             similar_itemA = recode(similar_itemA, !!!short_names)) %>%
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>%
-  slice(-c(2, 3)) 
-
-rmarkdown::paged_table(dat_ex_plot_long)
-
-label_ex_data <- dat_ex_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, explanation_type, item)
-
-dat_subject <- dat_ex_plot_long %>%
-  group_by(subject_id, itemB, explanation_type) %>%
-  summarize(satisfactory = mean(satisfactory, na.rm = TRUE),
-            .groups = "drop")
-
-dat_ex_plot_long_wide <- dat_ex_plot_long %>%
+dat_ex_plot_long_wide <- dat_ex_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
   geom_jitter(width = .05, alpha = .1) +
-  geom_line(data = dat_subject, aes(group = subject_id), alpha = 0.1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = label_ex_data, aes(label = item), 
-            y = 95, vjust = 1, size = 6) +
+  geom_text(data = dat_ex_trials_summarized %>%
+              mutate(explanation = recode(explanation, !!!short_names)),
+            aes(label = explanation, y = 95),
+            vjust = 1, size = 6) + 
   labs(y = "How Satisfactory", x = "Explanation type") +
   theme_cowplot() +
   theme(
@@ -417,61 +290,22 @@ dat_ex_plot_long_wide <- dat_ex_plot_long %>%
     legend.position = "none",
     strip.text = element_text(size = 18),
     strip.background = element_rect(fill = NA, color = "black")) +
-  # facet_wrap(~itemB) 
-    facet_wrap(~itemB, nrow = 3, ncol = 5)
+    facet_wrap(~target, nrow = 3, ncol = 5)
 
 dat_ex_plot_long_wide
 
 # Wide version fig - compact names
-compact_names <- c(
-  "see something" = "see\nsomething",
-  "hear something" = "hear\nsomething",
-  "choose what to do" = "choose",
-  "remember something" = "remember\nsomething",
-  "think about something" = "think\nabout\nsomething",
-  
-  "take a walk" = "take\na walk", 
-  "jump up and down" = "jump up\nand down",
-  "reach for something" = "reach for\nsomething",
-  "sit down" = "sit down",
-  "kick something" = "kick\nsomething",
-  
-  "get sick" = "get sick",
-  "feel scared" = "feel\nscared",
-  "become hungry" = "become\nhungry",
-  "experience pain" = "experience\npain",
-  "get tired" = "get tired")
-
-dat_ex_plot_long <- dat_ex_plot %>%
-      mutate(causal_itemA = recode(causal_itemA, !!!compact_names),
-             similar_itemA = recode(similar_itemA, !!!compact_names)) %>% 
-      # mutate(causal_itemA = recode(causal_itemA, !!!short_names),
-      #        similar_itemA = recode(similar_itemA, !!!short_names)) %>% 
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>%
-  slice(-c(2, 3)) 
-
-label_ex_data <- dat_ex_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, explanation_type, item)
-
-dat_subject <- dat_ex_plot_long %>%
-  group_by(subject_id, itemB, explanation_type) %>%
-  summarize(
-    satisfactory = mean(satisfactory, na.rm = TRUE),
-    .groups = "drop")
-
-dat_ex_plot_long_wide_compact <- dat_ex_plot_long %>%
+dat_ex_plot_long_wide_compact <- dat_ex_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
   geom_jitter(width = .05, alpha = .1) +
-  geom_line(data = dat_subject, aes(group = subject_id), alpha = 0.1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = label_ex_data, aes(label = item), 
-            y = 95, vjust = 1, size = 6) +
+  geom_text(data = dat_ex_trials_summarized %>%
+              mutate(explanation = recode(explanation, !!!compact_names)),
+            aes(label = explanation, y = 95),
+            vjust = 1, size = 6) + 
   labs(y = "How Satisfactory", x = "Explanation type") +
   theme_cowplot() +
   theme(
@@ -482,41 +316,22 @@ dat_ex_plot_long_wide_compact <- dat_ex_plot_long %>%
     legend.position = "none",
     strip.text = element_text(size = 18),
     strip.background = element_rect(fill = NA, color = "black")) +
-  facet_wrap(~itemB) 
+    facet_wrap(~target, nrow = 3, ncol = 5)
 
 dat_ex_plot_long_wide_compact
 
-# Long version fig
-dat_ex_plot_long <- dat_ex_plot %>%
-  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
-      mutate(itemB = recode(itemB, !!!short_names), #added this 
-             causal_itemA = recode(causal_itemA, !!!short_names),
-             similar_itemA = recode(similar_itemA, !!!short_names)) %>% 
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>%
-  slice(-c(2, 3))
-
-label_ex_data <- dat_ex_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, explanation_type, item)
-
-dat_subject <- dat_ex_plot_long %>% #collapse into subject_level
-  group_by(subject_id, itemB, explanation_type) %>%
-  summarize(
-    satisfactory = mean(satisfactory, na.rm = TRUE),
-    .groups = "drop")
-
-dat_ex_plot_long_long <- dat_ex_plot_long %>%
+# Long version fig - short names
+dat_ex_plot_long_long <- dat_ex_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
-  geom_point(data = dat_subject, alpha = 0.1) +
-  geom_line(data = dat_subject, aes(group = subject_id), alpha = 0.1) +
+  geom_point(alpha = 0.1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = label_ex_data, aes(label = item), 
-            y = 95, vjust = 1, size = 5) +
+  geom_text(data = dat_ex_trials_summarized %>%
+              mutate(explanation = recode(explanation, !!!short_names)),
+            aes(label = explanation, y = 95),
+            vjust = 1, size = 6) + 
   labs(y = "How Satisfactory", x = "Explanation type") +
   theme_cowplot() +
   theme(
@@ -526,10 +341,9 @@ dat_ex_plot_long_long <- dat_ex_plot_long %>%
     axis.title.y = element_text(size = 17),
     legend.position = "none",
     strip.text = element_text(size = 16),
-    strip.background = element_rect(fill = NA, color = "black"),
-    # aspect.ratio = 1.5
+    strip.background = element_rect(fill = NA, color = "black")
     ) +
-  facet_wrap(~itemB) 
+  facet_wrap(~target) 
   
 dat_ex_plot_long_long
 
@@ -539,20 +353,18 @@ dat_ex_plot_long_long <- ggsave("figures/explanation_slope_facet_by_trial.png",
                     plot = dat_ex_plot_long_long, 
                     bg = "white") 
 
-
-# fig_slope <- ggsave("figures/counterfactuals_slope.png", 
-#                     width = 3, height = 5, plot = fig_slope, bg = "white")
 ```
+
 
 ## Figure single subject
 
 ```{r, fig.width = 12, fig.height = 12}
-dat_ex_plot_long %>% 
+dat_ex_long %>% 
   filter(subject_id == "subj_01") %>% 
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   geom_col(color = "black") +
   geom_hline(yintercept = 50, linetype = "dashed") +
-  geom_text(aes(label = item), y = 95, vjust = 1, size = 5) +
+  geom_text(aes(label = explanation), y = 95, vjust = 1, size = 5) +
   scale_fill_manual(values = c("grey80", "white")) +
   labs(y = "How Satisfactory", x = "Explanation type") +
   theme_bw() +
@@ -564,7 +376,7 @@ dat_ex_plot_long %>%
         strip.text = element_text(size = 16),
         strip.background = element_rect(fill = NA, color = "black"),
         legend.position = "none") +
-  facet_wrap(~itemB)
+  facet_wrap(~target)
 
 ```
 
@@ -580,7 +392,8 @@ distances <- read_csv(freesort_and_causal_distances_df_path)
 ## Append distances 
 
 ```{r}
-dat_ex_plot_distances <- dat_ex_plot %>% 
+dat_ex_plot_distances <- dat_ex %>% 
+  rename("itemB" = target) %>% 
   left_join(distances %>% 
               select(itemA, itemB, mean_causal_distance, 
                      mean_freesort_distance, freesort_minus_causal) %>% 
@@ -626,12 +439,44 @@ dat_ex_plot_distances <- read_csv(paste0(analysis_path,
 
 ```
 
+# test - summarize data
+
+```{r}
+dat_ex_trials_summarized
+```
+
+
+```{r}
+dat_ex_trials_summarized
+# Trial-level summary
+explanation_distances_summarized <- dat_ex_plot_distances %>% 
+  rename("target" = itemB) %>% 
+  group_by(target, causal_itemA, similar_itemA) %>% 
+  mutate(mean_satisfactory = mean(satisfactory)) %>% 
+  mutate(mean_likelihood = round(mean_satisfactory, 2)) %>% 
+  distinct(itemB, .keep_all = TRUE) %>% 
+  ungroup() %>% 
+  select(-c(subject_id, satisfactory)) %>% 
+  relocate(causal_itemA_freesort_minus_causal, .after = mean_satisfactory) %>% 
+  pivot_wider(names_from = explanation_type,
+              values_from = mean_satisfactory) %>% 
+  mutate(mean_difference = Direct - Intrinsic) %>% #not using, but just in case
+  mutate(joint_distance_difference = causal_itemA_freesort_minus_causal -
+           similar_itemA_freesort_minus_causal) #also not using, but doing just in case
+
+rmarkdown::paged_table(explanation_distances_summarized)
+
+```
+
 ## Summarize data
+
+Actually we do need this, for the trial level plots. So just re-attach distances. Because seems stressful to convert the wide form to long. 
 
 ```{r}
 # Trial-level summary
 explanation_distances_summarized <- dat_ex_plot_distances %>% 
-  group_by(itemB, causal_itemA, similar_itemA, explanation_type) %>% 
+  rename("target" = itemB) %>% 
+  group_by(target, causal_itemA, similar_itemA, explanation_type) %>% 
   mutate(mean_satisfactory = mean(satisfactory)) %>% 
   mutate(mean_likelihood = round(mean_satisfactory, 2)) %>% 
   distinct(itemB, .keep_all = TRUE) %>% 
