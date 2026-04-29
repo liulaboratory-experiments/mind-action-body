@@ -39,12 +39,14 @@ pacman::p_load(
                performance,
                effectsize,
                simr,
+               see,
                conflicted,
                tidyverse)
 
 walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ conflict_prefer(.x, "dplyr"))
 conflicts_prefer(simr::fixed)
 sessionInfo()
+
 
 ```
 
@@ -95,21 +97,21 @@ compact_names <- c(
 
 ```
 
-# Prepare data
+# Confirmatory Analysis - Prep
 
 ## Read data
 
 ```{r}
-data_path_ex <- paste0(base_path, "/data/explanation/JO-mbc-main-explanation-105N")
+data_path <- paste0(base_path, "/data/explanation/JO-mbc-main-explanation-105N")
 
 desired_order <- c("see something", "hear something", "choose what to do", 
                    "remember something", "think about something", "reach for something", 
                    "sit down", "jump up and down", "kick something", "take a walk", 
                    "get tired", "become hungry", "feel scared", "experience pain", "get sick")
 
-file_paths <- list.files(path = data_path_ex, pattern = "^2025-", full.names = TRUE)
+file_paths <- list.files(path = data_path, pattern = "^2025-", full.names = TRUE)
 
-d_ex <- imap_dfr(file_paths, ~ {
+d <- imap_dfr(file_paths, ~ {
   read_csv(.x, col_types = cols(response = col_character())) %>%
     mutate(
       filename = basename(.x),
@@ -118,24 +120,25 @@ d_ex <- imap_dfr(file_paths, ~ {
   select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
   relocate(subject_id, .before = "success")
 
+rmarkdown::paged_table(d)
 ```
 
 ## Wrangle data
 
 ```{r}
-subjects_to_exclude_ex <- d_ex %>%
+subjects_to_exclude <- d %>%
   filter(grepl("attention_check", condition)) %>% 
   filter(attn_correct == "no") %>% 
   pull(subject_id) %>% 
   unique()
 
-paste("no. of subjects excluded: ", length(subjects_to_exclude_ex))
+paste("no. of subjects excluded: ", length(subjects_to_exclude))
 paste0("subjects excluded:")
-paste(subjects_to_exclude_ex, collapse = ", ")
+paste(subjects_to_exclude, collapse = ", ")
 
-dat_ex <- d_ex %>% 
+dat <- d %>% 
   filter(condition %in% c("causal", "similar")) %>%
-  filter(!subject_id %in% subjects_to_exclude_ex) %>% #exclude 1 subject who failed attn check
+  filter(!subject_id %in% subjects_to_exclude) %>% #exclude 1 subject who failed attn check
   mutate(response = as.numeric(response)) %>% 
   mutate(condition = as.factor(condition)) %>% 
   select(-condition) %>% 
@@ -156,14 +159,14 @@ dat_ex <- d_ex %>%
          "similar_itemA_explanation" = response_similar_itemA,
          "target" = itemB) 
 
-rmarkdown::paged_table(dat_ex)
+rmarkdown::paged_table(dat)
 
 ```
 
 ## Demographics
 
 ```{r}
-df_demographics <- d_ex %>% 
+df_demographics <- d %>% 
   filter(trial_id == "demographics_survey") %>% 
   select("subject_id", "trial_id","feedback", "age", "ethnicity", "gender", "race") 
 
@@ -178,7 +181,7 @@ table(df_demographics$race)
 
 ```{r}
 # Raw Long form data
-dat_ex_long <- dat_ex %>% 
+dat_long <- dat %>% 
   rename("Direct" = causal_itemA_explanation,
          "Intrinsic" = similar_itemA_explanation) %>% 
   pivot_longer(cols = c(Direct, Intrinsic), 
@@ -191,44 +194,44 @@ dat_ex_long <- dat_ex %>%
   select(subject_id, target, explanation, explanation_type, satisfactory) %>% 
   arrange(subject_id, target)
 
-rmarkdown::paged_table(dat_ex_long)
+rmarkdown::paged_table(dat_long)
 
 # Trial-level summary
-dat_ex_trials_summarized <- dat_ex_long %>%
+dat_trials_summarized <- dat_long %>%
   group_by(target, explanation, explanation_type) %>%
   summarise(mean_satisfactory = mean(satisfactory, na.rm = TRUE),
             se_satisfactory = sd(satisfactory, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
             .groups = "drop") 
 
-rmarkdown::paged_table(dat_ex_trials_summarized)
+rmarkdown::paged_table(dat_trials_summarized)
 
 # Condition-level summary
-dat_ex_condition_level <- dat_ex_long %>% 
+dat_condition_level <- dat_long %>% 
   group_by(explanation_type) %>% 
   summarize(mean = mean(satisfactory, na.rm = TRUE),
             sd = sd(satisfactory, na.rm = TRUE))
 
-rmarkdown::paged_table(dat_ex_condition_level)
+rmarkdown::paged_table(dat_condition_level)
 
 ```
 
-# Figures
+# Confirmatory Analysis - Figures
 
 ## Figure with slope
 
 ```{r, fig.width = 3.5, fig.height = 6}
-fig_slope <- dat_ex_long %>% 
+fig_slope <- dat_long %>% 
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
-  geom_point(data = dat_ex_trials_summarized, 
+  geom_point(data = dat_trials_summarized, 
              aes(x = explanation_type, y = mean_satisfactory), 
              alpha = 0.4, size = 5) +
-  # geom_text(data = dat_ex_trials_summarized %>%
+  # geom_text(data = dat_trials_summarized %>%
   #             mutate(explanation = recode(explanation, !!!short_names)),
   #           aes(label = explanation, y = mean_satisfactory),
   #           vjust = 1, size = 6) +
-  geom_line(data = dat_ex_trials_summarized, 
+  geom_line(data = dat_trials_summarized, 
             aes(x = explanation_type, 
                 y = mean_satisfactory, 
                 group = target), 
@@ -257,26 +260,18 @@ fig_slope <- ggsave("figures/explanation_slope.png", width = 3, height = 6, plot
 
 ```
 
-```{r}
-dat_ex_long %>%
-  ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
-  stat_summary(fun = mean, geom = "bar", color = "black") +
-  geom_jitter(width = .05, alpha = .1) +
-  geom_line(aes(group = subject_id), alpha = 0.1) 
-```
-
 ## Figure facet by trial
 
 ```{r, fig.width = 12, fig.height = 12}
 # Wide version fig - short names
-dat_ex_plot_long_wide <- dat_ex_long %>%
+dat_plot_long_wide <- dat_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
   geom_jitter(width = .05, alpha = .1) +
   geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = dat_ex_trials_summarized %>%
+  geom_text(data = dat_trials_summarized %>%
               mutate(explanation = recode(explanation, !!!short_names)),
             aes(label = explanation, y = 95),
             vjust = 1, size = 6) + 
@@ -292,17 +287,17 @@ dat_ex_plot_long_wide <- dat_ex_long %>%
     strip.background = element_rect(fill = NA, color = "black")) +
     facet_wrap(~target, nrow = 3, ncol = 5)
 
-dat_ex_plot_long_wide
+dat_plot_long_wide
 
 # Wide version fig - compact names
-dat_ex_plot_long_wide_compact <- dat_ex_long %>%
+dat_plot_long_wide_compact <- dat_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
   geom_jitter(width = .05, alpha = .1) +
   geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = dat_ex_trials_summarized %>%
+  geom_text(data = dat_trials_summarized %>%
               mutate(explanation = recode(explanation, !!!compact_names)),
             aes(label = explanation, y = 95),
             vjust = 1, size = 6) + 
@@ -318,17 +313,17 @@ dat_ex_plot_long_wide_compact <- dat_ex_long %>%
     strip.background = element_rect(fill = NA, color = "black")) +
     facet_wrap(~target, nrow = 3, ncol = 5)
 
-dat_ex_plot_long_wide_compact
+dat_plot_long_wide_compact
 
 # Long version fig - short names
-dat_ex_plot_long_long <- dat_ex_long %>%
+dat_plot_long_long <- dat_long %>%
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
   geom_point(alpha = 0.1) +
   geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = dat_ex_trials_summarized %>%
+  geom_text(data = dat_trials_summarized %>%
               mutate(explanation = recode(explanation, !!!short_names)),
             aes(label = explanation, y = 95),
             vjust = 1, size = 6) + 
@@ -345,21 +340,20 @@ dat_ex_plot_long_long <- dat_ex_long %>%
     ) +
   facet_wrap(~target) 
   
-dat_ex_plot_long_long
+dat_plot_long_long
 
-dat_ex_plot_long_long <- ggsave("figures/explanation_slope_facet_by_trial.png", 
+dat_plot_long_long <- ggsave("figures/explanation_slope_facet_by_trial.png", 
                                 width = 10,
                                 height = 8,
-                    plot = dat_ex_plot_long_long, 
+                    plot = dat_plot_long_long, 
                     bg = "white") 
 
 ```
 
-
 ## Figure single subject
 
 ```{r, fig.width = 12, fig.height = 12}
-dat_ex_long %>% 
+dat_long %>% 
   filter(subject_id == "subj_01") %>% 
   ggplot(aes(x = explanation_type, y = satisfactory, fill = explanation_type)) +
   geom_col(color = "black") +
@@ -380,7 +374,51 @@ dat_ex_long %>%
 
 ```
 
-# Distances
+# Confirmatory Analysis - Analysis
+
+## Prepare data
+```{r}
+dat_model <- dat_long %>% 
+  mutate(explanation_type = factor(explanation_type, levels = c("Intrinsic", "Direct")),
+         subject_id = as_factor(subject_id)) 
+
+rmarkdown::paged_table(dat_model)
+```
+
+## Run model
+
+```{r}
+#model
+model_effect_of_explanation_type <- lmerTest::lmer(satisfactory ~ explanation_type +
+                                              (1|subject_id), data = dat_model)
+
+#model outputs
+summary(model_effect_of_explanation_type)
+standardize_parameters(model_effect_of_explanation_type)
+confint(model_effect_of_explanation_type)
+
+#odds ratios
+fixef(model_effect_of_explanation_type)  # Check parameter name
+or <- exp(fixef(model_effect_of_explanation_type)[1])
+or
+
+#probabilities
+effects_data <- allEffects(model_effect_of_explanation_type)
+effects_df <- as.data.frame(effects_data$explanation)
+effects_df
+
+#plot model
+plot(allEffects(model_effect_of_explanation_type))
+
+```
+
+## Check model
+
+```{r}
+performance::check_model(model_effect_of_explanation_type)
+```
+
+# Distances - Prep
 
 ## Read distances 
 
@@ -392,130 +430,52 @@ distances <- read_csv(freesort_and_causal_distances_df_path)
 ## Append distances 
 
 ```{r}
-dat_ex_plot_distances <- dat_ex %>% 
-  rename("itemB" = target) %>% 
+#join distances to Trial level data
+dat_trials_summarized_distances_long <- dat_trials_summarized %>% 
   left_join(distances %>% 
-              select(itemA, itemB, mean_causal_distance, 
-                     mean_freesort_distance, freesort_minus_causal) %>% 
-              rename("causal_itemA" = itemA,
-                     "causal_itemA_causal_distance" = mean_causal_distance,
-                     "causal_itemA_freesort_distance" = mean_freesort_distance,
-                     "causal_itemA_freesort_minus_causal" = freesort_minus_causal),
-            by = c("itemB", "causal_itemA")) %>% 
-  left_join(distances %>% 
-              select(itemA, itemB, mean_causal_distance, 
-                     mean_freesort_distance, freesort_minus_causal) %>% 
-              rename("similar_itemA" = itemA,
-                     "similar_itemA_causal_distance" = mean_causal_distance,
-                     "similar_itemA_freesort_distance" = mean_freesort_distance,
-                     "similar_itemA_freesort_minus_causal" = freesort_minus_causal),
-            by = c("itemB", "similar_itemA")) %>% 
-  mutate(causal_itemA_causal_distance = round(causal_itemA_causal_distance, 2),
-         causal_itemA_freesort_distance = round(causal_itemA_freesort_distance, 2),
-         causal_itemA_freesort_minus_causal = round(causal_itemA_freesort_minus_causal, 2),
-         similar_itemA_causal_distance = round(similar_itemA_causal_distance, 2),
-         similar_itemA_freesort_distance = round(similar_itemA_freesort_distance, 2),
-         similar_itemA_freesort_minus_causal = round(similar_itemA_freesort_minus_causal, 2))
+              rename("target" = itemB,
+                     "explanation" = itemA,
+                     "domain_explanation" = domain_itemA,
+                     "domain_target" = domain_itemB,
+                     "joint_distance" = freesort_minus_causal) %>% 
+              mutate(target = factor(target, levels = desired_order)) %>% 
+              relocate(target, .before = "explanation"),
+            by = c("target", "explanation")) %>% 
+  select(target, explanation, explanation_type, domain_target, 
+         domain_explanation, mean_satisfactory, joint_distance)
 
-rmarkdown::paged_table(dat_ex_plot_distances)
+rmarkdown::paged_table(dat_trials_summarized_distances_long)
 
 ```
 
 ## Save joined distances
 
 ```{r}
-# save 
-write_csv(dat_ex_plot_distances, "dat_explanation_distances.csv")
+write_csv(dat_trials_summarized_distances_long, "dat_explanation_distances_2.csv")
 
 ```
 
-## Read back distances
+## Read back in data frame
 
 ```{r}
 analysis_path <- here("code", "main", "analysis")
 
-dat_ex_plot_distances <- read_csv(paste0(analysis_path,
-                "/explanation/dat_explanation_distances.csv"))
+dat_trials_summarized_distances_long <- read_csv(paste0(analysis_path,
+                "/explanation/dat_explanation_distances_2.csv"))
 
 ```
 
-# test - summarize data
+# Distances - Figures
 
 ```{r}
-dat_ex_trials_summarized
-```
-
-
-```{r}
-dat_ex_trials_summarized
-# Trial-level summary
-explanation_distances_summarized <- dat_ex_plot_distances %>% 
-  rename("target" = itemB) %>% 
-  group_by(target, causal_itemA, similar_itemA) %>% 
-  mutate(mean_satisfactory = mean(satisfactory)) %>% 
-  mutate(mean_likelihood = round(mean_satisfactory, 2)) %>% 
-  distinct(itemB, .keep_all = TRUE) %>% 
-  ungroup() %>% 
-  select(-c(subject_id, satisfactory)) %>% 
-  relocate(causal_itemA_freesort_minus_causal, .after = mean_satisfactory) %>% 
-  pivot_wider(names_from = explanation_type,
-              values_from = mean_satisfactory) %>% 
-  mutate(mean_difference = Direct - Intrinsic) %>% #not using, but just in case
-  mutate(joint_distance_difference = causal_itemA_freesort_minus_causal -
-           similar_itemA_freesort_minus_causal) #also not using, but doing just in case
-
-rmarkdown::paged_table(explanation_distances_summarized)
-
-```
-
-## Summarize data
-
-Actually we do need this, for the trial level plots. So just re-attach distances. Because seems stressful to convert the wide form to long. 
-
-```{r}
-# Trial-level summary
-explanation_distances_summarized <- dat_ex_plot_distances %>% 
-  rename("target" = itemB) %>% 
-  group_by(target, causal_itemA, similar_itemA, explanation_type) %>% 
-  mutate(mean_satisfactory = mean(satisfactory)) %>% 
-  mutate(mean_likelihood = round(mean_satisfactory, 2)) %>% 
-  distinct(itemB, .keep_all = TRUE) %>% 
-  ungroup() %>% 
-  select(-c(subject_id, satisfactory)) %>% 
-  relocate(mean_satisfactory, .after = explanation_type) %>% 
-  relocate(causal_itemA_freesort_minus_causal, .after = mean_satisfactory) %>% 
-  pivot_wider(names_from = explanation_type,
-              values_from = mean_satisfactory) %>% 
-  mutate(mean_difference = Direct - Intrinsic) %>% #not using, but just in case
-  mutate(joint_distance_difference = causal_itemA_freesort_minus_causal -
-           similar_itemA_freesort_minus_causal) #also not using, but doing just in case
-
-rmarkdown::paged_table(explanation_distances_summarized)
-
-```
-
-# Distances - Figure 
-
-## Long form data
-
-```{r}
-explanation_distances_summarized_long <- explanation_distances_summarized %>% 
-    pivot_longer(cols = c(causal_itemA_freesort_minus_causal,
-                          similar_itemA_freesort_minus_causal),
-               names_to = "joint_distance_names",
-               values_to = "joint_distance_values") %>%
-  mutate(satisfactory_values = ifelse(joint_distance_names == "causal_itemA_freesort_minus_causal", Direct, Intrinsic)) %>% 
-  mutate(satisfactory_names = ifelse(joint_distance_names == "causal_itemA_freesort_minus_causal", "Direct", "Intrinsic")) 
-
-```
-
-## Figure with joint distances
-
-```{r}
-distances_fig <- explanation_distances_summarized_long %>% 
-  ggplot(aes(y = satisfactory_values, x = joint_distance_values, color = satisfactory_names)) +
+fig_distances <- dat_trials_summarized_distances_long %>% 
+  mutate(target = recode(target, !!!short_names),
+         explanation = recode(explanation,!!!short_names)) %>% 
+  mutate(labels = paste0("target: ", target, "\n", explanation_type, ": ", explanation)) %>% 
+  ggplot(aes(y = mean_satisfactory, x = joint_distance, color = explanation_type)) +
   geom_point(alpha = 0.4, size = 5) +
   geom_smooth(method = "lm") + 
+  # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
   theme_bw() +
   theme(axis.text.x = element_text(size = 30),
         axis.text.y = element_text(size = 30),
@@ -534,177 +494,71 @@ distances_fig <- explanation_distances_summarized_long %>%
     y = "Satisfactory ratings"
   ) 
 
-distances_fig
+fig_distances <- ggsave("figures/explanation_distances.png", width = 6, height = 4, 
+                        plot = fig_distances, bg = "white")
 
-distances_fig <- ggsave("figures/explanation_distances.png", width = 5, height = 5, 
-                        plot = distances_fig, bg = "white")
-
-```
-
-## Figure with different colors
-
-```{r}
-
-distances_fig_color <- explanation_distances_summarized_long %>% 
-  ggplot(aes(y = satisfactory_values, 
-             x = joint_distance_values, group = satisfactory_names)) +
-  geom_point(aes(fill = satisfactory_names), 
-             alpha = 0.4, size = 5, shape = 21, color = "black", stroke = 1.5) +
-  geom_smooth(aes(color = satisfactory_names), method = "lm") + 
-  scale_color_manual(values = c("gray40", "white")) +
-  scale_fill_manual(values = c("gray40", "white")) +
-  theme_bw() +
-  theme(axis.text.x = element_text(size = 30),
-        axis.text.y = element_text(size = 30),
-        axis.title.x = element_text(size = 10),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 18),
-        legend.title = element_text(size = 18),
-        legend.position = "top",
-        plot.title = element_text(hjust = 0.5)
-        ) +
-  labs(
-    title = "Explanation",
-    color = "Choice Item",
-    fill = "Choice Item",
-    x = "More intrinsically relevant, More directly relevant",
-    y = "Satisfactory ratings"
-  ) 
-
-distances_fig_color
-
-distances_fig_color <- ggsave("figures/explanation_distances_color.png", width = 5, height = 5, 
-                        plot = distances_fig_color, bg = "white")
+# fig_distances_labels <- ggsave("figures/explanation_distances_labels.png", 
+#                                width = 5, height = 5, plot = fig_distances_labels, bg = "white")
 
 ```
 
-
-## Figure with trial labels
-
-```{r}
-short_names <- c(
-  "see something" = "see",
-  "hear something" = "hear",
-  "choose what to do" = "choose",
-  "remember something" = "remember",
-  "think about something" = "think",
-  
-  "take a walk" = "walk", 
-  "jump up and down" = "jump",
-  "reach for something" = "reach",
-  "sit down" = "sit",
-  "kick something" = "kick",
-  
-  "get sick" = "sick",
-  "feel scared" = "scared",
-  "become hungry" = "hungry",
-  "experience pain" = "pain",
-  "get tired" = "tired"
-)
-
-distances_labels_fig <- explanation_distances_summarized_long %>% 
-  mutate(
-  itemB         = recode(itemB, !!!short_names),
-  causal_itemA   = recode(causal_itemA, !!!short_names),
-  similar_itemA  = recode(similar_itemA, !!!short_names)
-) %>% 
-  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA)) %>% 
-  ggplot(aes(y = satisfactory_values, x = joint_distance_values, color = satisfactory_names)) +
-  geom_point(alpha = 0.4) +
-  geom_text(aes(label = labels), vjust = -0.5, size = 2) +
-  geom_smooth(method = "lm") + 
-  theme_bw() +
-  theme(axis.text.x = element_text(size = 25),
-        axis.text.y = element_text(size = 25),
-        axis.title.x = element_text(size = 10),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 18),
-        legend.title = element_text(size = 18),
-        legend.position = "top",
-        plot.title = element_text(hjust = 0.5)
-        ) +
-  labs(
-    title = "Explanation",
-    color = "Choice Item",
-    fill = "Choice Item",
-    x = "More intrinsically relevant, More directly relevant",
-    y = "Satisfactory ratings"
-  ) 
-
-distances_labels_fig
-
-distances_labels_fig <- ggsave("figures/explanation_distances_labels.png", width = 5, height = 5, plot = distances_labels_fig, bg = "white")
-
-```
-
-Alt figures to consider: fit a single line instead of 2, plot mean difference on y axis, plot joint distance difference on x axis, plot normalize y axis
 
 # Distances - Analysis
 
-## Wrangle
+## Append distances 
 
 ```{r}
-dat_ex_plot_distances_renamed <- dat_ex_plot_distances %>% 
-  rename("joint_direct" = causal_itemA_freesort_minus_causal,
-         "joint_intrinsic" = similar_itemA_freesort_minus_causal) %>% 
-  mutate(subject_id = as_factor(subject_id),
-         causal_itemA = as_factor(causal_itemA),
-         similar_itemA = as_factor(similar_itemA)) 
+#join distances to subject-level data
+dat_long_distances <- dat_long %>% 
+  left_join(distances %>% 
+              rename("target" = itemB,
+                     "explanation" = itemA,
+                     "domain_explanation" = domain_itemA,
+                     "domain_target" = domain_itemB,
+                     "joint_distance" = freesort_minus_causal) %>% 
+              mutate(target = factor(target, levels = desired_order)) %>% 
+              relocate(target, .before = "explanation"),
+            by = c("target", "explanation")) %>% 
+  select(subject_id, target, explanation, explanation_type, satisfactory,
+         domain_target, domain_explanation, joint_distance)
 
-rmarkdown::paged_table(dat_ex_plot_distances_renamed)
-```
-
-## Run model
-
-```{r}
-model_distance <- lmerTest::lmer(satisfactory ~ joint_direct + joint_intrinsic +
-                                              (1|subject_id), 
-                                 data = dat_ex_plot_distances_renamed)
-summary(model_distance)
-standardize_parameters(model_distance)
+rmarkdown::paged_table(dat_long_distances)
 
 ```
 
-# Modelling
+## Model - Distance 
 
 ```{r}
-dat_model <- dat_ex_plot %>% 
-  mutate(explanation_type = factor(explanation_type, levels = c("Direct", "Intrinsic")), 
-         subject_id = as_factor(subject_id),
-         causal_itemA = as_factor(causal_itemA),
-         similar_itemA = as_factor(similar_itemA)) 
+model_effect_of_distance <- lmerTest::lmer(satisfactory ~ joint_distance + (1|subject_id), 
+               data = dat_long_distances)
 
-#model
-model_effect_of_explanation_type <- lmerTest::lmer(satisfactory ~ explanation_type +
-                                              (1|subject_id), data = dat_model)
-summary(model_effect_of_explanation_type)
-standardize_parameters(model_effect_of_explanation_type)
+#model outputs
+summary(model_effect_of_distance)
+standardize_parameters(model_effect_of_distance)
+confint(model_effect_of_distance)
 
-confint(model_effect_of_explanation_type)
+#plot
+plot(allEffects(model_effect_of_distance))
 
-plot(allEffects(model_effect_of_explanation_type))
-
-#probabilities
-effects_data <- allEffects(model_effect_of_explanation_type)
-effects_df <- as.data.frame(effects_data$explanation)
-effects_df
-
-confint(model_effect_of_explanation_type)
 ```
 
-## Check model
+## Model - Distance + Type
 
 ```{r}
-performance::check_model(model_effect_of_explanation_type)
+model_effect_of_distance_explanation_type <- lmerTest::lmer(satisfactory ~ joint_distance + 
+                                                    explanation_type + (1|subject_id), 
+               data = dat_long_distances)
+
+#model outputs
+summary(model_effect_of_distance_explanation_type)
+standardize_parameters(model_effect_of_distance_explanation_type)
+confint(model_effect_of_distance_explanation_type)
+
+#plot
+plot(allEffects(model_effect_of_distance_explanation_type))
+
 ```
 
-```{r}
-summary(model_effect_of_explanation_type)
-fixef(model_effect_of_explanation_type)  # Check the actual parameter names
-or <- exp(fixef(model_effect_of_explanation_type)[1])
-or
-
-```
 
 # THE END
 

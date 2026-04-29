@@ -56,9 +56,47 @@ base_path <- here("code", "main")
 freesort_and_causal_distances_df_path <- paste0(base_path,
                                                 "/analysis/measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
 
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
+compact_names <- c(
+  "see something" = "see\nsomething",
+  "hear something" = "hear\nsomething",
+  "choose what to do" = "choose",
+  "remember something" = "remember\nsomething",
+  "think about something" = "think\nabout\nsomething",
+  
+  "take a walk" = "take\na walk", 
+  "jump up and down" = "jump up\nand down",
+  "reach for something" = "reach for\nsomething",
+  "sit down" = "sit down",
+  "kick something" = "kick\nsomething",
+  
+  "get sick" = "get sick",
+  "feel scared" = "feel\nscared",
+  "become hungry" = "become\nhungry",
+  "experience pain" = "experience\npain",
+  "get tired" = "get tired")
+
 ```
 
-# Prepare data
+# Confirmatory Analysis - Prep
 
 ## Read data
 
@@ -80,6 +118,8 @@ d <- imap_dfr(file_paths, ~ {
     )}) %>%
   select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
   relocate(subject_id, .before = "success")
+
+rmarkdown::paged_table(d)
 
 ```
 
@@ -134,7 +174,8 @@ dat <- d %>%
   rename("causal_itemA" = item_causal_itemA,
          "similar_itemA" = item_similar_itemA, 
          "causal_itemA_counterfactual" = response_value_causal_itemA,
-         "similar_itemA_counterfactual" = response_value_similar_itemA) 
+         "similar_itemA_counterfactual" = response_value_similar_itemA,
+         "target" = itemB) 
 
 rmarkdown::paged_table(dat)
 
@@ -146,59 +187,63 @@ paste0("N subjects: ", n_subjects)
 
 ```
 
-## Summary stats 
+## Summary stats
 
 ```{r}
-# Raw long form data
-dat_plot <- dat %>% 
+# Raw Long form data
+dat_long <- dat %>% 
   rename("Direct" = causal_itemA_counterfactual,
          "Intrinsic" = similar_itemA_counterfactual) %>% 
   pivot_longer(cols = c("Direct", "Intrinsic"), 
                names_to = "counterfactual_type",
                values_to = "likelihood") %>% 
-  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Direct", "Intrinsic"))) 
+  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Direct", "Intrinsic"))) %>% 
+  mutate(counterfactual = case_when(
+    counterfactual_type == "Direct" ~ causal_itemA,
+    counterfactual_type == "Intrinsic" ~ similar_itemA)) %>% 
+  select(subject_id, target, counterfactual, counterfactual_type, likelihood) %>% 
+  arrange(subject_id, target)
 
-rmarkdown::paged_table(dat_plot)
+rmarkdown::paged_table(dat_long)
 
 # Trial-level summary
-dat_trials_summarized <- dat_plot %>%
-  group_by(itemB, causal_itemA, similar_itemA, counterfactual_type) %>%
-  summarise(
-    mean_likelihood = mean(likelihood, na.rm = TRUE),
-    se_likelihood = sd(likelihood, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
-    .groups = "drop")
+dat_trials_summarized <- dat_long %>%
+  group_by(target, counterfactual, counterfactual_type) %>%
+  summarise(mean_likelihood = mean(likelihood, na.rm = TRUE),
+            se_likelihood = sd(likelihood, na.rm = TRUE) / sqrt(n_distinct(subject_id)),
+            .groups = "drop") 
 
 rmarkdown::paged_table(dat_trials_summarized)
 
-# Condition-level summary 
-dat_conditions_summarized <- dat_plot %>%
+# Condition-level summary
+dat_condition_level <- dat_long %>% 
   group_by(counterfactual_type) %>% 
-  summarise(mean_likelihood = mean(likelihood, na.rm = TRUE), 
-            se_likelihood = sd(likelihood) / sqrt(length(unique(dat_plot$subject_id))),
-            .groups = "drop") 
+  summarize(mean = mean(likelihood, na.rm = TRUE),
+            sd = sd(likelihood, na.rm = TRUE))
 
-rmarkdown::paged_table(dat_conditions_summarized)
-
+rmarkdown::paged_table(dat_condition_level)
 ```
 
-# Figures
+# Confirmatory Analysis - Figures
 
 ## Figure with slope
 
-Plot with stat summary so as to include trial-level summary data.
-
-```{r}
-fig_slope <- dat_plot %>% 
+```{r, fig.width = 3.5, fig.height = 6}
+fig_slope <- dat_long %>% 
   ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
   stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
   geom_point(data = dat_trials_summarized, aes(x = counterfactual_type, y = mean_likelihood), 
              alpha = 0.2, size = 5) +
+  # geom_text(data = dat_trials_summarized %>%
+  #             mutate(counterfactual = recode(counterfactual, !!!short_names)),
+  #           aes(label = counterfactual, y = mean_likelihood),
+  #           vjust = 1, size = 6) +
   geom_line(data = dat_trials_summarized, 
             aes(x = counterfactual_type, 
-                y = mean_likelihood,
-                group = interaction(itemB, causal_itemA, similar_itemA)),
-            alpha = 0.4, color = "black") +
+                y = mean_likelihood, 
+                group = target), 
+            alpha = 0.2, color = "black") +
   labs(y = "Counterfactual Likelihood", 
        x = "Preceding Item Type",
        fill = "Type") +
@@ -213,122 +258,30 @@ fig_slope <- dat_plot %>%
         legend.title = element_text(size = 25),
         legend.text = element_text(size = 25)
         ) +
-  ylim(0, 100) #+
-  # theme(aspect.ratio = 1.5) #this or fig.width = 3, fig.height = 5 on top of code chunk or specify on ggsave
+  ylim(0, 100)
 
 fig_slope
 
-# fig_slope <- ggsave("figures/counterfactuals_slope.png", 
-#                     width = 3, height = 5, plot = fig_slope, bg = "white")
-
-# 
-# fig_slope <- ggsave("figures/counterfactuals_slope_tall.png", 
-#                     width = 3, height = 6, plot = fig_slope, bg = "white")
-
-fig_slope <- ggsave("figures/counterfactuals_slope_tall.png", 
-                    width = 3.5, height = 6, plot = fig_slope, bg = "white")
-
-```
-
-## Figure with slope, colors
-Colors here means black and white (different colors from prev plot)
-
-```{r}
-
-fig_slope_color <- dat_plot %>% 
-  ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
-  stat_summary(fun.data = mean_se, geom = "bar", aes(color = "black")) +
-  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
-  geom_point(data = dat_trials_summarized, 
-             aes(x = counterfactual_type, y = mean_likelihood,
-                 fill = counterfactual_type),
-             alpha = 0.4, size = 5, shape = 21, color = "black", stroke = 1.5) +
-  geom_line(data = dat_trials_summarized
-            , aes(x = counterfactual_type, 
-                  y = mean_likelihood, 
-                  group = interaction(itemB, causal_itemA, similar_itemA)), 
-            alpha = 0.2, color = "black") +
-  labs(y = "Counterfactual Likelihood", 
-       x = "Preceding Item Type",
-       fill = "Type") +
-  theme_cowplot() +
-  scale_fill_manual(values = c("#CCCCCC", "white")) +
-  scale_color_manual(values = c("#CCCCCC", "white")) +
-  theme(axis.text.x = element_text(size = 20),
-        axis.text.y = element_text(size = 25),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 25),
-        legend.title = element_text(size = 25),
-        legend.position = "top",
-        legend.justification = "center",
-        legend.key.size = unit(1, "cm"),
-        legend.spacing.x = unit(1, "cm")
-        ) +
-  ylim(0, 100)
-
-fig_slope_color
-
-# fig_slope_color <- ggsave("figures/counterfactualss_slope_tall_color.png", width = 3, height = 6, plot = fig_slope_color, bg = "white")
-
-fig_slope_color <- ggsave("figures/counterfactualss_slope_tall_color.png", width = 3.5, height = 6, plot = fig_slope_color, bg = "white")
-
+fig_slope <- ggsave("figures/counterfactuals_slope.png", 
+                    width = 3, height = 6, plot = fig_slope, bg = "white")
 
 ```
 
 ## Figure facet by trial
 
 ```{r, fig.width = 12, fig.height = 12}
-short_names <- c(
-  "see something" = "see",
-  "hear something" = "hear",
-  "choose what to do" = "choose",
-  "remember something" = "remember",
-  "think about something" = "think",
-  
-  "take a walk" = "walk", 
-  "jump up and down" = "jump",
-  "reach for something" = "reach",
-  "sit down" = "sit",
-  "kick something" = "kick",
-  
-  "get sick" = "sick",
-  "feel scared" = "scared",
-  "become hungry" = "hungry",
-  "experience pain" = "pain",
-  "get tired" = "tired")
-
-dat_plot_long <- dat_plot %>%
-    mutate(causal_itemA   = recode(causal_itemA, !!!short_names),
-           similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>% 
-  slice(-c(2, 3)) 
-
-rmarkdown::paged_table(dat_plot_long)
-
-label_data <- dat_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, counterfactual_type, item)
-
-dat_subject <- dat_plot_long %>%
-  group_by(subject_id, itemB, counterfactual_type) %>%
-  summarize(likelihood = mean(likelihood, na.rm = TRUE),
-            .groups = "drop")
-
-#wide version
-dat_plot_long_wide <- dat_plot_long %>%
+# Wide version fig - short names
+dat_plot_long_wide <- dat_long %>%
   ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
-  geom_point(data = dat_subject, alpha = 0.1) +
-  geom_line(data = dat_subject, aes(group = subject_id), alpha = 0.1) +
+  geom_jitter(width = .05, alpha = .1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
-  geom_hline(yintercept = 50, linetype = "dashed") +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = label_data, aes(label = item), 
-            y = 95, vjust = 1, size = 6) +
+  geom_text(data = dat_trials_summarized %>%
+              mutate(counterfactual = recode(counterfactual, !!!short_names)),
+            aes(label = counterfactual, y = 95),
+            vjust = 1, size = 6) + 
   labs(y = "Likelihood of Occurring", x = "Counterfactual type") +
   theme_cowplot() +
   theme(
@@ -337,44 +290,50 @@ dat_plot_long_wide <- dat_plot_long %>%
     axis.title.x = element_text(size = 25),
     axis.title.y = element_text(size = 25),
     legend.position = "none",
-    strip.background = element_rect(fill = NA, color = "black"),
-    strip.text = element_text(size = 18)) +
-  facet_wrap(~itemB) 
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = NA, color = "black")) +
+    facet_wrap(~target, nrow = 3, ncol = 5)
 
 dat_plot_long_wide
 
-#long version
-dat_plot_long <- dat_plot %>%
-      mutate(itemB = recode(itemB, !!!short_names), #added this 
-             causal_itemA = recode(causal_itemA, !!!short_names),
-             similar_itemA = recode(similar_itemA, !!!short_names)) %>% 
-  pivot_longer(cols = c("causal_itemA", "similar_itemA"),
-               names_to = "item_type",
-               values_to = "item") %>%
-  group_by(subject_id, itemB) %>%
-  slice(-c(2, 3))
-
-label_data <- dat_plot_long %>%
-  ungroup() %>% 
-  distinct(itemB, counterfactual_type, item)
-
-#collapse into subject_level
-dat_subject <- dat_plot_long %>%
-  group_by(subject_id, itemB, counterfactual_type) %>%
-  summarize(
-    likelihood = mean(likelihood, na.rm = TRUE),
-    .groups = "drop")
-
-dat_plot_long_long <- dat_plot_long %>%
+# Wide version fig - compact names
+dat_plot_long_wide_compact <- dat_long %>%
   ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
   stat_summary(fun = mean, geom = "bar", color = "black") +
-  geom_point(data = dat_subject, alpha = 0.1) +
-  geom_line(data = dat_subject, aes(group = subject_id), alpha = 0.1) +
+  geom_jitter(width = .05, alpha = .1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
-  geom_hline(yintercept = 50, linetype = "dashed") +
   scale_fill_manual(values = c("grey80", "white")) +
-  geom_text(data = label_data, aes(label = item), 
-            y = 95, vjust = 1, size = 5) +
+  geom_text(data = dat_trials_summarized %>%
+              mutate(counterfactual = recode(counterfactual, !!!compact_names)),
+            aes(label = counterfactual, y = 95),
+            vjust = 1, size = 6) + 
+  labs(y = "Likelihood of Occurring", x = "Counterfactual type") +
+  theme_cowplot() +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_text(size = 25),
+    axis.title.y = element_text(size = 25),
+    legend.position = "none",
+    strip.text = element_text(size = 18),
+    strip.background = element_rect(fill = NA, color = "black")) +
+    facet_wrap(~target, nrow = 3, ncol = 5)
+
+dat_plot_long_wide_compact
+
+# Long version fig - short names
+dat_plot_long_long <- dat_long %>%
+  ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
+  stat_summary(fun = mean, geom = "bar", color = "black") +
+  geom_point(alpha = 0.1) +
+  geom_line(aes(group = subject_id), alpha = 0.1) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = .2) +
+  scale_fill_manual(values = c("grey80", "white")) +
+  geom_text(data = dat_trials_summarized %>%
+              mutate(counterfactual = recode(counterfactual, !!!compact_names)),
+            aes(label = counterfactual, y = 95),
+            vjust = 1, size = 6) + 
   labs(y = "Likelihood of Occurring", x = "Counterfactual type") +
   theme_cowplot() +
   theme(
@@ -384,14 +343,15 @@ dat_plot_long_long <- dat_plot_long %>%
     axis.title.y = element_text(size = 17),
     legend.position = "none",
     strip.text = element_text(size = 16),
-    strip.background = element_rect(fill = NA, color = "black"),
-    aspect.ratio = 1.5
+    strip.background = element_rect(fill = NA, color = "black")
     ) +
-  facet_wrap(~itemB) 
+  facet_wrap(~target) 
   
 dat_plot_long_long
 
 dat_plot_long_long <- ggsave("figures/counterfactuals_slope_facet_by_trial.png", 
+                                width = 10,
+                                height = 8,
                     plot = dat_plot_long_long, 
                     bg = "white") 
 
@@ -400,12 +360,12 @@ dat_plot_long_long <- ggsave("figures/counterfactuals_slope_facet_by_trial.png",
 ## Figure single subject
 
 ```{r, fig.width = 12, fig.height = 12}
-dat_plot_long %>% 
+dat_long %>% 
   filter(subject_id == "subj_01") %>% 
   ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
   geom_col(color = "black") +
   geom_hline(yintercept = 50, linetype = "dashed") +
-  geom_text(aes(label = item), y = 95, vjust = 1, size = 3.5) +
+  geom_text(aes(label = counterfactual), y = 95, vjust = 1, size = 5) +
   scale_fill_manual(values = c("grey80", "white")) +
   labs(y = "Likelihood of Occurring", x = "Counterfactual type") +
   theme_cowplot() +
@@ -417,11 +377,57 @@ dat_plot_long %>%
         strip.text = element_text(size = 16),
         strip.background = element_rect(fill = NA, color = "black"),
         legend.position = "none") +
-  facet_wrap(~itemB)
+  facet_wrap(~target)
 
 ```
 
-# Distances
+# Confirmatory Analysis - Analysis
+
+## Prepare data
+
+```{r}
+dat_model <- dat_long %>% 
+  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Intrinsic", "Direct")), 
+         subject_id = as_factor(subject_id)) 
+
+rmarkdown::paged_table(dat_model)
+
+```
+
+## Run model
+
+```{r}
+#model
+model_effect_of_counterfactual_type <- lmerTest::lmer(likelihood ~ counterfactual_type +
+                                              (1|subject_id), data = dat_model)
+
+#model outputs
+summary(model_effect_of_counterfactual_type)
+standardize_parameters(model_effect_of_counterfactual_type)
+confint(model_effect_of_counterfactual_type)
+
+#odds ratios
+fixef(model_effect_of_counterfactual_type)  
+or <- exp(fixef(model_effect_of_counterfactual_type)[1])
+or
+
+#probabilities
+effects_data <- allEffects(model_effect_of_counterfactual_type)
+effects_df <- as.data.frame(effects_data$counterfactual)
+effects_df
+
+#plot model
+plot(allEffects(model_effect_of_counterfactual_type))
+
+```
+
+## Check model
+
+```{r}
+check_model(model_effect_of_counterfactual_type)
+```
+
+# Distances - Prep
 
 ## Read distances 
 
@@ -433,38 +439,28 @@ distances <- read_csv(freesort_and_causal_distances_df_path)
 ## Append distances
 
 ```{r}
-dat_plot_distances <- dat_plot %>%
+#join distances to Trial level data
+dat_trials_summarized_distances_long <- dat_trials_summarized %>% 
   left_join(distances %>% 
-              select(itemA, itemB, mean_causal_distance, 
-                     mean_freesort_distance, freesort_minus_causal) %>% 
-              rename("causal_itemA" = itemA,
-                     "causal_itemA_causal_distance" = mean_causal_distance,
-                     "causal_itemA_freesort_distance" = mean_freesort_distance,
-                     "causal_itemA_freesort_minus_causal" = freesort_minus_causal),
-            by = c("itemB", "causal_itemA")) %>% 
-  left_join(distances %>% 
-              select(itemA, itemB, mean_causal_distance, 
-                     mean_freesort_distance, freesort_minus_causal) %>% 
-              rename("similar_itemA" = itemA,
-                     "similar_itemA_causal_distance" = mean_causal_distance,
-                     "similar_itemA_freesort_distance" = mean_freesort_distance,
-                     "similar_itemA_freesort_minus_causal" = freesort_minus_causal),
-            by = c("itemB", "similar_itemA")) %>% 
-  mutate(causal_itemA_causal_distance = round(causal_itemA_causal_distance, 2),
-         causal_itemA_freesort_distance = round(causal_itemA_freesort_distance, 2),
-         causal_itemA_freesort_minus_causal = round(causal_itemA_freesort_minus_causal, 2),
-         similar_itemA_causal_distance = round(similar_itemA_causal_distance, 2),
-         similar_itemA_freesort_distance = round(similar_itemA_freesort_distance, 2),
-         similar_itemA_freesort_minus_causal = round(similar_itemA_freesort_minus_causal, 2))
+              rename("target" = itemB,
+                     "counterfactual" = itemA,
+                     "domain_counterfactual" = domain_itemA,
+                     "domain_target" = domain_itemB,
+                     "joint_distance" = freesort_minus_causal) %>% 
+              mutate(target = factor(target, levels = desired_order)) %>% 
+              relocate(target, .before = "counterfactual"),
+            by = c("target", "counterfactual")) %>% 
+  select(target, counterfactual, counterfactual_type, domain_target, 
+         domain_counterfactual, mean_likelihood, joint_distance)
 
-rmarkdown::paged_table(dat_plot_distances)
+rmarkdown::paged_table(dat_trials_summarized_distances_long)
 
 ```
 
 ## Save joined distances
 
 ```{r}
-write_csv(dat_plot_distances, "dat_counterfactuals_distances.csv")
+write_csv(dat_trials_summarized_distances_long, "dat_counterfactuals_distances.csv")
 
 ```
 
@@ -473,58 +469,25 @@ write_csv(dat_plot_distances, "dat_counterfactuals_distances.csv")
 ```{r}
 analysis_path <- here("code", "main", "analysis")
 
-dat_plot_distances <- read_csv(paste0(analysis_path,
+dat_trials_summarized_distances_long <- read_csv(paste0(analysis_path,
                 "/counterfactuals/dat_counterfactuals_distances.csv"))
 
 ```
 
-## Summarize data
+
+
+# Distances - Figures
+
 
 ```{r}
-counterfactuals_distances_summarized <- dat_plot_distances %>%
-  group_by(itemB, causal_itemA, similar_itemA, counterfactual_type) %>% 
-  mutate(mean_likelihood = mean(likelihood)) %>% 
-  mutate(mean_likelihood = round(mean_likelihood, 2)) %>% 
-  distinct(itemB, .keep_all = TRUE) %>% 
-  ungroup() %>% 
-  select(-c(subject_id, likelihood)) %>% 
-  relocate(mean_likelihood, .after = counterfactual_type) %>% 
-  relocate(causal_itemA_freesort_minus_causal, .after = mean_likelihood) %>% 
-  pivot_wider(names_from = counterfactual_type,
-              values_from = mean_likelihood) %>% 
-  mutate(mean_difference = Direct - Intrinsic) %>% #not using, but just in case
-  mutate(joint_distance_difference = causal_itemA_freesort_minus_causal -
-           similar_itemA_freesort_minus_causal) #also not using, but doing just in case
-
-rmarkdown::paged_table(counterfactuals_distances_summarized)
-
-```
-
-# Distances - Figure
-
-## Long form data
-
-```{r}
-counterfactuals_distances_summarized_long <- counterfactuals_distances_summarized %>%
-    pivot_longer(cols = c(causal_itemA_freesort_minus_causal,
-                          similar_itemA_freesort_minus_causal),
-               names_to = "joint_distance_names",
-               values_to = "joint_distance_values") %>%
-  mutate(likelihood_values = ifelse(joint_distance_names == "causal_itemA_freesort_minus_causal",
-                                    Direct, Intrinsic)) %>% 
-  mutate(likelihood_names = ifelse(joint_distance_names == "causal_itemA_freesort_minus_causal",
-                                   "Direct", "Intrinsic")) 
-
-rmarkdown::paged_table(counterfactuals_distances_summarized_long)
-```
-
-## Figure with joint distances
-
-```{r}
-distances_fig <- counterfactuals_distances_summarized_long %>% 
-  ggplot(aes(y = likelihood_values, x = joint_distance_values, color = likelihood_names)) +
+fig_distances <- dat_trials_summarized_distances_long %>% 
+  mutate(target = recode(target, !!!short_names),
+         counterfactual = recode(counterfactual,!!!short_names)) %>% 
+  mutate(labels = paste0("target: ", target, "\n", counterfactual_type, ": ", counterfactual)) %>% 
+  ggplot(aes(y = mean_likelihood, x = joint_distance, color = counterfactual_type)) +
   geom_point(alpha = 0.4, size = 5) +
   geom_smooth(method = "lm") + 
+  # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
   theme_bw() +
   theme(axis.text.x = element_text(size = 30),
         axis.text.y = element_text(size = 30),
@@ -543,169 +506,53 @@ distances_fig <- counterfactuals_distances_summarized_long %>%
     y = "Likelihood"
   ) 
 
-distances_fig
+fig_distances
 
-distances_fig <- ggsave("figures/counterfactuals_distances.png", width = 5, height = 5, plot = distances_fig, bg = "white")
+fig_distances <- ggsave("figures/counterfactuals_distances.png", 
+                        width = 6, height = 4, plot = fig_distances, bg = "white")
 
-```
-
-## Figure with different colors
-
-```{r}
-distances_fig_color <- counterfactuals_distances_summarized_long %>% 
-  ggplot(aes(y = likelihood_values, 
-             x = joint_distance_values, group = likelihood_names)) +
-  geom_point(aes(fill = likelihood_names), 
-             alpha = 0.4, size = 5, shape = 21, color = "black", stroke = 1.5) +
-  geom_smooth(aes(color = likelihood_names), method = "lm") + 
-  scale_color_manual(values = c("gray40", "white")) +
-  scale_fill_manual(values = c("gray40", "white")) +
-  theme_bw() +
-  theme(axis.text.x = element_text(size = 30),
-        axis.text.y = element_text(size = 30),
-        axis.title.x = element_text(size = 10),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 18),
-        legend.title = element_text(size = 18),
-        legend.position = "top",
-        plot.title = element_text(hjust = 0.5)
-        ) +
-  labs(
-    title = "Counterfactuals",
-    color = "Choice Item",
-    fill = "Choice Item",
-    x = "More intrinsically relevant, More directly relevant",
-    y = "Likelihood"
-  ) 
-
-distances_fig_color
-
-distances_fig_color <- ggsave("figures/counterfactuals_distances_color.png", width = 5, height = 5, 
-                        plot = distances_fig_color, bg = "white")
-
-```
-
-## Figure with trial labels
-
-```{r}
-short_names <- c(
-  "see something" = "see",
-  "hear something" = "hear",
-  "choose what to do" = "choose",
-  "remember something" = "remember",
-  "think about something" = "think",
-  
-  "take a walk" = "walk", 
-  "jump up and down" = "jump",
-  "reach for something" = "reach",
-  "sit down" = "sit",
-  "kick something" = "kick",
-  
-  "get sick" = "sick",
-  "feel scared" = "scared",
-  "become hungry" = "hungry",
-  "experience pain" = "pain",
-  "get tired" = "tired"
-)
-
-distances_labels_fig <- counterfactuals_distances_summarized_long %>% 
-  mutate(
-  itemB         = recode(itemB, !!!short_names),
-  causal_itemA   = recode(causal_itemA, !!!short_names),
-  similar_itemA  = recode(similar_itemA, !!!short_names)
-) %>% 
-  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA)) %>% 
-  ggplot(aes(y = likelihood_values, x = joint_distance_values, color = likelihood_names)) +
-  geom_point(alpha = 0.4) +
-  geom_text(aes(label = labels), vjust = -0.5, size = 2) +
-  geom_smooth(method = "lm") + 
-  theme_bw() +
-  theme(axis.text.x = element_text(size = 30),
-        axis.text.y = element_text(size = 30),
-        axis.title.x = element_text(size = 10),
-        axis.title.y = element_text(size = 25),
-        legend.text = element_text(size = 18),
-        legend.title = element_text(size = 18),
-        legend.position = "top",
-        plot.title = element_text(hjust = 0.5)
-        ) +
-  labs(
-    title = "Counterfactuals",
-    color = "Choice Item",
-    fill = "Choice Item",
-    x = "More intrinsically relevant, More directly relevant",
-    y = "Likelihood"
-  )
-
-distances_labels_fig
-
-distances_labels_fig <- ggsave("figures/counterfactuals_distances_labels.png", 
-                               width = 5, height = 5, 
-                               plot = distances_labels_fig, bg = "white")
+# fig_distances_labels <- ggsave("figures/counterfactual_distances_labels.png", 
+#                                width = 5, height = 5, plot = fig_distances_labels, bg = "white")
 
 ```
 
 # Distance - Analysis
 
-## Wrangle data
+## Append data
 
 ```{r}
-dat_plot_distances_renamed <- dat_plot_distances %>% 
-  rename("joint_direct" = causal_itemA_freesort_minus_causal,
-         "joint_intrinsic" = similar_itemA_freesort_minus_causal) %>% 
-  mutate(subject_id = as_factor(subject_id),
-         causal_itemA = as_factor(causal_itemA),
-         similar_itemA = as_factor(similar_itemA)) 
+#join distances to subject-level data
+dat_long_distances <- dat_long %>% 
+  left_join(distances %>% 
+              rename("target" = itemB,
+                     "counterfactual" = itemA,
+                     "domain_counterfactual" = domain_itemA,
+                     "domain_target" = domain_itemB,
+                     "joint_distance" = freesort_minus_causal) %>% 
+              mutate(target = factor(target, levels = desired_order)) %>% 
+              relocate(target, .before = "counterfactual"),
+            by = c("target", "counterfactual")) %>% 
+  select(subject_id, target, counterfactual, counterfactual_type, likelihood,
+         domain_target, domain_counterfactual, joint_distance)
 
-rmarkdown::paged_table(dat_plot_distances_renamed)
-```
-
-## Run model
-
-```{r}
-model_distance <- lmerTest::lmer(likelihood ~ joint_direct + joint_intrinsic +
-                                              (1|subject_id), 
-                                 data = dat_plot_distances_renamed)
-
-summary(model_distance)
-standardize_parameters(model_distance)
+rmarkdown::paged_table(dat_long_distances)
 
 ```
 
-# Modelling
-
-## Effect of preceding item type
+## Model - Distance 
 
 ```{r}
-dat_model <- dat_plot %>% 
-  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Direct", "Intrinsic")), 
-         subject_id = as_factor(subject_id),
-         causal_itemA = as_factor(causal_itemA),
-         similar_itemA = as_factor(similar_itemA)) 
+model_effect_of_distance <- lmerTest::lmer(likelihood ~ joint_distance + (1|subject_id), 
+               data = dat_long_distances)
 
-#model
-model_effect_of_counterfactual_type <- lmerTest::lmer(likelihood ~ counterfactual_type +
-                                              (1|subject_id), data = dat_model)
-summary(model_effect_of_counterfactual_type)
-standardize_parameters(model_effect_of_counterfactual_type)
+#model outputs
+summary(model_effect_of_distance)
+standardize_parameters(model_effect_of_distance)
+confint(model_effect_of_distance)
 
-confint(model_effect_of_counterfactual_type)
+#plot
+plot(allEffects(model_effect_of_distance))
 
-plot(allEffects(model_effect_of_counterfactual_type))
-
-#probabilities
-effects_data <- allEffects(model_effect_of_counterfactual_type)
-effects_df <- as.data.frame(effects_data$counterfactual)
-effects_df
-
-confint(model_effect_of_counterfactual_type)
-
-```
-
-## Check model
-
-```{r}
-check_model(model_effect_of_counterfactual_type)
 ```
 
 # THE END

@@ -270,7 +270,7 @@ fig_slope <- dat_condition_summarized %>%
   geom_point(
     data = dplyr::filter(dat_trial_summarized, response == "Direct"),
     aes(group = joined),
-    alpha = 0.4, color = "black") +
+    alpha = 0.4, color = "black", size = 5) +
   geom_line(
     data = dplyr::filter(dat_trial_summarized, response == "Direct"),
     aes(group = joined),
@@ -292,8 +292,6 @@ fig_slope <- dat_condition_summarized %>%
   )
 
 fig_slope
-
-# fig_slope <- ggsave("figures/prediction_slope.png", width = 3, height = 6, plot = fig_slope, bg = "white")
 
 fig_slope <- ggsave("figures/prediction_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
 
@@ -619,7 +617,7 @@ fig_pred_distance <- d_prop_and_distances_prediction %>%
       title = "Prediction Condition",
        x = "Joint distance difference",
        y = "Proportion (Direct)") +
-  coord_cartesian(ylim = c(0,1)) +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
   theme(
         axis.text.x = element_text(size = 25),
         axis.text.y = element_text(size = 25),
@@ -684,7 +682,7 @@ fig_inf_distance <- d_prop_and_distances_inference %>%
       title = "Inference Condition",
        x = "Joint distance difference",
        y = "Proportion (Direct)") +
-  coord_cartesian(ylim = c(0,1)) +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
   theme(
         axis.text.x = element_text(size = 25),
         axis.text.y = element_text(size = 25),

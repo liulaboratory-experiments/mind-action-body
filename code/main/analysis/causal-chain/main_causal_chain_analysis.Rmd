@@ -286,7 +286,7 @@ fig_slope <- dat_summarized_conditions %>%
   geom_point(
     data = dplyr::filter(dat_summarized_trials, response == "Direct"),
     aes(group = joined),
-    alpha = 0.4, color = "black"#,
+    alpha = 0.4, color = "black", size = 5
   ) +
   geom_line(
     data = dplyr::filter(dat_summarized_trials, response == "Direct"),
@@ -649,19 +649,19 @@ fig_cc_distances <- d_cc_distances_summarized_causal_chain %>%
       title = "Causal Chain Condition",
        x = "Joint distance difference",
        y = "Proportion (direct)") +
-  coord_cartesian(ylim = c(0,1)) +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1.1)) +
   theme(
-        axis.text.x = element_text(size = 27),
-        axis.text.y = element_text(size = 27),
-        axis.title.x = element_text(size = 27),
-        axis.title.y = element_text(size = 27),
-        # plot.title = element_text(hjust = .5, size = 25),
-        plot.title = element_blank(),
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        # plot.title = element_blank(),
         legend.position = "none") 
 
 fig_cc_distances 
 
-fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 7, height = 4, 
+fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6, height = 4, 
                         plot = fig_cc_distances, bg = "white")
 
 ```
@@ -694,19 +694,19 @@ fig_ic_distances <- d_cc_distances_summarized_intrinsic_cause %>%
       title = "Common Cause Condition",
        x = "Joint distance difference",
        y = "Proportion (direct)") +
-  coord_cartesian(ylim = c(0,1)) +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1.1)) +
   theme(
-        axis.text.x = element_text(size = 28),
-        axis.text.y = element_text(size = 28),
-        axis.title.x = element_text(size = 28),
-        axis.title.y = element_text(size = 28),
-        # plot.title = element_text(hjust = .5, size = 25),
-        plot.title = element_blank(),
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        # plot.title = element_blank(),
         legend.position = "none") 
 
 fig_ic_distances
 
-fig_ic_distances <- ggsave("figures/intrinsic_cause_distances_wide.png", width = 7, height = 4, 
+fig_ic_distances <- ggsave("figures/intrinsic_cause_distances_wide.png", width = 6, height = 4, 
                         plot = fig_ic_distances, bg = "white")
 
 ```
