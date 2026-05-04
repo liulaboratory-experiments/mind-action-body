@@ -472,9 +472,10 @@ fig_distances <- dat_trials_summarized_distances_long %>%
   mutate(target = recode(target, !!!short_names),
          explanation = recode(explanation,!!!short_names)) %>% 
   mutate(labels = paste0("target: ", target, "\n", explanation_type, ": ", explanation)) %>% 
-  ggplot(aes(y = mean_satisfactory, x = joint_distance, color = explanation_type)) +
-  geom_point(alpha = 0.4, size = 5) +
-  geom_smooth(method = "lm") + 
+  ggplot(aes(y = mean_satisfactory, x = joint_distance)) +
+  geom_point(aes(color = explanation_type), alpha = 0.4, size = 5) +
+  geom_smooth(aes(color = explanation_type), method = "lm") +
+  geom_smooth(method = "lm", color = "black") + 
   # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
   theme_bw() +
   theme(axis.text.x = element_text(size = 30),
@@ -494,7 +495,9 @@ fig_distances <- dat_trials_summarized_distances_long %>%
     y = "Satisfactory ratings"
   ) 
 
-fig_distances <- ggsave("figures/explanation_distances.png", width = 6, height = 4, 
+fig_distances
+
+fig_distances <- ggsave("figures/explanation_distances_3_lines.png", width = 6, height = 4,
                         plot = fig_distances, bg = "white")
 
 # fig_distances_labels <- ggsave("figures/explanation_distances_labels.png", 
