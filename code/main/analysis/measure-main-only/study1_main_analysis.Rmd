@@ -669,11 +669,6 @@ legend(
   y.intersp = 1.4 #more space between rows
 )
 
-
-
-
-
-
 ```
 
 ## Specific causal relations reported in paper 
@@ -836,11 +831,35 @@ compute_ci(df_causal %>% filter(itemA == "kick something", domain_itemB == "mind
 
 #=======Causal Promiscuity Across Domains========#
 
-0000
+#Mind -> All
+compute_ci(df_causal %>% filter(domain_itemA == "mind"), "mind → all")
+
+#Action -> All
+compute_ci(df_causal %>% filter(domain_itemA == "action"), "action → all")
+
+#Bio -> All
+compute_ci(df_causal %>% filter(domain_itemA == "bio"), "bio → all")
+
+#effect size
+df_from <- df_causal %>%
+  mutate(domain_source = domain_itemA) %>% 
+  mutate(domain_source = factor(domain_source, levels = c("mind", "action", "bio")))
+
+model_from <- lmerTest::lmer(causal_distance ~ domain_source + (1|subject_id), 
+                     data = df_from)
+summary(model_from)
+
+##standardized betas
+standardize_parameters(model_from)
+
 
 #===========Mind & Bio===========#
 
-00
+#Mind -> Bio
+compute_ci(df_causal %>% filter(domain_itemA == "mind", domain_itemB == "bio"), "mind → bio")
+
+#Bio -> Mind
+compute_ci(df_causal %>% filter(domain_itemA == "bio", domain_itemB == "mind"), "bio → mind")
 
 #===========Body to Cog vs Body to Percep and Body to Action===========#
 
