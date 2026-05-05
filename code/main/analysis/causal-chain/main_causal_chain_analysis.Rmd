@@ -519,7 +519,7 @@ summary(model_effect_of_chain)
 
 ```
 
-## Intrinsic Cause only
+## Biological Reasoning only
 
 ```{r}
 d_common <- d_model %>% 
@@ -666,7 +666,7 @@ fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6,
 
 ```
 
-## Intrinsic Causes condition
+## Biological Reasoning condition
 
 ```{r}
 d_cc_distances_summarized_intrinsic_cause <- d_cc_distances_summarized %>% 
@@ -691,7 +691,7 @@ fig_ic_distances <- d_cc_distances_summarized_intrinsic_cause %>%
   # geom_text(aes(label = labels), size = 3, vjust = -.2) +
   theme_bw() +
   labs(
-      title = "Common Cause Condition",
+      title = "Biological Reasoning Condition",
        x = "Joint distance difference",
        y = "Proportion (direct)") +
   coord_cartesian(ylim = c(0,1), xlim = c(0,1.1)) +
@@ -749,7 +749,7 @@ std_parameters
 
 ```
 
-## Intrinsic Cause
+## Biological Reasoning
 
 ```{r}
 model_ic_distances <- glmer(response ~ joint_distance_difference + 
