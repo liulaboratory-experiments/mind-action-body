@@ -32,6 +32,7 @@ pacman::p_load(
                here, 
                patchwork, 
                cowplot, 
+               emmeans,
                viridis, 
                effects, 
                conflicted,
@@ -484,9 +485,11 @@ fig_distances <- dat_trials_summarized_distances_long %>%
   mutate(target = recode(target, !!!short_names),
          counterfactual = recode(counterfactual,!!!short_names)) %>% 
   mutate(labels = paste0("target: ", target, "\n", counterfactual_type, ": ", counterfactual)) %>% 
-  ggplot(aes(y = mean_likelihood, x = joint_distance, color = counterfactual_type)) +
-  geom_point(alpha = 0.4, size = 5) +
+  ggplot(aes(y = mean_likelihood, x = joint_distance)) +
+  geom_point(alpha = 0.4, size = 5, aes(color = counterfactual_type)) +
   geom_smooth(method = "lm") + 
+  geom_smooth(aes(color = counterfactual_type), method = "lm") +
+  geom_smooth(method = "lm", color = "black") +
   # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
   theme_bw() +
   theme(axis.text.x = element_text(size = 30),
@@ -508,8 +511,14 @@ fig_distances <- dat_trials_summarized_distances_long %>%
 
 fig_distances
 
-fig_distances <- ggsave("figures/counterfactuals_distances.png", 
-                        width = 6, height = 4, plot = fig_distances, bg = "white")
+# fig_distances <- ggsave("figures/counterfactuals_distances.png", 
+#                         width = 6, height = 4, plot = fig_distances, bg = "white")
+
+fig_distances <- ggsave("figures/counterfactuals_distances_3_lines.png", width = 6, height = 4,
+                        plot = fig_distances, bg = "white")
+
+# fig_distances <- ggsave("figures/counterfactuals_distances_1_lines.png", width = 6, height = 4,
+#                         plot = fig_distances, bg = "white")
 
 # fig_distances_labels <- ggsave("figures/counterfactual_distances_labels.png", 
 #                                width = 5, height = 5, plot = fig_distances_labels, bg = "white")
@@ -552,6 +561,53 @@ confint(model_effect_of_distance)
 
 #plot
 plot(allEffects(model_effect_of_distance))
+
+```
+
+## Model - Distance * Type
+
+This is it!
+
+```{r}
+# For overall slope
+model_effect_of_distance <- lmerTest::lmer(likelihood ~ joint_distance + (1|subject_id), 
+               data = dat_long_distances)
+
+standardize_parameters(model_effect_of_distance)
+
+# For individual slopes
+model_interaction_of_distance <- lmerTest::lmer(likelihood ~ joint_distance * 
+                                                                   counterfactual_type + (1|subject_id), 
+               data = dat_long_distances)
+
+#model outputs
+summary(model_interaction_of_distance)
+confint(model_interaction_of_distance) #cis unstandardized
+standardize_parameters(model_interaction_of_distance) #cis standardized
+
+
+beta_direct <- fixef(model_interaction_of_distance)["joint_distance"]
+
+beta_intrinsic <- beta_direct + 
+  fixef(model_interaction_of_distance)["joint_distance:explanation_typeIntrinsic"]
+
+
+#===
+
+model_interaction_standardized <- standardize(model_interaction_of_distance, method = "refit")
+
+beta_direct_std <- fixef(model_interaction_standardized)["joint_distance"]
+beta_direct_std 
+
+beta_intrinsic_std <- beta_direct_std + 
+  fixef(model_interaction_standardized)["joint_distance:explanation_typeIntrinsic"]
+
+#==standardized cis
+model_std <- standardize(model_interaction_standardized, method = "refit")
+
+emtrends(model_std, 
+         ~ counterfactual_type, 
+         var = "joint_distance")
 
 ```
 
