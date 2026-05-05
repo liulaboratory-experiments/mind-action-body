@@ -840,17 +840,30 @@ compute_ci(df_causal %>% filter(domain_itemA == "action"), "action → all")
 #Bio -> All
 compute_ci(df_causal %>% filter(domain_itemA == "bio"), "bio → all")
 
-#effect size
-df_from <- df_causal %>%
+#effect size: mind vs action vs bio
+df_from_three_way <- df_causal %>%
   mutate(domain_source = domain_itemA) %>% 
   mutate(domain_source = factor(domain_source, levels = c("mind", "action", "bio")))
 
-model_from <- lmerTest::lmer(causal_distance ~ domain_source + (1|subject_id), 
-                     data = df_from)
-summary(model_from)
+model_from_three_way <- lmerTest::lmer(causal_distance ~ domain_source + (1|subject_id), 
+                     data = df_from_three_way)
+summary(model_from_three_way)
 
 ##standardized betas
-standardize_parameters(model_from)
+standardize_parameters(model_from_three_way)
+
+#effect size 2: mind vs mean od bio and action
+df_from_two_way <- df_causal %>%
+  mutate(domain_source = domain_itemA) %>% 
+  mutate(domain_source = ifelse(domain_itemA == "mind", "mind", "other")) %>% 
+  mutate(domain_source = factor(domain_source, levels = c("mind", "other")))
+
+model_from_two_way <- lmerTest::lmer(causal_distance ~ domain_source + (1|subject_id), 
+                     data = df_from_two_way)
+summary(model_from_two_way)
+
+##standardized betas
+standardize_parameters(model_from_two_way)
 
 
 #===========Mind & Bio===========#
