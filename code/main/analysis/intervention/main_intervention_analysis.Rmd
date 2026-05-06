@@ -106,7 +106,8 @@ subjects_to_exclude <- d %>%
 dat <- d %>% 
   filter(!subject_id %in% subjects_to_exclude) %>% #exclude 1 subject who failed attn check
   filter(condition %in% c("ordinary", "magical")) %>%
-  mutate(condition = ifelse(condition == "ordinary", "Direct", "Intrinsic")) %>%
+  # mutate(condition = ifelse(condition == "ordinary", "Direct", "Intrinsic")) %>%
+  mutate(condition = ifelse(condition == "ordinary", "Ordinary", "Magical")) %>%
   mutate(response = ifelse(response == "causal", "Direct", "Intrinsic")) %>% 
   mutate(condition = as.factor(condition)) %>% 
   rowwise() %>%
@@ -239,21 +240,22 @@ rmarkdown::paged_table(dat_summarized_trials)
 
 ```{r, fig.width = 3, fig.height = 5}
 fig_slope <- dat_summarized_conditions %>%
-  mutate(response = fct_relevel(response, "Intrinsic", "Direct")) %>% 
+  mutate(response = fct_relevel(response, "Direct", "Intrinsic")) %>% 
+  mutate(condition = fct_relevel(condition, c("Magical", "Ordinary"))) %>%
   ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
   geom_col(colour = "black") +
-  scale_fill_manual(values = c("white", "#CCCCCC")) +
-  geom_errorbar(data = filter(dat_summarized_conditions, response == "Direct"),
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_summarized_conditions, response == "Intrinsic"),
               aes(ymax = ci_high,
                   ymin = ci_low,
                   width = 0.3)) +
   geom_point(
-      data = dplyr::filter(dat_summarized_trials, response == "Direct"),
+      data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
     aes(group = interaction(itemB, response)),
     alpha = 0.4, color = "black", size = 5
   ) +
   geom_line(
-    data = dplyr::filter(dat_summarized_trials, response == "Direct"),
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
     aes(group = interaction(itemB, response)),
     alpha = 0.4, color = "black"
   ) +
@@ -386,7 +388,7 @@ str(dat_summarized_by_item_levels)
 d_model <- dat %>%
   mutate(subject_id = factor(subject_id)) %>% 
   mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))) %>% 
-  mutate(condition = factor(condition, levels = c("Intrinsic", "Direct")))
+  mutate(condition = factor(condition, levels = c("Magical", "Ordinary")))
 
 model_effect_of_intervention <- glmer(response ~ condition + 
                                         (1 | subject_id), 
@@ -394,7 +396,6 @@ model_effect_of_intervention <- glmer(response ~ condition +
       data = d_model)
 
 summary(model_effect_of_intervention)
-# exp(fixef(model_effect_of_intervention))
 
 std_parameters <- standardize_parameters(model_effect_of_intervention, 
                                   ci = 0.95) %>% 
@@ -418,12 +419,12 @@ effects_df
 
 ```
 
-## Direct-only model
+## Ordinary-only model
 
 ```{r}
 d_direct <- d_model %>% 
   mutate(subject_id = factor(subject_id)) %>% 
-  filter(condition == "Direct") %>% 
+  filter(condition == "Ordinary") %>% 
   mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))) 
 
 model_effect_of_direct <- glmer(response ~ 1 + (1 | subject_id), 
@@ -436,12 +437,12 @@ paste0("odds ratio: ", exp(fixef(model_effect_of_direct)[1]))
 
 ```
 
-## Intrinsic-only model
+## Magical-only model
 
 ```{r}
 d_intrinsic <- d_model %>% 
   mutate(subject_id = factor(subject_id)) %>% 
-  filter(condition == "Intrinsic") %>% 
+  filter(condition == "Magical") %>% 
   mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))) 
 
 model_effect_of_intrinsic <- glmer(response ~ 1 + (1 | subject_id), 
@@ -640,24 +641,24 @@ dat_distances_intervention_model <- dat_distances_intervention %>%
   mutate(joint_distance_difference = freesort_minus_causal_distance_causal -
            freesort_minus_causal_distance_similar) %>% 
   mutate(response = factor(response, levels = c("Intrinsic", "Direct"))) %>% 
-  mutate(condition = factor(condition, levels = c("Direct", "Intrinsic"))) %>% 
+  mutate(condition = factor(condition, levels = c("Ordinary", "Magical"))) %>% 
   mutate(subject_id = as.factor(subject_id)) 
 
 ```
 
-## Direct condition
+## Ordinary condition
 
 ```{r}
-model_direct_distances <- glmer(response ~ joint_distance_difference + 
+model_ordinary_distances <- glmer(response ~ joint_distance_difference + 
                                   (1 | subject_id), 
     data = dat_distances_intervention_model %>% 
-      filter(condition == "Direct") %>% 
+      filter(condition == "Ordinary") %>% 
       mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))),
     family = binomial(link = 'logit'))
 
-summary(model_direct_distances)
+summary(model_ordinary_distances)
 
-std_parameters <- standardize_parameters(model_direct_distances, 
+std_parameters <- standardize_parameters(model_ordinary_distances, 
                                   ci = 0.95) %>% 
   as.data.frame() %>%
   mutate(OR = exp(Std_Coefficient),
@@ -670,18 +671,18 @@ std_parameters
 
 ```
 
-## Intrinsic condition
+## Magical condition
 
 ```{r}
-model_intrinsic_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+model_magical_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
     data = dat_distances_intervention_model %>% 
-      filter(condition == "Intrinsic") %>% 
+      filter(condition == "Magical") %>% 
       mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))),
     family = binomial(link = 'logit'))
 
-summary(model_intrinsic_distances)
+summary(model_magical_distances)
 
-std_parameters <- standardize_parameters(model_intrinsic_distances, 
+std_parameters <- standardize_parameters(model_magical_distances, 
                                   ci = 0.95) %>% 
   as.data.frame() %>%
   mutate(OR = exp(Std_Coefficient),

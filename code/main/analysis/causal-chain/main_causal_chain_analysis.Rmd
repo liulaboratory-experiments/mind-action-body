@@ -275,26 +275,27 @@ rmarkdown::paged_table(dat_summarized_trials)
 
 ```{r, fig.width = 3, fig.height = 5}
 fig_slope <- dat_summarized_conditions %>%
-  mutate(response = fct_relevel(response, "Intrinsic", "Direct")) %>% 
+  mutate(response = fct_relevel(response, "Direct", "Intrinsic")) %>% 
+  mutate(condition = fct_relevel(condition, "Intrinsic Cause", "Causal Chain")) %>% 
   ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
   geom_col(colour = "black") +
-  scale_fill_manual(values = c("white", "#CCCCCC")) +
-  geom_errorbar(data = filter(dat_summarized_conditions, response == "Direct"), 
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_summarized_conditions, response == "Intrinsic"), 
                   aes(ymax = ci_high,
                       ymin = ci_low,
                       width = 0.3)) +
   geom_point(
-    data = dplyr::filter(dat_summarized_trials, response == "Direct"),
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
     aes(group = joined),
     alpha = 0.4, color = "black", size = 5
   ) +
   geom_line(
-    data = dplyr::filter(dat_summarized_trials, response == "Direct"),
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
     aes(group = joined),
     alpha = 0.4, color = "black"
   ) +
   #   geom_text(
-  #   data = dplyr::filter(dat_summarized_trials, response == "Direct"),
+  #   data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
   #   aes(label = joined),
   #   size = 2,
   #   vjust = -0.5
@@ -479,9 +480,9 @@ ggsave(
 ```{r}
 ##factor outcome variables
 d_model <- dat %>%
-  # mutate(response = fct_relevel(response, c("similar", "causal"))) %>%
-  # mutate(response = fct_relevel(response, c("causal", "similar"))) %>%
-  mutate(subject_id = factor(subject_id))
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("Direct", "Intrinsic"))) %>% 
+  mutate(condition = factor(condition, levels = c("Causal Chain", "Intrinsic Cause")))
 
 ##run the model
 model_chain_vs_common <- glmer(response ~ condition + (1 | subject_id), 
@@ -489,7 +490,17 @@ model_chain_vs_common <- glmer(response ~ condition + (1 | subject_id),
       data = d_model)
 
 summary(model_chain_vs_common)
-exp(fixef(model_chain_vs_common))
+
+std_parameters <- standardize_parameters(model_chain_vs_common, 
+                                         ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
 
 ```
 
@@ -515,23 +526,25 @@ model_effect_of_chain <- glmer(response ~ 1 + (1 | subject_id),
 
 summary(model_effect_of_chain)
 
-# plogis(fixef(model_effect_of_chain)[1])
+paste0("probability: ", plogis(fixef(model_effect_of_chain)[1]))
+paste0("odds ratio: ", exp(fixef(model_effect_of_chain)[1]))
 
 ```
 
 ## Biological Reasoning only
 
 ```{r}
-d_common <- d_model %>% 
+d_biological <- d_model %>% 
   mutate(condition = as.character(condition)) %>% 
   filter(condition == "Intrinsic Cause") 
 
-model_effect_of_common <- glmer(response ~ 1 + (1 | subject_id), 
+model_effect_of_biological <- glmer(response ~ 1 + (1 | subject_id), 
       family = binomial(link = 'logit'), 
-      data = d_common)
-summary(model_effect_of_common)
+      data = d_biological)
+summary(model_effect_of_biological)
 
-# plogis(fixef(model_effect_of_common)[1])
+paste0("probability: ", plogis(fixef(model_effect_of_biological)[1]))
+paste0("odds ratio: ", exp(fixef(model_effect_of_biological)[1]))
 
 ```
 
