@@ -1348,7 +1348,7 @@ noise_ceiling_sorting
 ## Causal Task noise ceiling
 
 ```{r}
-d_causal_correlations <-  df_combined %>%
+d_causal_correlations <- df_combined %>%
   left_join(d_model_predictions, by = c("itemA", "itemB")) %>% 
   group_by(subject_id) %>%
   mutate(
@@ -1358,7 +1358,8 @@ d_causal_correlations <-  df_combined %>%
     `4_cosine_similarity` = compute_rdm_correlation(pick(everything()), causal_distance, `theor4_cosine_similarity`, desired_order),
     `5_causal_judgments` = compute_rdm_correlation(pick(everything()), causal_distance, `causal_distance`, desired_order)
   ) %>%
-  ungroup() 
+  ungroup() #%>% 
+  # distinct(subject_id, RDM_type, tau) #added 5/7/26
 
 # Compute noise ceiling for all subjects
 subjects_causal <- unique(d_causal_correlations$subject_id)
@@ -1558,7 +1559,7 @@ t_test_results <- d_combined_correlations %>%
   group_by(method, correlation_type) %>%
   summarise(
     mean_mean_correlation = mean(mean_correlation, na.rm = TRUE),
-    
+
     test = list(t.test(mean_correlation, mu = 0)),
     
     t_value = test[[1]]$statistic,
@@ -1591,31 +1592,27 @@ freesort_correlations <- d_freesort_correlations %>%
     names_to = "RDM_type",
     values_to = "tau"
   ) %>%
-  select(subject_id, itemA, itemB, domain_itemA, domain_itemB, trial_type_order, freesort_distance, causal_distance, RDM_type, tau) %>% 
+  select(subject_id, itemA, itemB, domain_itemA, domain_itemB, 
+         trial_type_order, freesort_distance, causal_distance, RDM_type, tau) %>% 
   mutate(
     RDM_type = as.factor(RDM_type), 
     RDM_type = relevel(RDM_type, ref = "mind_action_physiology_model") 
-  )
-
-#ensure subject_id is a factor, for running simr later
-freesort_correlations <- freesort_correlations %>%
-  mutate(subject_id = as.factor(subject_id))
-
-#summarize to 1 row per subject per model
-subject_level_data <- freesort_correlations %>%
+  ) %>% 
+  mutate(subject_id = as.factor(subject_id)) %>% 
   distinct(subject_id, RDM_type, .keep_all = TRUE) %>%
   select(subject_id, RDM_type, tau)
 
 #Note: mind action physiology is reference model. Estimates are mean kendall's taus
 model_freesort <- lmerTest::lmer(tau ~ RDM_type + (1 | subject_id), 
-              data = subject_level_data)
+              data = freesort_correlations)
 
 summary(model_freesort)
 
 confint(model_freesort)
 
 ```
- 
+
+
 ## Causal data
 
 Reported in main paper
@@ -1632,82 +1629,61 @@ causal_correlations <- d_causal_correlations %>%
     values_to = "tau"
   ) %>%
   select(subject_id, itemA, itemB, domain_itemA, domain_itemB, trial_type_order, freesort_distance, causal_distance, RDM_type, tau) %>% 
-  mutate(
-    RDM_type = as.factor(RDM_type), 
-    RDM_type = relevel(RDM_type, ref = "mind_action_physiology_model") 
-  )
-
-#ensure subject_id is a factor, for running simr later
-causal_correlations <- causal_correlations %>%
-  mutate(subject_id = as.factor(subject_id))
-
-#summarize to 1 row per subject per model
-subject_level_data <- causal_correlations %>%
-  distinct(subject_id, RDM_type, .keep_all = TRUE) %>%
+  mutate(RDM_type = as.factor(RDM_type), 
+         RDM_type = relevel(RDM_type, ref = "mind_action_physiology_model")) %>% 
+  mutate(subject_id = as.factor(subject_id)) %>% 
+  distinct(subject_id, RDM_type, .keep_all = TRUE) %>% #summarize to 1 row per subject per model
   select(subject_id, RDM_type, tau)
 
 #Note: mind action physiology is reference model. Estimates are mean kendall's taus
-model_freesort <- lmerTest::lmer(tau ~ RDM_type + (1 | subject_id), 
-              data = subject_level_data)
+model_causal <- lmerTest::lmer(tau ~ RDM_type + (1 | subject_id), 
+              data = causal_correlations)
 
-summary(model_freesort)
+summary(model_causal)
 
-confint(model_freesort)
+confint(model_causal)
 
 ```
 
 # Causal vs Freesort Models
 
-## Wrangle data 
+## Linear model comparing best model of Freesort to Causal Task
 
-Testing if the best model for the Freesort data (i.e. if Mind, action and physiology is good or bad at describing the Causal data)
+Testing if best model for the Freesort data (i.e. if Mind, action and physiology is good or bad at describing the Causal data)
 
 ```{r}
-taus_causal <- d_causal_correlations %>% 
-  rename("mind_action_physiology_model" = `1_Mind-Body-Action`,
-         "finegrained_mind_action_physiology_model" = `2_PerCog-ObjDir-Stimulus`,
-         "physical_psychological_model" = `3_Physical-Ethereal`,
-         "use_phrase_embeddings_model" = `4_cosine_similarity`) %>% 
-  pivot_longer(
-    cols = c("mind_action_physiology_model":"use_phrase_embeddings_model"),
-    names_to = "RDM_type",
-    values_to = "tau"
-  ) %>%
-  filter(RDM_type == "mind_action_physiology_model") %>% 
-  rename("causal" = tau) %>% 
-  distinct(subject_id, .keep_all = TRUE) %>% 
-  select(subject_id, causal)
+causal_subject_level <- causal_correlations %>% 
+  mutate(task = "Causal")
 
-taus_freesort <- d_freesort_correlations %>% 
-  rename("mind_action_physiology_model" = `1_Mind-Body-Action`,
-         "finegrained_mind_action_physiology_model" = `2_PerCog-ObjDir-Stimulus`,
-         "physical_psychological_model" = `3_Physical-Ethereal`,
-         "use_phrase_embeddings_model" = `4_cosine_similarity`) %>% 
-  pivot_longer(
-    cols = c("mind_action_physiology_model":"use_phrase_embeddings_model"),
-    names_to = "RDM_type",
-    values_to = "tau"
-  ) %>%
-  filter(RDM_type == "mind_action_physiology_model") %>% 
-  rename("freesort" = tau) %>% 
-  distinct(subject_id, .keep_all = TRUE) %>% 
-  select(subject_id, freesort)
+freesort_subject_level <- freesort_correlations %>% 
+  mutate(task = "Sorting")
 
-combined_taus <- taus_causal %>% 
-  left_join(taus_freesort,
-            by = "subject_id") %>% 
-  pivot_longer(cols = c(causal, freesort),
-               names_to = "task",
-               values_to = "tau") %>% 
-  mutate(
-    task = as.factor(task),  
-    task = relevel(task, ref = "freesort") 
-  ) %>% 
-  mutate(subject_id = as.factor(subject_id))
+combined_taus <- bind_rows(causal_subject_level,
+                           freesort_subject_level) %>% 
+  mutate(task = factor(task),
+         task = relevel(task, ref = "Sorting")) %>% 
+  mutate(RDM_type = as.character(RDM_type)) %>% 
+  filter(RDM_type == "mind_action_physiology_model")
 
-model_prediction2 <- lmerTest::lmer(tau ~ task + (1|subject_id), data = combined_taus)
-summary(model_prediction2)
+model_taus <- lmerTest::lmer(tau ~ task + (1 | subject_id),
+                             data = combined_taus)
 
+summary(model_taus)
+
+standardize_parameters(model_taus) #NB: intercept is comparison to grand mean, slope is comparison to intercept
+
+# Manual standardization
+# standardized_data <- combined_data %>% 
+#   mutate(mean_tau = mean(tau), #grand mean
+#          sd_tau = sd(tau)) %>% 
+#   ungroup() %>% 
+#   rowwise() %>% 
+#   mutate(z_scored_taus = (tau - mean_tau) / sd_tau)
+# 
+# model_standardized_data <- lmerTest::lmer(z_scored_taus ~ task + (1 | subject_id),
+#                data = standardized_data)
+# 
+# summary(model_standardized_data)
 
 ```
 
@@ -1715,31 +1691,24 @@ summary(model_prediction2)
 
 Compare Mind action physiology fit with freesort vs causal data
 
-```{r}
-ggplot(combined_taus, aes(x = task, y = tau)) +
-  geom_boxplot(outlier.shape = NA, fill = "lightgray") +
+```{r, fig.width = 6}
+combined_taus %>% 
+  ggplot(aes(x = task, y = tau, fill = task)) +
+  geom_boxplot(width = 0.5#,
+               # fill = "lightblue"
+               ) +
   geom_jitter(width = 0.2, alpha = 0.5) + 
   labs(title = "Comparison of Tau Values by Task",
        x = "Task",
        y = "Tau") +
-  scale_fill_manual(values = c("Sorting Task" = "darkgray", "Causal Task" = "black")) + #bar fill
-  scale_color_manual(values = c("Sorting Task" = "lightgray", "Causal Task" = "#4A4A4A")) +
-  theme_bw()
-
-ggplot(combined_taus, aes(x = task, y = tau, fill = task)) +
-  geom_boxplot(outlier.shape = NA, alpha = 0.6) +
-  geom_jitter(width = 0.2, alpha = 0.5, aes(color = task)) + 
-  scale_fill_manual(values = c("freesort" = "darkgray", "causal" = "black")) +  
-  scale_color_manual(values = c("freesort" = "darkgray", "causal" = "black")) + 
-  labs(title = "Comparison of Tau Values by Task",
-       x = "Task",
-       y = "Tau") +
+  scale_fill_manual(values = c("Sorting" = "lightgray", "Causal" = "lightblue")) + #bar fill
+  # scale_color_manual(values = c("Sorting Task" = "lightgray", "Causal Task" = "#4A4A4A")) +
   theme_bw() +
   theme(legend.position = "none",
-        axis.text.x = element_text(size = 14),
-        axis.text.y = element_text(size = 14), 
-        axis.title.x = element_text(size = 16), 
-        axis.title.y = element_text(size = 16)) 
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25), 
+        axis.title.x = element_text(size = 25), 
+        axis.title.y = element_text(size = 25)) 
 
 ```
 
