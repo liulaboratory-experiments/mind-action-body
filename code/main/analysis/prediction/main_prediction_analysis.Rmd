@@ -249,28 +249,67 @@ rmarkdown::paged_table(dat_condition_summarized)
 
 ## Specific relations reported in paper
 
+### Jumping -> tired vs walk
+
 ```{r}
 #jumping is much more likely to make someone get tired than to make them take a walk
-dat_trial_summarized %>% 
-  separate(joined, into = c("target", "choice1", "choice2"), sep = "_") %>% 
-  filter(condition == "Prediction") %>% 
-  filter(target == "jump up and down")
-
 dat_jump <- dat_pr %>% 
-  filter(
-    condition == "Prediction",
-    itemB == "jump up and down",
-    causal_itemA == "get tired",
-    similar_itemA == "take a walk"
-  )
+  filter(condition == "Prediction",
+         itemB == "jump up and down",
+         causal_itemA == "get tired",
+         similar_itemA == "take a walk") %>% 
+  mutate(direct_binary = ifelse(response == "Direct", 1, 0))
 
+#mean proportion choosing tired
+model_jump_prop <- glm(direct_binary ~ 1,
+                  family = binomial,
+                  data = dat_jump)
+
+summary(model_jump_prop)
+plogis(coef(model_jump_prop[1]))
+plogis(confint(model_jump_prop))
+
+#CIs for beta
 model_jump <- glmer(
   response ~ 1 + (1 | subject_id),
   data = dat_jump,
-  family = binomial
-)
+  family = binomial)
 
 summary(model_jump)
+standardize_parameters(model_jump)
+
+```
+
+### Hearing -> see vs scared
+
+```{r}
+#hearing is just as likely to make someone see something as to make them feel scared
+dat_hear <- dat_pr %>% 
+  filter(condition == "Prediction",
+         itemB == "hear something",
+         causal_itemA == "feel scared",
+         similar_itemA == "see something") %>% 
+  mutate(direct_binary = ifelse(response == "Direct", 1, 0))
+
+#mean proportion choosing scared0
+model_hear_prop <- glm(direct_binary ~ 1,
+                  family = binomial,
+                  data = dat_hear)
+
+summary(model_hear_prop)
+plogis(coef(model_hear_prop[1]))
+plogis(confint(model_hear_prop))
+
+#CIs for beta
+model_hear <- glmer(
+  response ~ 1 + (1 | subject_id),
+  data = dat_hear,
+  family = binomial)
+
+summary(model_hear)
+
+confint(model_hear)
+standardize_parameters(model_hear)
 
 ```
 
@@ -774,6 +813,28 @@ std_parameters
 model_inference_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
     data = dat_pr_distances_model %>% filter(condition == "Inference") %>% 
             mutate(response = fct_relevel(response, c("Direct", "Intrinsic"))),
+    family = binomial(link = 'logit'))
+
+summary(model_inference_distances)
+
+std_parameters <- standardize_parameters(model_inference_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+```
+
+## Inference condition, flipped coef
+
+```{r}
+model_inference_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+    data = dat_pr_distances_model %>% filter(condition == "Inference") %>% 
+            mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))),
     family = binomial(link = 'logit'))
 
 summary(model_inference_distances)
