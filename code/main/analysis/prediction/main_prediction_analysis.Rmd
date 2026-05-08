@@ -247,32 +247,61 @@ rmarkdown::paged_table(dat_condition_summarized)
 
 ```
 
+## Specific relations reported in paper
+
+```{r}
+#jumping is much more likely to make someone get tired than to make them take a walk
+dat_trial_summarized %>% 
+  separate(joined, into = c("target", "choice1", "choice2"), sep = "_") %>% 
+  filter(condition == "Prediction") %>% 
+  filter(target == "jump up and down")
+
+dat_jump <- dat_pr %>% 
+  filter(
+    condition == "Prediction",
+    itemB == "jump up and down",
+    causal_itemA == "get tired",
+    similar_itemA == "take a walk"
+  )
+
+model_jump <- glmer(
+  response ~ 1 + (1 | subject_id),
+  data = dat_jump,
+  family = binomial
+)
+
+summary(model_jump)
+
+```
+
+
 # Confirmatory Analysis - Figures
 
 ## Figure with slope
 
 ```{r}
 fig_slope <- dat_condition_summarized %>%
-  mutate(response = fct_relevel(response, c("Intrinsic", "Direct"))) %>%
+  mutate(response = fct_relevel(response, c("Direct", "Intrinsic"))) %>%
+  mutate(condition = fct_relevel(condition, c("Inference", "Prediction"))) %>%
   ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
   geom_col(colour = "black") +
-  scale_fill_manual(values = c("white", "#CCCCCC")) +
-  geom_errorbar(data = filter(dat_condition_summarized, response == "Direct"), 
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_condition_summarized, response == "Intrinsic"), 
               aes(ymax = ci_high,
                   ymin = ci_low,
                   width = 0.3)) +
   #   geom_text(
-  #   data = dplyr::filter(dat_trial_summarized, response == "Direct"),
+  #   data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
   #   aes(label = joined),
   #   size = 2,
   #   vjust = -0.5
   # ) +
   geom_point(
-    data = dplyr::filter(dat_trial_summarized, response == "Direct"),
+    data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
     aes(group = joined),
     alpha = 0.4, color = "black", size = 5) +
   geom_line(
-    data = dplyr::filter(dat_trial_summarized, response == "Direct"),
+    data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
     aes(group = joined),
     alpha = 0.4, color = "black"
   ) +
@@ -496,6 +525,7 @@ paste0("probability: ", plogis(fixef(model_inference)[1]))
 paste0("odds ratio: ", exp(fixef(model_inference)[1]))
 
 ```
+
 # Distances - Prep
 
 The exploratory distance analysis asks whether we can use the quantitative distances to explain variation in effect sizes across trials.  
