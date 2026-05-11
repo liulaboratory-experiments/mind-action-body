@@ -564,6 +564,27 @@ plot(allEffects(model_effect_of_distance))
 
 ```
 
+## Model - Joint_direct + Joint_intrinsic
+
+Modelling joint distances independently
+
+```{r}
+dat_model_separate <-dat_long_distances %>% 
+  pivot_wider(names_from = "counterfactual_type", 
+              values_from = "joint_distance") %>% 
+  group_by(target) %>% 
+  mutate(joint_intrinsic = first(na.omit(Intrinsic))) %>%
+  mutate(joint_direct = first(na.omit(Direct))) %>% 
+  ungroup()
+
+model_separate <- lmerTest::lmer(likelihood ~ joint_direct + joint_intrinsic + (1|subject_id),
+               data = dat_model_separate)
+
+summary(model_separate)
+standardize_parameters(model_separate)
+  
+```
+
 ## Model - Distance * Type
 
 This is it!

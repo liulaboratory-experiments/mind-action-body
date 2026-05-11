@@ -546,30 +546,12 @@ plot(allEffects(model_effect_of_distance))
 
 ```
 
-## Model - Distance + Type
-Ok damn yeah this is not what we want. Its basically asking what the main model is asking (satifactory ~ type, basically if you average jd, whats effect of type? Instead, we want satifactory ~ distance * type)
- ()
-```{r}
-model_effect_of_distance_explanation_type <- lmerTest::lmer(satisfactory ~ joint_distance + 
-                                                    explanation_type + (1|subject_id), 
-               data = dat_long_distances)
+## Model - Joint_direct + Joint_intrinsic
 
-#model outputs
-summary(model_effect_of_distance_explanation_type)
-confint(model_effect_of_distance_explanation_type) #cis unstandardized
-standardize_parameters(model_effect_of_distance_explanation_type) #cis standardized
-
-#plot
-plot(allEffects(model_effect_of_distance_explanation_type))
-
-```
-
-## Model of joint distances independently
-
-What I had before: joint_distance ~ joint_direct + joint_intrinsic
+Modelling joint distances independently
 
 ```{r}
-dat_model_2 <-dat_long_distances %>% 
+dat_model_separate <-dat_long_distances %>% 
   pivot_wider(names_from = "explanation_type", 
               values_from = "joint_distance") %>% 
   group_by(target) %>% 
@@ -577,55 +559,41 @@ dat_model_2 <-dat_long_distances %>%
   mutate(joint_direct = first(na.omit(Direct))) %>% 
   ungroup()
 
-dat_model_joint_separate <- lmerTest::lmer(satisfactory ~ joint_direct + joint_intrinsic + (1|subject_id),
-               data = dat_model_2)
+model_separate <- lmerTest::lmer(satisfactory ~ joint_direct + joint_intrinsic + (1|subject_id),
+               data = dat_model_separate)
 
-summary(dat_model_joint_separate)
-standardize_parameters(dat_model_joint_separate)
+summary(model_separate)
+standardize_parameters(model_separate)
   
 ```
 
 ## Model - Distance * Type
 
-This is it!
+This is it.
 
 ```{r}
 # For overall slope
-model_effect_of_distance_explanation_type <- lmerTest::lmer(satisfactory ~ joint_distance * 
-                                                              explanation_type + (1|subject_id), 
-               data = dat_long_distances)
-standardize_parameters(model_effect_of_distance_explanation_type ) #cis standardized
-
-
-# For individual slopes
-model_interaction_of_distance_explanation_type <- lmerTest::lmer(satisfactory ~ joint_distance * explanation_type + (1|subject_id), 
+model_interaction <- lmerTest::lmer(satisfactory ~ 
+                                      joint_distance * explanation_type 
+                                    + (1|subject_id), 
                data = dat_long_distances)
 
 #model outputs
-summary(model_interaction_of_distance_explanation_type)
-confint(model_interaction_of_distance_explanation_type) #cis unstandardized
-standardize_parameters(model_interaction_of_distance_explanation_type) #cis standardized
+summary(model_interaction)
+confint(model_interaction) #cis unstandardized
+standardize_parameters(model_interaction) #cis standardized
 
-
-beta_direct <- fixef(model_interaction_of_distance_explanation_type)["joint_distance"]
-
-beta_intrinsic <- beta_direct + 
-  fixef(model_interaction_of_distance_explanation_type)["joint_distance:explanation_typeIntrinsic"]
-
-
-#===
-library(effectsize)
-
-model_interaction_standardized <- standardize(model_interaction_of_distance_explanation_type, method = "refit")
+#standardized betas
+model_interaction_standardized <- standardize(model_interaction, method = "refit")
 
 beta_direct_std <- fixef(model_interaction_standardized)["joint_distance"]
 beta_direct_std 
 
 beta_intrinsic_std <- beta_direct_std + 
   fixef(model_interaction_standardized)["joint_distance:explanation_typeIntrinsic"]
+beta_intrinsic_std
 
-#==standardized cis
-
+#==standardized betas with cis 
 model_std <- standardize(model_interaction_standardized, method = "refit")
 
 emtrends(model_std, 
@@ -633,9 +601,6 @@ emtrends(model_std,
          var = "joint_distance")
 
 ```
-
-
-
 
 # THE END
 
