@@ -360,8 +360,6 @@ p_intervention <-  dat_summarized_by_item_levels %>%
 
 p_intervention
 
-str(dat_summarized_by_item_levels)
-
 # ggsave(
 #   filename = "figures/p_intervention_item-level_stacked.pdf",
 #   plot = p_intervention,          
@@ -508,7 +506,7 @@ dat_distances_intervention <- read_csv(paste0(analysis_path,
 
 # Distances - Figures
 
-## Direct condition
+## Ordinary condition
 
 ```{r}
 short_names <- c(
@@ -547,8 +545,8 @@ dat_distances_wrangled <- dat_distances_intervention %>%
   arrange(mean_proportion) %>% 
   relocate(mean_proportion, .after = joined) 
 
-dat_distances_direct <- dat_distances_wrangled %>% 
-  filter(condition == "Direct") %>% 
+dat_distances_ordinary <- dat_distances_wrangled %>% 
+  filter(condition == "Ordinary") %>% 
   filter(response == "Direct")  %>% 
   separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
          sep = "_") %>%
@@ -561,7 +559,7 @@ dat_distances_direct <- dat_distances_wrangled %>%
                          causal_itemA, "\n", "essential: ",
                          similar_itemA))  
 
-fig_direct_distance <- dat_distances_direct %>% 
+fig_ordinary_distance <- dat_distances_ordinary %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
   geom_point(size = 5, alpha = 0.4) +
   geom_smooth(method = "lm") +
@@ -569,7 +567,7 @@ fig_direct_distance <- dat_distances_direct %>%
   # geom_text(aes(label = labels), size = 3, vjust = 1.3) + #uncomment to see labels
   theme_bw() +
   labs(
-      title = "Direct Condition",
+      title = "Ordinary Condition",
       x = "Direct more causally relevant →\nIntrinsic item is more intrinsically relevant →",
        y = "Proportion (Direct)") +
   coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
@@ -582,18 +580,18 @@ fig_direct_distance <- dat_distances_direct %>%
         plot.title = element_blank(),
         legend.position = "none") 
 
-fig_direct_distance 
+fig_ordinary_distance 
 
-fig_direct_distance <- ggsave("figures/direct_distances.png", width = 6, height = 4, 
-                        plot = fig_direct_distance, bg = "white")
+fig_ordinary_distance <- ggsave("figures/ordinary_distances.png", width = 6, height = 4, 
+                        plot = fig_ordinary_distance, bg = "white")
 
 ```
 
-## Intrinsic condition
+## Magical condition
 
 ```{r}
-dat_distances_intrinsic <- dat_distances_wrangled %>% 
-  filter(condition == "Intrinsic") %>% 
+dat_distances_magical <- dat_distances_wrangled %>% 
+  filter(condition == "Magical") %>% 
   filter(response == "Direct")  %>% 
   separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
          sep = "_") %>%
@@ -605,14 +603,14 @@ dat_distances_intrinsic <- dat_distances_wrangled %>%
   mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "essential: ",
                          similar_itemA))  
 
-fig_intrinsic_distance <- dat_distances_intrinsic %>% 
+fig_magical_distance <- dat_distances_magical %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
   geom_point(size = 5, alpha = 0.4) +
   geom_smooth(method = "lm") +
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   theme_bw() +
   labs(
-      title = "Intrinsic Condition",
+      title = "Magical Condition",
       x = "Direct more causally relevant →\nIntrinsic item is more intrinsically relevant →",
       y = "Proportion (Direct)") +
   coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
@@ -625,10 +623,10 @@ fig_intrinsic_distance <- dat_distances_intrinsic %>%
         plot.title = element_blank(),
         legend.position = "none")
  
-fig_intrinsic_distance
+fig_magical_distance
 
-fig_intrinsic_distance <- ggsave("figures/intrinsic_distances.png", width = 6, height = 4, 
-                        plot = fig_intrinsic_distance, bg = "white")
+fig_magical_distance <- ggsave("figures/magical_distances.png", width = 6, height = 4, 
+                        plot = fig_magical_distance, bg = "white")
 
 ```
 

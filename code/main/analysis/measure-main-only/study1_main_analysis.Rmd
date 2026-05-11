@@ -926,6 +926,7 @@ compute_ci(df_causal %>%
 
 ```
 
+# NB: Maybe move this to causal signatures script?
 
 ## Figure: For Causal Signatures SPP 2026
 
