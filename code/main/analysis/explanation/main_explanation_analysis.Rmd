@@ -468,6 +468,48 @@ dat_trials_summarized_distances_long <- read_csv(paste0(analysis_path,
 
 # Distances - Figures
 
+## One smooth line
+
+```{r}
+fig_distances <- dat_trials_summarized_distances_long %>% 
+  mutate(target = recode(target, !!!short_names),
+         explanation = recode(explanation,!!!short_names)) %>% 
+  mutate(labels = paste0("target: ", target, "\n", explanation_type, ": ", explanation)) %>% 
+  ggplot(aes(y = mean_satisfactory, x = joint_distance)) +
+  geom_point(aes(color = explanation_type), alpha = 0.4, size = 5) +
+  # geom_smooth(aes(color = explanation_type), method = "lm") +
+  geom_smooth(method = "lm", color = "black") +
+  # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 30),
+        axis.text.y = element_text(size = 30),
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 18),
+        legend.position = "top",
+        plot.title = element_text(hjust = 0.5)
+        ) +
+  labs(
+    title = "Explanation",
+    color = "Choice Item",
+    fill = "Choice Item",
+    x = "More intrinsically relevant, More directly relevant",
+    y = "Satisfactory ratings"
+  ) 
+
+fig_distances
+
+ggsave("figures/explanation_distances_1_line.png", width = 6, height = 4,
+                        plot = fig_distances, bg = "white")
+
+# ggsave("figures/explanation_distances_labels.png", 
+#                                width = 5, height = 5, plot = fig_distances_labels, bg = "white")
+
+```
+
+## 2 lines
+
 ```{r}
 fig_distances <- dat_trials_summarized_distances_long %>% 
   mutate(target = recode(target, !!!short_names),
@@ -498,7 +540,7 @@ fig_distances <- dat_trials_summarized_distances_long %>%
 
 fig_distances
 
-ggsave("figures/explanation_distances_3_lines.png", width = 6, height = 4,
+ggsave("figures/explanation_distances_2_lines.png", width = 6, height = 4,
                         plot = fig_distances, bg = "white")
 
 # ggsave("figures/explanation_distances_labels.png", 
