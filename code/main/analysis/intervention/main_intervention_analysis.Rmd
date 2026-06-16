@@ -347,7 +347,7 @@ fig_slope <- dat_summarized_conditions %>%
 
 fig_slope
 
-fig_slope <- ggsave("figures/intervention_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+fig_slope <- ggsave("figures/intervention_slope-black-and-white.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
 
 ```
 
@@ -652,7 +652,7 @@ fig_ordinary_distance <- dat_distances_ordinary %>%
 
 fig_ordinary_distance 
 
-fig_ordinary_distance <- ggsave("figures/ordinary_distances.png", width = 6, height = 4, 
+fig_ordinary_distance <- ggsave("figures/ordinary_distances.png", width = 6, height = 4.5, 
                         plot = fig_ordinary_distance, bg = "white")
 
 ```
@@ -695,7 +695,7 @@ fig_magical_distance <- dat_distances_magical %>%
  
 fig_magical_distance
 
-fig_magical_distance <- ggsave("figures/magical_distances.png", width = 6, height = 4, 
+fig_magical_distance <- ggsave("figures/magical_distances.png", width = 6, height = 4.5, 
                         plot = fig_magical_distance, bg = "white")
 
 ```

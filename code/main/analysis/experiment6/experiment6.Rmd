@@ -661,7 +661,7 @@ write_csv(d_cc_distances, "dat_causal_chain_distances.csv")
 analysis_path <- here("code", "main", "analysis")
 
 d_cc_distances <- read_csv(paste0(analysis_path,
-                "/causal-chain/dat_causal_chain_distances.csv"))
+                "/experiment6/dat_causal_chain_distances.csv"))
 
 ```
 
@@ -709,7 +709,8 @@ d_cc_distances_summarized <- d_cc_distances %>% #rename all these to summarized
 
 d_cc_distances_summarized_causal_chain <- d_cc_distances_summarized %>% 
   filter(condition == "Causal Chain") %>% 
-  filter(response == "Intrinsic")  %>% 
+  # filter(response == "Intrinsic")  %>% 
+  filter(response == "Direct")  %>% 
   separate(joined, into = c("first_item", "middle_causal", "middle_similar", "third_item"),
          sep = "_") %>%
   mutate(joined = paste0("first: ", first_item, "\n", "direct: ", middle_causal, "\n", "essential: ", middle_similar, "third: ", third_item, "\n"))  %>% 
@@ -723,17 +724,18 @@ d_cc_distances_summarized_causal_chain <- d_cc_distances_summarized %>%
 
 fig_cc_distances <- d_cc_distances_summarized_causal_chain %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
-  # geom_point(size = 5, alpha = 0.4) +
-  geom_smooth(method = "lm", color = "black") +
-  geom_point(
-      aes(fill = response),
-                      shape = 21,
-                      color = "black",
-                      size = 5,
-                      alpha = 0.8) +
-  scale_fill_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+  geom_point(size = 5, alpha = 0.4) +
+  # geom_smooth(method = "lm", color = "black") +
+  geom_smooth(method = "lm") +
+  # geom_point(
+  #     # aes(fill = response),
+  #                     shape = 21,
+  #                     color = "black",
+  #                     size = 5,
+  #                     alpha = 0.8) +
+  # scale_fill_manual(values = c(
+  #         "Direct" = "#CCCCCC",
+  #         "Intrinsic" = "white")) +
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   # geom_text(aes(label = labels), size = 3, vjust = 1.3) +
   theme_bw() +
@@ -753,7 +755,7 @@ fig_cc_distances <- d_cc_distances_summarized_causal_chain %>%
 
 fig_cc_distances 
 
-fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6, height = 4,
+fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6, height = 4.5, #height was 4
                         plot = fig_cc_distances, bg = "white")
 
 ```
@@ -763,7 +765,8 @@ fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6,
 ```{r}
 d_cc_distances_summarized_intrinsic_cause <- d_cc_distances_summarized %>% 
   filter(condition == "Intrinsic Cause") %>% 
-  filter(response == "Intrinsic")  %>% 
+  # filter(response == "Intrinsic")  %>% 
+  filter(response == "Direct")  %>% 
   separate(joined, into = c("first_item", "middle_causal", "middle_similar", "third_item"),
          sep = "_") %>%
   mutate(joined = paste0("first: ", first_item, "\n", "direct: ", middle_causal, "\n", "essential: ", middle_similar, "third: ", third_item, "\n"))  %>% 
@@ -777,18 +780,19 @@ d_cc_distances_summarized_intrinsic_cause <- d_cc_distances_summarized %>%
 
 fig_ic_distances <- d_cc_distances_summarized_intrinsic_cause %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
-  # geom_point(size = 5, alpha = 0.4) +
-  geom_smooth(method = "lm", color = "black") +
-  
-  geom_point(
-      aes(fill = response),
-                      shape = 21,
-                      color = "black",
-                      size = 5,
-                      alpha = 0.8) +
-  scale_fill_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+  geom_point(size = 5, alpha = 0.4) +
+  # geom_smooth(method = "lm", color = "black") +
+  geom_smooth(method = "lm") +
+
+  # geom_point(
+  #     aes(fill = response),
+  #                     shape = 21,
+  #                     color = "black",
+  #                     size = 5,
+  #                     alpha = 0.8) +
+  # scale_fill_manual(values = c(
+  #         "Direct" = "#CCCCCC",
+  #         "Intrinsic" = "white")) +
   
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   # geom_text(aes(label = labels), size = 3, vjust = -.2) +
@@ -809,7 +813,7 @@ fig_ic_distances <- d_cc_distances_summarized_intrinsic_cause %>%
 
 fig_ic_distances
 
-fig_ic_distances <- ggsave("figures/intrinsic_cause_distances_wide.png", width = 6, height = 4, 
+fig_ic_distances <- ggsave("figures/intrinsic_cause_distances_wide.png", width = 6, height = 4.5, 
                         plot = fig_ic_distances, bg = "white")
 
 ```

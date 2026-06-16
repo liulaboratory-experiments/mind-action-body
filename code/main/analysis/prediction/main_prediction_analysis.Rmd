@@ -363,6 +363,67 @@ fig_slope
 
 fig_slope <- ggsave("figures/prediction_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
 
+```
+
+## Figure with slope - black and white
+
+```{r}
+fig_slope <- dat_condition_summarized %>%
+  mutate(response = fct_relevel(response, c("Direct", "Intrinsic"))) %>%
+  mutate(condition = fct_relevel(condition, c("Inference", "Prediction"))) %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_condition_summarized, response == "Intrinsic"), 
+              aes(ymax = ci_high,
+                  ymin = ci_low,
+                  width = 0.3)) +
+  #   geom_text(
+  #   data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
+  #   aes(label = joined),
+  #   size = 2,
+  #   vjust = -0.5
+  # ) +
+  # geom_point(
+  #   data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
+  #   aes(group = joined),
+  #   alpha = 0.4, color = "black", size = 5) +
+  
+  geom_point(
+      data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
+    aes(group = joined,
+        fill = response),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
+  geom_line(
+    data = dplyr::filter(dat_trial_summarized, response == "Intrinsic"),
+    aes(group = joined),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion", x = "Condition", fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    #aspect.ratio = 1.5,
+    legend.text = element_text(size = 25)
+  )
+
+fig_slope
+
+fig_slope <- ggsave("figures/prediction_slope-black-and-white.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
 
 ```
 
@@ -697,7 +758,7 @@ fig_pred_distance <- d_prop_and_distances_prediction %>%
 
 fig_pred_distance
 
-fig_pred_distance <- ggsave("figures/prediction_distances_points-yCC.png", width = 6, height = 4,
+fig_pred_distance <- ggsave("figures/prediction_distances_points-yCC.png", width = 6, height = 4.5,
                         plot = fig_pred_distance, bg = "white")
 
 # fig_pred_distance <- ggsave("figures/prediction_distances_points_reversed_jd.png", width = 6, height = 4,
@@ -846,7 +907,7 @@ fig_inf_distance <- d_prop_and_distances_inference %>%
 
 fig_inf_distance
 
-fig_inf_distance <- ggsave("figures/inference_distances_points-yCC.png", width = 6, height = 4,
+fig_inf_distance <- ggsave("figures/inference_distances_points-yCC.png", width = 6, height = 4.5,
                         plot = fig_inf_distance, bg = "white")
 
 # fig_inf_distance <- ggsave("figures/inference_distances_points_reverse_jd.png", width = 6, height = 4,
