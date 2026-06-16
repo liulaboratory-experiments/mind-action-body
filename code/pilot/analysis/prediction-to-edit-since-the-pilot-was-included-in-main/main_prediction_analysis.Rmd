@@ -42,10 +42,10 @@ sessionInfo()
 ```{r}
 base_path <- here("code", "main")
 freesort_and_causal_distances_df_path <- paste0(base_path,
-                                                "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
+                                                "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
 
 freesort_and_causal_distances_constrained_df_path <- paste0(base_path,
-                                                "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis/short_list_domain_constraints.csv")
+                                                "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis/short_list_domain_constraints.csv")
 
 ```
 

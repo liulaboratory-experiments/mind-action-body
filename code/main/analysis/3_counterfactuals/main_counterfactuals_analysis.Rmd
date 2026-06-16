@@ -15,7 +15,7 @@ author: ""
 
 This is the analysis for the Counterfactuals study.  
 The study had N = 105 (before exclusions).  
-The independent variable is whether the preceding item in a counterfactual scenario is a Direct or Intrinsic item (within-subjects).   
+The independent variable is whether the preceding item in a counterfactual scenario is a CC or CO item (within-subjects).   
 The dependent variable is the likelihood of the target event occuring in the counterfactual scenario where the preceding item is blocked/absent. 
 
 # Setup
@@ -55,7 +55,7 @@ sessionInfo()
 ```{r}
 base_path <- here("code", "main")
 freesort_and_causal_distances_df_path <- paste0(base_path,
-                                                "/analysis/measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
+                                                "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
 
 short_names <- c(
   "see something" = "see",
@@ -102,7 +102,7 @@ compact_names <- c(
 ## Read data
 
 ```{r, warnings = FALSE}
-data_path_cf <- paste0(base_path, "/data/counterfactuals/JO-mbc-main-counterfactuals-105N")
+data_path_cf <- paste0(base_path, "/data/3_counterfactuals/JO-mbc-main-counterfactuals-105N")
 
 desired_order <- c("see something", "hear something", "choose what to do", 
                    "remember something", "think about something", "reach for something", 
@@ -193,15 +193,15 @@ paste0("N subjects: ", n_subjects)
 ```{r}
 # Raw Long form data
 dat_long <- dat %>% 
-  rename("Direct" = causal_itemA_counterfactual,
-         "Intrinsic" = similar_itemA_counterfactual) %>% 
-  pivot_longer(cols = c("Direct", "Intrinsic"), 
+  rename("CC" = causal_itemA_counterfactual,
+         "CO" = similar_itemA_counterfactual) %>% 
+  pivot_longer(cols = c("CC", "CO"), 
                names_to = "counterfactual_type",
                values_to = "likelihood") %>% 
-  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Direct", "Intrinsic"))) %>% 
+  mutate(counterfactual_type = factor(counterfactual_type, levels = c("CC", "CO"))) %>% 
   mutate(counterfactual = case_when(
-    counterfactual_type == "Direct" ~ causal_itemA,
-    counterfactual_type == "Intrinsic" ~ similar_itemA)) %>% 
+    counterfactual_type == "CC" ~ causal_itemA,
+    counterfactual_type == "CO" ~ similar_itemA)) %>% 
   select(subject_id, target, counterfactual, counterfactual_type, likelihood) %>% 
   arrange(subject_id, target)
 
@@ -287,8 +287,8 @@ fig_slope <- dat_long %>%
              color = "black") +
   
   scale_fill_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
   
   geom_line(data = dat_trials_summarized, 
             aes(x = counterfactual_type, 
@@ -438,7 +438,7 @@ dat_long %>%
 
 ```{r}
 dat_model <- dat_long %>% 
-  mutate(counterfactual_type = factor(counterfactual_type, levels = c("Intrinsic", "Direct")), 
+  mutate(counterfactual_type = factor(counterfactual_type, levels = c("CO", "CC")), 
          subject_id = as_factor(subject_id)) 
 
 rmarkdown::paged_table(dat_model)
@@ -589,8 +589,8 @@ fig_distances <- dat_trials_summarized_distances_long %>%
                       size = 5,
                       alpha = 0.8) +
   scale_fill_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
   
   # geom_smooth(method = "lm") + 
   # geom_smooth(aes(color = counterfactual_type), method = "lm") +
@@ -642,8 +642,8 @@ fig_distances <- dat_trials_summarized_distances_long %>%
                       size = 5,
                       alpha = 0.8) +
   scale_fill_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
   
   # geom_smooth(method = "lm") + 
   # geom_smooth(aes(color = counterfactual_type), method = "lm") +
@@ -653,8 +653,8 @@ fig_distances <- dat_trials_summarized_distances_long %>%
   
   
   scale_color_manual(values = c(
-          "Direct" = "#CCCCCC",
-          "Intrinsic" = "white")) +
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
   
    ylim(0, 100) +
 
@@ -729,7 +729,7 @@ plot(allEffects(model_effect_of_distance))
 
 ```
 
-## Model - Joint_direct + Joint_intrinsic
+## Model - Joint_CC + Joint_CO
 
 Modelling joint distances independently
 
@@ -738,11 +738,11 @@ dat_model_separate <-dat_long_distances %>%
   pivot_wider(names_from = "counterfactual_type", 
               values_from = "joint_distance") %>% 
   group_by(target) %>% 
-  mutate(joint_intrinsic = first(na.omit(Intrinsic))) %>%
-  mutate(joint_direct = first(na.omit(Direct))) %>% 
+  mutate(joint_CO = first(na.omit(CO))) %>%
+  mutate(joint_CC = first(na.omit(CC))) %>% 
   ungroup()
 
-model_separate <- lmerTest::lmer(likelihood ~ joint_direct + joint_intrinsic + (1|subject_id),
+model_separate <- lmerTest::lmer(likelihood ~ joint_CC + joint_CO + (1|subject_id),
                data = dat_model_separate)
 
 summary(model_separate)
@@ -775,7 +775,7 @@ standardize_parameters(model_interaction_of_distance) #cis standardized
 beta_direct <- fixef(model_interaction_of_distance)["joint_distance"]
 
 beta_intrinsic <- beta_direct + 
-  fixef(model_interaction_of_distance)["joint_distance:explanation_typeIntrinsic"]
+  fixef(model_interaction_of_distance)["joint_distance:counterfactual_typeCO"]
 
 
 #===
@@ -786,7 +786,7 @@ beta_direct_std <- fixef(model_interaction_standardized)["joint_distance"]
 beta_direct_std 
 
 beta_intrinsic_std <- beta_direct_std + 
-  fixef(model_interaction_standardized)["joint_distance:explanation_typeIntrinsic"]
+  fixef(model_interaction_standardized)["joint_distance:counterfactual_typeCO"]
 
 #==standardized cis
 model_std <- standardize(model_interaction_standardized, method = "refit")

@@ -51,7 +51,7 @@ main_path <- here("code", "main") #for grabbing updated items
 # freesort_and_causal_distances_df_path <- paste0(base_path, "/data/data-study4-explanations/freesort_minus_causals.csv")
 
 snapshots_input_path_main <- paste0(main_path,
-                               "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
+                               "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis")
 preceding_distances_path <- paste0(snapshots_input_path_main,
                                                 "/preceding_short_list_domain_constraints.csv")
 following_distances_path <- paste0(snapshots_input_path_main,

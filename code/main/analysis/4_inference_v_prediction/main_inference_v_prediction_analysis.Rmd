@@ -1,0 +1,1068 @@
+---
+title: "Prediction"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-09-19"
+author: ""
+---
+
+# ReadMe
+
+- This is the analysis script for the Prediction vs Inductive Inference study.  
+- Date run: 11/7/25
+- N = 105 before exclusions
+- 2 between-subjects conditions: Prediction task vs Inductive Inference task.
+- DV: If x happens, what will happen next? (Prediction), if creature can do x, what else can it do? (Inductive inference), IV: Binary choice between CC vs CO event (Prediction), Binary choice between CC vs CO item (Inference).
+- Hypothesis: subjects choose CC item for predicting next event, and CO item for inferring what other capacity a creature will have.
+
+# Setup
+
+## Load packages
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+pacman::p_load(
+               lme4, 
+               here, 
+               patchwork, 
+               cowplot, 
+               viridis, 
+               effects, 
+               gt,
+               webshot2,
+               knitr,
+               performance,
+               effectsize,
+               simr,
+               conflicted,
+               tidyverse)
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ conflict_prefer(.x, "dplyr"))
+conflicts_prefer(simr::fixed)
+sessionInfo()
+
+```
+
+## Global variables
+
+```{r}
+base_path <- here("code", "main")
+freesort_and_causal_distances_df_path <- paste0(base_path,
+                                                "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis/freesort_minus_causals.csv")
+
+freesort_and_causal_distances_constrained_df_path <- paste0(base_path,
+                                                "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis/short_list_domain_constraints.csv")
+
+```
+
+# Confirmatory Analysis - Prep
+
+The main confirmatory analysis asks what proportion of subjects select the CC vs CO item in each condition. 
+
+## Read data
+
+```{r}
+data_path_pr <- paste0(base_path, "/data/4_inference_v_prediction/JO-mbc-main-v2-prediction-105N")
+
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+
+file_paths <- list.files(path = data_path_pr, pattern = "^2025-", full.names = TRUE)
+
+d_pr <- imap_dfr(file_paths, ~ {
+  read_csv(.x, col_types = cols(response = col_character())) %>%
+    mutate(
+      filename = basename(.x),
+      subject_id = paste0("subj_", str_pad(.y, 2, pad = "0"))
+    )}) %>%
+  select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
+  relocate(subject_id, .before = "success")
+
+rmarkdown::paged_table(d_pr)
+
+```
+
+## Wrangle data
+
+```{r}
+subjects_to_exclude <- d_pr %>%
+  filter(grepl("attention_check", condition)) %>% 
+  mutate(attn_correct = correct_response_attn == selected_choice) %>%
+  filter(attn_correct == FALSE) %>% 
+  pull(subject_id) %>% 
+  unique()
+
+dat_pr <- d_pr %>% 
+  filter(!subject_id %in% subjects_to_exclude) %>% 
+  filter(condition %in% c("event_prediction", "trait_inference")) %>%
+  mutate(response = ifelse(response == "causal", "CC", "CO")) %>% 
+  mutate(response = as.factor(response)) %>% 
+  mutate(condition = ifelse(condition == "event_prediction", "Prediction", "Inference")) %>% 
+  mutate(condition = as.factor(condition)) %>% 
+  mutate(condition = fct_relevel(condition, c("Prediction", "Inference"))) %>% 
+  rowwise() %>%
+  mutate(response = case_when(
+    grepl(causal_itemA, selected_choice) ~ "CC",
+    grepl(similar_itemA, selected_choice) ~ "CO",
+    TRUE ~ "other"
+  )) %>% 
+  ungroup() %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC"))) %>% 
+  select(subject_id, condition, itemB, causal_itemA, similar_itemA, response) %>% 
+  mutate(causal_itemA = factor(causal_itemA, levels = desired_order),
+         similar_itemA = factor(similar_itemA, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(domain_itemB = case_when(itemB == "hear something" ~ "mind", #labels for first item of pair
+                                 itemB == "choose what to do" ~ "mind",
+                                 itemB == "remember something" ~ "mind",
+                                 itemB == "think about something" ~ "mind",
+                                 itemB == "see something" ~ "mind",
+                                 itemB == "reach for something" ~ "action",
+                                 itemB == "sit down" ~ "action", 
+                                 itemB == "jump up and down" ~ "action",
+                                 itemB == "kick something" ~ "action",
+                                 itemB == "take a walk" ~ "action",
+                                 itemB == "get tired" ~ "bio", 
+                                 itemB == "become hungry" ~ "bio",
+                                 itemB == "feel scared"~ "bio",
+                                 itemB == "experience pain"~ "bio",
+                                 itemB == "get sick"~ "bio"),
+         domain_causalitemA = case_when(causal_itemA == "hear something" ~ "mind", 
+                                 causal_itemA == "choose what to do" ~ "mind",
+                                 causal_itemA == "remember something" ~ "mind",
+                                 causal_itemA == "think about something" ~ "mind",
+                                 causal_itemA == "see something" ~ "mind",
+                                 causal_itemA == "reach for something" ~ "action",
+                                 causal_itemA == "sit down" ~ "action", 
+                                 causal_itemA == "jump up and down" ~ "action",
+                                 causal_itemA == "kick something" ~ "action",
+                                 causal_itemA == "take a walk" ~ "action",
+                                 causal_itemA == "get tired" ~ "bio", 
+                                 causal_itemA == "become hungry" ~ "bio",
+                                 causal_itemA == "feel scared"~ "bio",
+                                 causal_itemA == "experience pain"~ "bio",
+                                 causal_itemA == "get sick"~ "bio"),
+          domain_similaritemA = case_when(similar_itemA == "hear something" ~ "mind", 
+                                 similar_itemA == "choose what to do" ~ "mind",
+                                 similar_itemA == "remember something" ~ "mind",
+                                 similar_itemA == "think about something" ~ "mind",
+                                 similar_itemA == "see something" ~ "mind",
+                                 similar_itemA == "reach for something" ~ "action",
+                                 similar_itemA == "sit down" ~ "action", 
+                                 similar_itemA == "jump up and down" ~ "action",
+                                 similar_itemA == "kick something" ~ "action",
+                                 similar_itemA == "take a walk" ~ "action",
+                                 similar_itemA == "get tired" ~ "bio", 
+                                 similar_itemA == "become hungry" ~ "bio",
+                                 similar_itemA == "feel scared"~ "bio",
+                                 similar_itemA == "experience pain"~ "bio",
+                                 similar_itemA == "get sick"~ "bio")) 
+
+rmarkdown::paged_table(dat_pr)
+```
+
+## Demographics
+
+```{r}
+# demographics
+df_demographics <- d_pr %>% 
+  filter(trial_type == "survey-html-form") %>% 
+  select("trial_id", "filename", 
+         "feedback", "age", "ethnicity", "gender", "race") 
+
+paste0("pre-exclusion N: ", d_pr %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+paste0("post-exclusion N: ", dat_pr %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+summary(df_demographics$filename)
+summary(df_demographics$age)
+table(df_demographics$gender)
+table(df_demographics$ethnicity)
+table(df_demographics$race)
+
+```
+
+## Summarize data
+
+```{r}
+# Trial-level summary
+dat_trial_summarized <- dat_pr %>%
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, joined, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    .groups = "drop"
+  ) %>% 
+  tidyr::complete(condition, joined, response, fill = list(count = 0)) %>% 
+  group_by(condition, joined) %>%
+  fill(total, .direction = "downup") %>%
+  mutate(
+    mean_proportion = count / total,
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+    ci_low = pmax(0, mean_proportion - 1.96 * se),
+    ci_high = pmin(1, mean_proportion + 1.96 * se)
+  ) %>%
+  ungroup() 
+
+rmarkdown::paged_table(dat_trial_summarized %>% 
+                         separate(joined, 
+                                  into = c("itemB", "causal_itemA", "similar_itemA"), 
+                                  sep = "_"))
+
+# Condition-level summary
+dat_condition_summarized <- dat_pr %>%
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    .groups = "drop"
+  ) %>% 
+  tidyr::complete(
+    condition,
+    response = c("CO", "CC"),
+    fill = list(count = 0)
+  ) %>%
+  group_by(condition) %>%
+  fill(total, .direction = "downup") %>%
+  mutate(
+    mean_proportion = count / total,
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+    ci_low = pmax(0, mean_proportion - 1.96 * se),
+    ci_high = pmin(1, mean_proportion + 1.96 * se)
+  ) %>%
+  ungroup()
+
+rmarkdown::paged_table(dat_condition_summarized)
+
+```
+
+## Specific relations reported in paper
+
+### Jumping -> tired vs walk
+
+```{r}
+#jumping is much more likely to make someone get tired than to make them take a walk
+dat_jump <- dat_pr %>% 
+  filter(condition == "Prediction",
+         itemB == "jump up and down",
+         causal_itemA == "get tired",
+         similar_itemA == "take a walk") %>% 
+  mutate(direct_binary = ifelse(response == "CC", 1, 0))
+
+#mean proportion choosing tired
+model_jump_prop <- glm(direct_binary ~ 1,
+                  family = binomial,
+                  data = dat_jump)
+
+summary(model_jump_prop)
+plogis(coef(model_jump_prop[1]))
+plogis(confint(model_jump_prop))
+
+#CIs for beta
+model_jump <- glmer(
+  response ~ 1 + (1 | subject_id),
+  data = dat_jump,
+  family = binomial)
+
+summary(model_jump)
+standardize_parameters(model_jump)
+
+```
+
+### Hearing -> see vs scared
+
+```{r}
+#hearing is just as likely to make someone see something as to make them feel scared
+dat_hear <- dat_pr %>% 
+  filter(condition == "Prediction",
+         itemB == "hear something",
+         causal_itemA == "feel scared",
+         similar_itemA == "see something") %>% 
+  mutate(direct_binary = ifelse(response == "CC", 1, 0))
+
+#mean proportion choosing scared0
+model_hear_prop <- glm(direct_binary ~ 1,
+                  family = binomial,
+                  data = dat_hear)
+
+summary(model_hear_prop)
+plogis(coef(model_hear_prop[1]))
+plogis(confint(model_hear_prop))
+
+#CIs for beta
+model_hear <- glmer(
+  response ~ 1 + (1 | subject_id),
+  data = dat_hear,
+  family = binomial)
+
+summary(model_hear)
+
+confint(model_hear)
+standardize_parameters(model_hear)
+
+```
+
+
+# Confirmatory Analysis - Figures
+
+## Figure with slope
+
+```{r}
+fig_slope <- dat_condition_summarized %>%
+  mutate(response = fct_relevel(response, c("CC", "CO"))) %>%
+  mutate(condition = fct_relevel(condition, c("Inference", "Prediction"))) %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_condition_summarized, response == "CO"), 
+              aes(ymax = ci_high,
+                  ymin = ci_low,
+                  width = 0.3)) +
+  #   geom_text(
+  #   data = dplyr::filter(dat_trial_summarized, response == "CO"),
+  #   aes(label = joined),
+  #   size = 2,
+  #   vjust = -0.5
+  # ) +
+  geom_point(
+    data = dplyr::filter(dat_trial_summarized, response == "CO"),
+    aes(group = joined),
+    alpha = 0.4, color = "black", size = 5) +
+  geom_line(
+    data = dplyr::filter(dat_trial_summarized, response == "CO"),
+    aes(group = joined),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion", x = "Condition", fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    #aspect.ratio = 1.5,
+    legend.text = element_text(size = 25)
+  )
+
+fig_slope
+
+fig_slope <- ggsave("figures/prediction_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+
+```
+
+## Figure with slope - black and white
+
+```{r}
+fig_slope <- dat_condition_summarized %>%
+  mutate(response = fct_relevel(response, c("CC", "CO"))) %>%
+  mutate(condition = fct_relevel(condition, c("Inference", "Prediction"))) %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_condition_summarized, response == "CO"), 
+              aes(ymax = ci_high,
+                  ymin = ci_low,
+                  width = 0.3)) +
+  #   geom_text(
+  #   data = dplyr::filter(dat_trial_summarized, response == "CO"),
+  #   aes(label = joined),
+  #   size = 2,
+  #   vjust = -0.5
+  # ) +
+  # geom_point(
+  #   data = dplyr::filter(dat_trial_summarized, response == "CO"),
+  #   aes(group = joined),
+  #   alpha = 0.4, color = "black", size = 5) +
+  
+  geom_point(
+      data = dplyr::filter(dat_trial_summarized, response == "CO"),
+    aes(group = joined,
+        fill = response),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  scale_fill_manual(values = c(
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
+  
+  geom_line(
+    data = dplyr::filter(dat_trial_summarized, response == "CO"),
+    aes(group = joined),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion", x = "Condition", fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    #aspect.ratio = 1.5,
+    legend.text = element_text(size = 25)
+  )
+
+fig_slope
+
+fig_slope <- ggsave("figures/prediction_slope-black-and-white.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+
+```
+
+## Item-level with distances
+
+```{r, fig.height = 12, fig.width = 12}
+#appending distances
+d_distances <- read_csv(freesort_and_causal_distances_constrained_df_path)
+
+rmarkdown::paged_table(d_distances)
+
+### Then Plotting
+dat_summarized_itemlevel <- dat_pr %>%
+  group_by(condition, itemB) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, itemB, response) %>%
+  summarize(count = n(),  
+            total = first(total), 
+            mean_proportion = round(count / total, 2), 
+            se = sqrt(mean_proportion * (1 - mean_proportion) / total),
+            .groups = "drop")
+
+mean_diff <- dat_summarized_itemlevel %>%
+  filter(response == "CC") %>%
+  mutate(condition = tolower(condition)) %>%
+  select(itemB, condition, mean_proportion) %>%
+  tidyr::pivot_wider(names_from = condition, values_from = mean_proportion) %>%
+  mutate(meanPred_minus_meanInf = round(prediction - inference, 2)) %>%
+  select(itemB, meanPred_minus_meanInf)
+
+dat_labels <- dat_pr %>% 
+  left_join(d_distances %>% #join distances
+              mutate("itemB" = target_item,
+                     "causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice),
+            by = c("itemB", "causal_itemA", "similar_itemA")) %>% 
+  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
+  distinct(itemB, causal_itemA, similar_itemA, 
+           causal_distance_causal_choice,
+           freesort_distance_causal_choice,
+           causal_distance_similar_choice,
+           freesort_distance_similar_choice,
+           freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>% 
+  mutate(freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         cds_minus_cdc = causal_distance_similar_choice - causal_distance_causal_choice,
+         fdc_minus_fds = freesort_distance_causal_choice - freesort_distance_similar_choice,
+         fdmcdc_minus_fdmcds = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>% 
+  left_join(mean_diff, by = "itemB") %>%
+  mutate(facet_label = paste0(itemB, 
+                              "\n",
+                              "causal: ", causal_itemA, 
+                              "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_causal_choice,
+                              ",",
+                              freesort_distance_causal_choice,
+                              ",",
+                              freesort_minus_causal_distance_causal,
+                              ")",
+                              "\n",  
+                              "similar: ", similar_itemA, 
+                              "\n",
+                              "cd,fd,f-c: (",
+                              causal_distance_similar_choice,
+                              ",",
+                              freesort_distance_similar_choice,
+                              ",",
+                              freesort_minus_causal_distance_similar,
+                              ")",
+                              "\n",
+                              "cdS - cdC: ",
+                              cds_minus_cdc,
+                              "\n",
+                              "fdC - fdS: ",
+                              fdc_minus_fds,
+                              "\n",
+                              "(f-cC) - (f-cS): ",
+                              fdmcdc_minus_fdmcds,
+                              "\n",
+                              "meanPred(C) - meanInf(C): ",
+                              meanPred_minus_meanInf
+                              ))
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  arrange(itemB) %>%
+  pull(facet_label)
+
+#join labels + ordering AFTER labels exist
+dat_summarized_itemlevel <- dat_summarized_itemlevel %>%
+  left_join(dat_labels %>% select(itemB, facet_label), by = "itemB") %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_itemlvl <- dat_summarized_itemlevel %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity", colour = "black") +
+  scale_fill_manual(values = c("white", "grey80")) + 
+  geom_errorbar(data = filter(dat_summarized_itemlevel, response == "CC"), 
+                aes(ymax = mean_proportion + se,
+                    ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  geom_hline(yintercept = .5, linetype = "dashed") +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 15),
+        strip.text = element_text(size = 18)) +
+  labs(y = "Proportion",
+       title = "main") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_itemlvl
+
+# ggsave(
+#   filename = "figures/p_prediction_item-level.pdf",
+#   plot = p_itemlvl,          
+#   device = "pdf",           
+#   width = 22,               
+#   height = 15,             
+#   units = "in")
+
+```
+
+# Confirmatory Analysis - Analysis
+
+## Logistic regression
+
+```{r}
+d_model <- dat_pr %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("CC", "CO"))) %>% 
+  mutate(condition = factor(condition, levels = c("Prediction", "Inference")))
+
+model_prediction_vs_inference <- glmer(response ~ condition + 
+                                         (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model)
+
+summary(model_prediction_vs_inference)
+
+std_parameters <- standardize_parameters(model_prediction_vs_inference, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+```
+
+## Get specific probabilities
+
+```{r}
+effects_data <- allEffects(model_prediction_vs_inference)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+```
+
+## Prediction-only model
+
+```{r}
+d_model_pr <- dat_pr %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("CC", "CO"))) %>%
+  filter(condition == "Prediction")
+
+model_prediction <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_pr)
+
+summary(model_prediction)
+paste0("probability: ", plogis(fixef(model_prediction)[1]))
+paste0("odds ratio: ", exp(fixef(model_prediction)[1]))
+
+```
+
+## Inference-only model
+
+```{r}
+d_model_inf <- dat_pr %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("CC", "CO"))) %>%
+  filter(condition == "Inference")
+
+model_inference <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model_inf)
+
+summary(model_inference)
+paste0("probability: ", plogis(fixef(model_inference)[1]))
+paste0("odds ratio: ", exp(fixef(model_inference)[1]))
+
+```
+
+# Distances - Prep
+
+The exploratory distance analysis asks whether we can use the quantitative distances to explain variation in effect sizes across trials.  
+
+## Append distances
+
+```{r}
+#appending distances
+d_distances <- read_csv(freesort_and_causal_distances_constrained_df_path)
+
+rmarkdown::paged_table(d_distances)
+```
+
+## Merge and save distances
+
+```{r}
+dat_pr_distances <- dat_pr %>% 
+  left_join(d_distances %>% 
+              select(causal_choice, similar_choice, target_item, 
+                     causal_distance_causal_choice,
+                     freesort_distance_causal_choice,
+                     freesort_minus_causal_distance_causal,
+                     causal_distance_similar_choice,
+                     freesort_distance_similar_choice,
+                     freesort_minus_causal_distance_similar) %>%
+              rename("causal_itemA" = causal_choice,
+                     "similar_itemA" = similar_choice,
+                     "itemB" = target_item),
+            by = c("itemB", "causal_itemA", "similar_itemA")) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2),
+         freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2))
+
+rmarkdown::paged_table(dat_pr_distances)
+
+write_csv(dat_pr_distances, "dat_prediction_distances.csv")
+
+```
+
+## Read back in distances
+
+```{r}
+analysis_path <- here("code", "main", "analysis")
+
+dat_pr_distances <- read_csv(paste0(analysis_path,
+                "/4_inference_v_prediction/dat_prediction_distances.csv")) %>% 
+  mutate(condition = factor(condition, levels = c("Prediction", "Inference"))) %>% 
+  mutate(response = factor(response, levels = c("CC", "CO")))
+
+```
+
+# Distances - Figures
+
+## Prediction condition - y axis CC
+
+```{r}
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+  # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_prediction <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Prediction") %>% 
+  filter(response == "CC")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+#figure
+fig_pred_distance <- d_prop_and_distances_prediction %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Prediction Condition",
+       x = "Joint distance difference",
+       y = "Proportion (CO)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_pred_distance
+
+fig_pred_distance <- ggsave("figures/prediction_distances_points-yCC.png", width = 6, height = 4.5,
+                        plot = fig_pred_distance, bg = "white")
+
+# fig_pred_distance <- ggsave("figures/prediction_distances_points_reversed_jd.png", width = 6, height = 4,
+#                         plot = fig_pred_distance, bg = "white")
+
+```
+
+## Prediction condition - y axis CO
+
+```{r}
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+  # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_prediction <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Prediction") %>% 
+  filter(response == "CO")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+#figure
+fig_pred_distance <- d_prop_and_distances_prediction %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Prediction Condition",
+       x = "Joint distance difference",
+       y = "Proportion (CO)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_pred_distance
+
+fig_pred_distance <- ggsave("figures/prediction_distances_points-yCO.png", width = 6, height = 4,
+                        plot = fig_pred_distance, bg = "white")
+
+# fig_pred_distance <- ggsave("figures/prediction_distances_points_reversed_jd.png", width = 6, height = 4,
+#                         plot = fig_pred_distance, bg = "white")
+
+```
+
+## Inference condition - y axis CC
+
+```{r}
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  # group_by(condition, joined, response) %>%
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+   # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_inference <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Inference") %>% 
+  filter(response == "CC")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+fig_inf_distance <- d_prop_and_distances_inference %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Inference Condition",
+       x = "Joint distance difference",
+       y = "Proportion (CC)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_inf_distance
+
+fig_inf_distance <- ggsave("figures/inference_distances_points-yCC.png", width = 6, height = 4.5,
+                        plot = fig_inf_distance, bg = "white")
+
+# fig_inf_distance <- ggsave("figures/inference_distances_points_reverse_jd.png", width = 6, height = 4,
+#                         plot = fig_inf_distance, bg = "white")
+
+```
+
+## Inference condition - y axis CO
+
+```{r}
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  # group_by(condition, joined, response) %>%
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+   # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_inference <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Inference") %>% 
+  filter(response == "CO")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+fig_inf_distance <- d_prop_and_distances_inference %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Inference Condition",
+       x = "Joint distance difference",
+       y = "Proportion (CO)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_inf_distance
+
+fig_inf_distance <- ggsave("figures/inference_distances_points-yCO.png", width = 6, height = 4,
+                        plot = fig_inf_distance, bg = "white")
+
+# fig_inf_distance <- ggsave("figures/inference_distances_points_reverse_jd.png", width = 6, height = 4,
+#                         plot = fig_inf_distance, bg = "white")
+
+```
+
+# Distances - Analysis
+
+## Prepare for modelling
+
+```{r}
+dat_pr_distances_model <- dat_pr_distances %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal -
+           freesort_minus_causal_distance_similar) %>% 
+  mutate(subject_id = as.factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC")))
+
+```
+
+## Prediction condition
+
+```{r}
+model_prediction_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+    data = dat_pr_distances_model %>% 
+      filter(condition == "Prediction") %>% 
+      mutate(response = fct_relevel(response, c("CO", "CC"))),
+    family = binomial(link = 'logit'))
+
+summary(model_prediction_distances)
+
+std_parameters <- standardize_parameters(model_prediction_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+
+```
+
+## Inference condition
+
+```{r}
+model_inference_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+    data = dat_pr_distances_model %>% filter(condition == "Inference") %>% 
+            mutate(response = fct_relevel(response, c("CC", "CO"))),
+    family = binomial(link = 'logit'))
+
+summary(model_inference_distances)
+
+std_parameters <- standardize_parameters(model_inference_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+```
+
+## Inference condition, flipped coef
+
+```{r}
+model_inference_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+    data = dat_pr_distances_model %>% filter(condition == "Inference") %>% 
+            mutate(response = fct_relevel(response, c("CO", "CC"))),
+    family = binomial(link = 'logit'))
+
+summary(model_inference_distances)
+
+std_parameters <- standardize_parameters(model_inference_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+```
+
+# THE END
+
+```{r}
+
+```

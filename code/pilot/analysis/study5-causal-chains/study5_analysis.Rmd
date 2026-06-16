@@ -69,7 +69,7 @@ data_path <- paste0(base_path, "/data/data-study5-causal-chains/JO-mbc-pilot-cc-
 # data_path <- paste0(base_path, "/data/data-study5-causal-chains/JO-mbc-pilot-cc-v2_105N")
 
 snapshots_input_path_distances <- paste0(base_path_distances,
-                                         "/analysis/study1-measure-main-and-pilot/snapshots_study1_main_analysis")
+                                         "/analysis/1_measure-main-and-pilot/snapshots_study1_main_analysis")
 
 distances_path <- paste0(snapshots_input_path_distances,
                                    "/freesort_minus_causals.csv")
