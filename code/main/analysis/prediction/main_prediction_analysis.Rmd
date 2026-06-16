@@ -621,7 +621,7 @@ dat_pr_distances <- read_csv(paste0(analysis_path,
 
 # Distances - Figures
 
-## Prediction condition
+## Prediction condition - y axis CC
 
 ```{r}
 short_names <- c(
@@ -685,7 +685,7 @@ fig_pred_distance <- d_prop_and_distances_prediction %>%
   labs(
       title = "Prediction Condition",
        x = "Joint distance difference",
-       y = "Proportion (Direct)") +
+       y = "Proportion (Intrinsic)") +
   coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
   theme(
         axis.text.x = element_text(size = 25),
@@ -697,7 +697,7 @@ fig_pred_distance <- d_prop_and_distances_prediction %>%
 
 fig_pred_distance
 
-fig_pred_distance <- ggsave("figures/prediction_distances_points.png", width = 6, height = 4,
+fig_pred_distance <- ggsave("figures/prediction_distances_points-yCC.png", width = 6, height = 4,
                         plot = fig_pred_distance, bg = "white")
 
 # fig_pred_distance <- ggsave("figures/prediction_distances_points_reversed_jd.png", width = 6, height = 4,
@@ -705,7 +705,91 @@ fig_pred_distance <- ggsave("figures/prediction_distances_points.png", width = 6
 
 ```
 
-## Inference condition
+## Prediction condition - y axis CO
+
+```{r}
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+  # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_prediction <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Prediction") %>% 
+  filter(response == "Intrinsic")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+#figure
+fig_pred_distance <- d_prop_and_distances_prediction %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Prediction Condition",
+       x = "Joint distance difference",
+       y = "Proportion (Intrinsic)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_pred_distance
+
+fig_pred_distance <- ggsave("figures/prediction_distances_points-yCO.png", width = 6, height = 4,
+                        plot = fig_pred_distance, bg = "white")
+
+# fig_pred_distance <- ggsave("figures/prediction_distances_points_reversed_jd.png", width = 6, height = 4,
+#                         plot = fig_pred_distance, bg = "white")
+
+```
+
+## Inference condition - y axis CC
 
 ```{r}
 dat_pr_distances_wrangled <- dat_pr_distances %>% 
@@ -762,7 +846,72 @@ fig_inf_distance <- d_prop_and_distances_inference %>%
 
 fig_inf_distance
 
-fig_inf_distance <- ggsave("figures/inference_distances_points.png", width = 6, height = 4,
+fig_inf_distance <- ggsave("figures/inference_distances_points-yCC.png", width = 6, height = 4,
+                        plot = fig_inf_distance, bg = "white")
+
+# fig_inf_distance <- ggsave("figures/inference_distances_points_reverse_jd.png", width = 6, height = 4,
+#                         plot = fig_inf_distance, bg = "white")
+
+```
+
+## Inference condition - y axis CO
+
+```{r}
+dat_pr_distances_wrangled <- dat_pr_distances %>% 
+  unite("joined", c(itemB, causal_itemA, similar_itemA), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  # group_by(condition, joined, response) %>%
+  group_by(condition, joined, response, freesort_minus_causal_distance_causal,
+           freesort_minus_causal_distance_similar) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_distance_causal - freesort_minus_causal_distance_similar) %>%
+   # mutate(joint_distance_difference = freesort_minus_causal_distance_similar - freesort_minus_causal_distance_causal) %>%
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+d_prop_and_distances_inference <- dat_pr_distances_wrangled %>% 
+  filter(condition == "Inference") %>% 
+  filter(response == "Intrinsic")  %>% 
+  separate(joined, into = c("itemB", "causal_itemA", "similar_itemA"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ", similar_itemA))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    causal_itemA   = recode(causal_itemA, !!!short_names),
+    similar_itemA  = recode(similar_itemA, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "direct: ", causal_itemA, "\n", "intrinsic: ",
+                         similar_itemA))  
+
+fig_inf_distance <- d_prop_and_distances_inference %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = .4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  #geom_text(aes(label = labels), size = 3, vjust = 1.3) +
+  theme_bw() +
+  labs(
+      title = "Inference Condition",
+       x = "Joint distance difference",
+       y = "Proportion (Intrinsic)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        plot.title = element_text(hjust = .5, size = 25),
+        legend.position = "none") 
+
+fig_inf_distance
+
+fig_inf_distance <- ggsave("figures/inference_distances_points-yCO.png", width = 6, height = 4,
                         plot = fig_inf_distance, bg = "white")
 
 # fig_inf_distance <- ggsave("figures/inference_distances_points_reverse_jd.png", width = 6, height = 4,

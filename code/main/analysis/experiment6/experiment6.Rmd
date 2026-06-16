@@ -1,5 +1,5 @@
 ---
-title: "Causal Chain"
+title: "Causal Triads and Biological Reasoning"
 output:
   bookdown::html_document2:
     toc: true
@@ -13,12 +13,11 @@ author: Joseph Outa
 
 # ReadMe
 
-- This is the analysis script for the Causal Chain vs Intrinsic Cause study.  
+- Analysis script for experiment 6: Causal Triads vs Biological Reasoning study.  
 - Date run: 12/18/25
-- N = 105 before exclusions
-- 2 between-subjects conditions
-- DV: Someone x, which made them _, which made them y. Fill the blank (Causal Chain), a gene makes a creature x, _, and z. Fill the blank (Intrinsic Cause), IV: Binary choice between direct vs intrinsic item.   
-- Hypothesis: subjects choose direct item when completing causal chain and intrinsic item when reasoning about behavioral effects of biological causes
+- Sample: 105 before exclusions     
+- Conditions: 2 between-subjects conditions
+- Method: Someone x, which made them _, which made them z. Fill the blank (Causal Triads Condition). A gene makes a creature x, _, and z. Fill the blank (Biological Reasoning Condition). Response is a binary choice between Causal chain item and Causal origin item.   
 
 # Setup
 
@@ -64,9 +63,9 @@ sessionInfo()
 ```{r}
 base_path <- here("code", "main")
 
-study_path <- paste0(base_path, "/analysis/causal-chain")
+study_path <- paste0(base_path, "/analysis/experiment6")
 
-data_path <- paste0(base_path, "/data/causal-chain/JO-mbc-main-cc-v2-105N")
+data_path <- paste0(base_path, "/data/experiment6/JO-mbc-main-cc-v2-105N")
 
 snapshots_input_path_distances <- paste0(base_path,
                                          "/analysis/measure-main-and-pilot/snapshots_study1_main_analysis")
@@ -324,6 +323,77 @@ fig_slope
 fig_slope <- ggsave("figures/causal_chain_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
 
 ```
+
+## Figure with slope - black and white
+
+```{r, fig.width = 3, fig.height = 5}
+fig_slope <- dat_summarized_conditions %>%
+  mutate(response = fct_relevel(response, "Direct", "Intrinsic")) %>% 
+  mutate(condition = fct_relevel(condition, "Intrinsic Cause", "Causal Chain")) %>% 
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  # scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_summarized_conditions, response == "Intrinsic"), 
+                  aes(ymax = ci_high,
+                      ymin = ci_low,
+                      width = 0.3)) +
+  # geom_point(
+  #   data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+  #   aes(group = joined),
+  #   alpha = 0.4, color = "black", size = 5
+  # ) +
+  
+  geom_point(
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+    aes(group = joined,
+        fill = response),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  
+  # geom_point(data = dat_trials_summarized,
+  #            aes(x = explanation_type, y = mean_satisfactory, 
+  #                fill = explanation_type),
+  #            alpha = 0.8, 
+  #            size = 5,
+  #            shape = 21,
+  #            color = "black") +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
+  
+  geom_line(
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+    aes(group = joined),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  scale_x_discrete(labels = c("Causal Chain" = "Causal\nChain", 
+                              "Intrinsic Cause" = "Intrinsic\nCause")) +
+  theme_cowplot() +
+  labs(y = "Proportion (Direct)", 
+       x = "Condition", 
+       fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    legend.text = element_text(size = 25),
+    panel.background = element_rect(fill='transparent', color=NA),
+    plot.background = element_rect(fill='transparent', color=NA))
+
+fig_slope
+
+fig_slope <- ggsave("figures/causal_chain_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+
+```
+
 
 ## Item-level with distances
 
@@ -639,7 +709,7 @@ d_cc_distances_summarized <- d_cc_distances %>% #rename all these to summarized
 
 d_cc_distances_summarized_causal_chain <- d_cc_distances_summarized %>% 
   filter(condition == "Causal Chain") %>% 
-  filter(response == "Direct")  %>% 
+  filter(response == "Intrinsic")  %>% 
   separate(joined, into = c("first_item", "middle_causal", "middle_similar", "third_item"),
          sep = "_") %>%
   mutate(joined = paste0("first: ", first_item, "\n", "direct: ", middle_causal, "\n", "essential: ", middle_similar, "third: ", third_item, "\n"))  %>% 
@@ -653,15 +723,24 @@ d_cc_distances_summarized_causal_chain <- d_cc_distances_summarized %>%
 
 fig_cc_distances <- d_cc_distances_summarized_causal_chain %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
-  geom_point(size = 5, alpha = 0.4) +
-  geom_smooth(method = "lm") +
+  # geom_point(size = 5, alpha = 0.4) +
+  geom_smooth(method = "lm", color = "black") +
+  geom_point(
+      aes(fill = response),
+                      shape = 21,
+                      color = "black",
+                      size = 5,
+                      alpha = 0.8) +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   # geom_text(aes(label = labels), size = 3, vjust = 1.3) +
   theme_bw() +
   labs(
       title = "Causal Chain Condition",
        x = "Joint distance difference",
-       y = "Proportion (direct)") +
+       y = "Proportion (Intrinsic)") +
   coord_cartesian(ylim = c(0,1), xlim = c(0,1.1)) +
   theme(
         axis.text.x = element_text(size = 25),
@@ -674,7 +753,7 @@ fig_cc_distances <- d_cc_distances_summarized_causal_chain %>%
 
 fig_cc_distances 
 
-fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6, height = 4, 
+fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6, height = 4,
                         plot = fig_cc_distances, bg = "white")
 
 ```
@@ -684,7 +763,7 @@ fig_cc_distances <- ggsave("figures/causal_chain_distances_wide.png", width = 6,
 ```{r}
 d_cc_distances_summarized_intrinsic_cause <- d_cc_distances_summarized %>% 
   filter(condition == "Intrinsic Cause") %>% 
-  filter(response == "Direct")  %>% 
+  filter(response == "Intrinsic")  %>% 
   separate(joined, into = c("first_item", "middle_causal", "middle_similar", "third_item"),
          sep = "_") %>%
   mutate(joined = paste0("first: ", first_item, "\n", "direct: ", middle_causal, "\n", "essential: ", middle_similar, "third: ", third_item, "\n"))  %>% 
@@ -698,8 +777,19 @@ d_cc_distances_summarized_intrinsic_cause <- d_cc_distances_summarized %>%
 
 fig_ic_distances <- d_cc_distances_summarized_intrinsic_cause %>% 
   ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
-  geom_point(size = 5, alpha = 0.4) +
-  geom_smooth(method = "lm") +
+  # geom_point(size = 5, alpha = 0.4) +
+  geom_smooth(method = "lm", color = "black") +
+  
+  geom_point(
+      aes(fill = response),
+                      shape = 21,
+                      color = "black",
+                      size = 5,
+                      alpha = 0.8) +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
   geom_hline(yintercept = 0.5, linetype = "dashed") +
   # geom_text(aes(label = labels), size = 3, vjust = -.2) +
   theme_bw() +

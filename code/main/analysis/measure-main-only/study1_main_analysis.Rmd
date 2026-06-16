@@ -33,7 +33,7 @@ This script:-
 
 What this script does: Per-subject normalize, followed by average, followed be renormalizing. For correlations with models: only correlates upper tris. (what about causal?). Also, this script is more uptodate than both main and combined scripts on posit and the combined script on my computer, as at 4/9/26 writing PNAS paper. 
 
-#Todo if time: change "bio" to "body", fix header order; move fig for causal signatures to different script?
+#Todo if time: change "bio" to "body", fix header order
 
 # Setup
 
@@ -311,11 +311,10 @@ plot_rdm <- function(data, subject, desired_order) {
   df_matrix <- df_matrix[desired_order, desired_order]
   diag(df_matrix) <- 0 
   
-  # custom_palette <- colorRampPalette(c("red", "white", "blue"))(200)  
+  custom_palette <- colorRampPalette(c("red", "white", "blue"))(200)  # Generate 200 color levels
 
   corrplot(as.matrix(df_matrix), method = "color", is.corr = FALSE,
-    # col = custom_palette,  # Apply custom colors
-    col = brewer.pal(11, "RdBu"),
+    col = custom_palette,  # Apply custom colors
     tl.col = "black", title = paste("Freesort RDM - ", subject),
     mar = c(0, 0, 2, 0), addgrid.col = "darkgray"
   )
@@ -335,6 +334,7 @@ for (i in seq_along(subject_ids)) {
   plot_rdm(df_freesort, subject_ids[i], desired_order)  
   dev.off()  #close the device to save the file
 }
+
 
 ```
 
@@ -364,23 +364,26 @@ min_val <- min(df_mean_freesort_matrix, na.rm = TRUE)
 max_val <- max(df_mean_freesort_matrix, na.rm = TRUE) 
 df_mean_freesort_matrix <- (df_mean_freesort_matrix - min_val) / (max_val - min_val) 
 
-group_colors <- c("#db9728", "#d0495a", "#00788a") 
+group_colors <- c("#db9728", "#d0495a", "#00788a")
+
 
 my_cols <- brewer.pal(11, "RdBu")
 
 #map each item to a color based on its group
-item_colors <- setNames(c(rep(group_colors[1], 5), 
-                          rep(group_colors[2], 5), 
-                          rep(group_colors[3], 5)), 
-                        desired_order)
+# item_colors <- setNames(c(rep(group_colors[1], 5), 
+#                           rep(group_colors[2], 5), 
+#                           rep(group_colors[3], 5)), 
+#                         desired_order)
 
 #ensure colors align with the matrix order
-label_colors <- item_colors[rownames(df_mean_freesort_matrix)]
+# label_colors <- item_colors[rownames(df_mean_freesort_matrix)]
 
 custom_palette <- colorRampPalette(c("#5E0E20", "white", "#132F5E")) 
 
 # pdf(file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM.pdf"), width = 12, height = 12)
 
+# pdf(file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM.pdf"), width = 12, height = 12)
+# 
 # cairo_pdf(file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM.pdf"),
 #           width = 12, height = 12, bg = "transparent")
 
@@ -402,11 +405,11 @@ corrplot(
   method = "color",
   is.corr = FALSE,
   col = brewer.pal(11, "RdBu"),
-  tl.col = label_colors, #could be label_colors
+  # tl.col = label_colors, #to add color to axis text labels
+  tl.col = "black",
   tl.cex = 2,
   na.label = "square",       
   na.label.col = "darkgrey",   
-  #title = "Average Freesort RDM",
   mar = c(0, 0, 2, 0),
   # addgrid.col = "darkgray",
   addgrid.col = "grey65",
@@ -559,9 +562,11 @@ plot_causal_rdm <- function(data, subject, desired_order) {
   df_matrix <- df_matrix[desired_order, desired_order]
   diag(df_matrix) <- 0
   
+  custom_palette <- colorRampPalette(c("red", "white", "blue"))(200)
+
+  
   corrplot(as.matrix(df_matrix), method = "color", is.corr = FALSE,
-               # col = custom_palette,  
-              col = brewer.pal(11, "RdBu"),
+               col = custom_palette,  # Apply custom colors
            tl.col = "black", title = paste("Causal RDM - ", subject),
            mar = c(0, 0, 2, 0), addgrid.col = "darkgray")
 }
@@ -618,6 +623,8 @@ item_colors <- setNames(c(rep(group_colors[1], 5), #mind
 
 label_colors <- item_colors[rownames(df_mean_causal_rdm)]
 
+# custom_palette <- colorRampPalette(c("red", "white", "blue")) 
+
 # pdf(file = paste0(rdms_outputs_path, "/causal/averageCausalRDM.pdf"), width = 12, height = 12)
 
 png(
@@ -629,14 +636,16 @@ png(
   bg = "transparent"
 )
 
+
 #large image
 corrplot(
   df_mean_causal_matrix,
   method = "color",
   is.corr = FALSE,
+  # col = custom_palette(200),
   col = brewer.pal(11, "RdBu"),
-  #tl.col = "black", 
-  tl.col = label_colors, 
+  tl.col = "black",
+  # tl.col = label_colors, 
   tl.cex = 2,
   mar = c(0, 0, 2, 0),
   addgrid.col = "darkgray",
@@ -919,9 +928,11 @@ compute_ci(df_causal %>%
 
 ```
 
+# NB: Maybe move this to causal signatures script?
+
 ## Figure: For Causal Signatures SPP 2026
 
-For comparing adult to kid responses.
+For the causal signatures Spp paper. Figure for comparing adult responses to kid responses.
 
 ```{r}
 fig_causal_sig <- d %>%
@@ -1437,8 +1448,6 @@ bar_plot <- ggplot(d_combined_correlations,
   geom_hline(yintercept = noise_ceiling_causal$upper_tri_upper_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
   geom_hline(yintercept = noise_ceiling_causal$upper_tri_lower_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
   theme_cowplot() +
-  # theme_bw() +
-  scale_y_continuous(breaks = seq(-0.5, 0.5, by = 0.1)) +
   theme(
     panel.background = element_rect(fill = NA, color = NA),
     plot.background = element_rect(fill = NA, color = NA),
@@ -1456,8 +1465,6 @@ bar_plot <- ggplot(d_combined_correlations,
     y = "Kendall's Tau Correlations",
     title = "Comparison of Theoretical and Empirical RDM Correlations"
   )
-
-bar_plot
 
 # Load and create RDM images
 rdm_2_category <- ggdraw() + draw_image(paste0(rdms_input_path, "/theory_4.png"), scale = 1.2)
@@ -1619,8 +1626,32 @@ summary(model_freesort)
 
 confint(model_freesort)
 
+
 ```
 
+## Freesort Model table for SI
+
+```{r}
+library(parameters)
+
+model_freesort_table <- model_parameters(model_freesort,
+                                         ci = 0.95,
+                                         # standardize = "refit")
+                                         standardize = NULL) #do not standardize
+
+model_freesort_table <- model_freesort_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_freesort_table
+
+# install.packages("flextable")
+library(flextable)
+
+model_freesort_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_freesort_table.docx")
+
+```
 
 ## Causal data
 
@@ -1654,6 +1685,26 @@ confint(model_causal)
 
 ```
 
+## Freesort Model table for SI
+
+```{r}
+model_causal_table <- model_parameters(model_causal,
+                                         ci = 0.95,
+                                         standardize = NULL) #do not standardize
+
+model_causal_table <- model_causal_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_causal_table
+
+model_causal_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_causal_table.docx")
+
+
+```
+
+
 # Causal vs Freesort Models
 
 ## Linear model comparing best model of Freesort to Causal Task
@@ -1681,6 +1732,8 @@ summary(model_taus)
 
 standardize_parameters(model_taus) #NB: intercept is comparison to grand mean, slope is comparison to intercept
 
+
+
 # Manual standardization
 # standardized_data <- combined_data %>% 
 #   mutate(mean_tau = mean(tau), #grand mean
@@ -1693,6 +1746,26 @@ standardize_parameters(model_taus) #NB: intercept is comparison to grand mean, s
 #                data = standardized_data)
 # 
 # summary(model_standardized_data)
+
+```
+
+
+## Freesort vs Causal Model table for SI
+
+```{r}
+model_taus_table <- model_parameters(model_taus,
+                                         ci = 0.95,
+                                         standardize = "refit") #do not standardize
+
+model_taus_table <- model_taus_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_taus_table
+
+model_taus_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_taus_table.docx")
+
 
 ```
 
@@ -1721,9 +1794,17 @@ combined_taus %>%
 
 ```
 
-# Order effects
+# Checkpoint: Read back in csvs
 
-## Causal-causal vs freesort-freesort correlation
+```{r}
+#inputs
+df_combined <- read_csv(paste0(snapshots_output_path, "/df_combined.csv"))
+
+```
+
+# Order effects - Method 1
+
+Mean Causal-causal vs Mean Freesort-freesort kendall's correlation
 
 ```{r}
 df_causal_first <- df_combined %>% 
@@ -1820,58 +1901,436 @@ print(paste0("Corr(freesort rdm Causal Task first, freesort rdm Sorting Task fir
 correlation_difference <- causation_rdm_correlation - freesort_rdm_correlation
 print(paste0("correlation difference: ", correlation_difference))
 
+#=========comparing with pearsons:
 
+#Kendall
+# cor(flatten_rdm(as.matrix(df_causal_rdm_causation_first)),
+#                                  flatten_rdm(as.matrix(df_causal_rdm_freesort_first)),
+#                                  method = "kendall")
+
+#Causal - Pearson
 cor(flatten_rdm(as.matrix(df_causal_rdm_causation_first)),
                                  flatten_rdm(as.matrix(df_causal_rdm_freesort_first)),
-                                 method = "kendall")
+                                 method = "pearson")
 
-cor(flatten_rdm(as.matrix(df_causal_rdm_causation_first)),
-                                 flatten_rdm(as.matrix(df_causal_rdm_freesort_first)),
+#Freesort - pearson
+cor(flatten_rdm(as.matrix(df_freesort_rdm_causation_first)),
+                                 flatten_rdm(as.matrix(df_freesort_rdm_freesort_first)),
                                  method = "pearson")
 ```
 
-## Causal-freesort vs causal freesort correlation
+# Order Effects - Method 2
+
+## Freesort task - grab rdms
 
 ```{r}
-#get upper tris
-causation_first_rdm_correlation <- cor(flatten_rdm(as.matrix(df_causal_rdm_causation_first)),
-                                 flatten_rdm(as.matrix(df_freesort_rdm_causation_first)),
-                                 method = "pearson")
+#mean helper functions
+mean_freesort_rdm <- function(data, subjects) {
 
-freesort_first_rdm_correlation <- cor(flatten_rdm(as.matrix(df_causal_rdm_freesort_first)),
-                                flatten_rdm(as.matrix(df_freesort_rdm_freesort_first)),
-                                method = "pearson")
-
-print(causation_first_rdm_correlation)
-print(paste0("Corr(causal rdm Causal Task first, freesort rdm Causal Task first): " , causation_first_rdm_correlation))
-
-print(paste0("Corr(causal rdm Sorting Task first, freesort rdm Sorting Task first):  " , freesort_first_rdm_correlation))
-
-
-#compute correlation difference
-correlation_difference_orders <- freesort_first_rdm_correlation - causation_first_rdm_correlation 
-correlation_difference_orders
-
-print(paste0("Correlation difference: " , correlation_difference_orders))
-
-fisher_z <- function(r) {
-  return(0.5 * log((1 + r) / (1 - r)))
+  data %>%
+    filter(subject_id %in% subjects) %>%
+    group_by(itemA, itemB) %>%
+    summarise(mean_distance = mean(freesort_distance),
+              .groups = "drop")
 }
 
-#convert correlations to Fisher's z
-z1 <- fisher_z(causation_first_rdm_correlation)
-z2 <- fisher_z(freesort_first_rdm_correlation)
+#split into individual rdms
+df_freesort_rdm_freesort_first <- df_combined %>%
+  select(-causal_distance) %>% 
+  filter(trial_type_order == "causation_second")
 
-N1 <- nrow(df_causal_rdm_causation_first)  
-N2 <- nrow(df_causal_rdm_freesort_first)  
+df_freesort_rdm_freesort_second <- df_combined %>%
+  select(-causal_distance) %>% 
+  filter(trial_type_order == "causation_first")
 
-SE <- sqrt(1 / (N1 - 3) + 1 / (N2 - 3))
+#grab unique subjects 
+first_subjects <- sort(unique(df_freesort_rdm_freesort_first$subject_id)) #same as for causal rdm
+second_subjects <- sort(unique(df_freesort_rdm_freesort_second$subject_id))
 
-z_diff <- (z2 - z1) / SE #z score for the difference
-p_value <- 2 * (1 - pnorm(abs(z_diff)))
+#grab odd & even subjects
+first_odd_subjects <- first_subjects[c(TRUE, FALSE)]
+first_even_subjects <- first_subjects[c(FALSE, TRUE)]
 
-print(paste("Z-score:", z_diff))
-print(paste("P-value:", p_value))
+second_odd_subjects <- second_subjects[c(TRUE, FALSE)]
+second_even_subjects <- second_subjects[c(FALSE, TRUE)]
+
+#build the 4 mean rdms
+freesort_task_first_odd <- mean_freesort_rdm(df_freesort_rdm_freesort_first, 
+                                 first_odd_subjects)
+freesort_task_first_even <- mean_freesort_rdm(df_freesort_rdm_freesort_first, 
+                                 first_even_subjects)
+
+freesort_task_second_odd <- mean_freesort_rdm(df_freesort_rdm_freesort_second, 
+                                   second_odd_subjects)
+freesort_task_second_even <- mean_freesort_rdm(df_freesort_rdm_freesort_second, 
+                                   second_even_subjects)
+
+#view one of the rdms as example:
+freesort_task_first_odd
+# freesort_task_first_even
+# freesort_task_second_odd
+# freesort_task_second_even
+
+```
+
+## Causal task - grab rdms
+
+```{r}
+#mean helper function
+mean_causal_rdm <- function(data, subjects) {
+
+  data %>%
+    filter(subject_id %in% subjects) %>%
+    group_by(itemA, itemB) %>%
+    summarise(mean_distance = mean(causal_distance),
+              .groups = "drop")
+}
+
+#split into individual rdms
+df_causal_rdm_freesort_first <- df_combined %>%
+  select(-freesort_distance) %>%
+  filter(trial_type_order == "causation_second")
+
+df_causal_rdm_freesort_second <- df_combined %>%
+  select(-freesort_distance) %>%
+  filter(trial_type_order == "causation_first")
+
+#grab unique subjects
+first_subjects <- sort(unique(df_causal_rdm_freesort_first$subject_id))
+second_subjects <- sort(unique(df_causal_rdm_freesort_second$subject_id))
+
+first_odd_subjects <- first_subjects[c(TRUE, FALSE)]
+first_even_subjects <- first_subjects[c(FALSE, TRUE)]
+
+second_odd_subjects <- second_subjects[c(TRUE, FALSE)]
+second_even_subjects <- second_subjects[c(FALSE, TRUE)]
+
+#build the 4 mean rdms
+causal_task_first_odd <- mean_causal_rdm(
+  df_causal_rdm_freesort_first,
+  first_odd_subjects)
+
+causal_task_first_even <- mean_causal_rdm(
+  df_causal_rdm_freesort_first,
+  first_even_subjects)
+
+causal_task_second_odd <- mean_causal_rdm(
+  df_causal_rdm_freesort_second,
+  second_odd_subjects)
+
+causal_task_second_even <- mean_causal_rdm(
+  df_causal_rdm_freesort_second,
+  second_even_subjects)
+
+#view one of the rdms as example:
+causal_task_first_odd
+# causal_task_first_even
+# causal_task_second_odd
+# causal_task_second_even
+
+```
+
+## Odd-even split correlations
+
+### Freesort task
+
+```{r}
+#correlation function
+rdm_tau <- function(first_rdm, second_rdm) {
+
+  merged_rdm <- first_rdm %>%
+    inner_join(second_rdm,
+               by = c("itemA", "itemB"),
+               suffix = c("_first", "_second"))
+
+  cor(merged_rdm$mean_distance_first,
+      merged_rdm$mean_distance_second,
+      method = "kendall")
+}
+
+#within-order split-half similarities
+within_first_tau <- rdm_tau(freesort_task_first_odd,
+                            freesort_task_first_even)
+
+within_second_tau <- rdm_tau(freesort_task_second_odd,
+                             freesort_task_second_even)
+
+#cross-order similarities 
+cross_order_tau_1 <- rdm_tau(freesort_task_first_odd,
+                             freesort_task_second_odd)
+
+cross_order_tau_2 <- rdm_tau(freesort_task_first_odd,
+                             freesort_task_second_even)
+
+cross_order_tau_3 <- rdm_tau(freesort_task_first_even,
+                             freesort_task_second_odd)
+
+cross_order_tau_4 <- rdm_tau(freesort_task_first_even, 
+                             freesort_task_second_even)
+
+
+freesort_task_order_correlations <- tibble(freesort_comparison = c(
+                                            "within_first_odd_even", "within_second_odd_even",
+                                            "cross_order_first_odd_second_odd", 
+                                            "cross_order_first_odd_second_even",
+                                            "cross_order_first_even_second_odd", 
+                                            "cross_order_first_even_second_even"),
+                                           freesort_comparison_type = c(rep("within", 2), 
+                                                               "cross_within",
+                                                               "cross-cross",
+                                                               "cross-cross",
+                                                               "cross-within"),
+                                           tau = c(
+                                            within_first_tau, within_second_tau,
+                                            cross_order_tau_1, cross_order_tau_2,
+                                            cross_order_tau_3, cross_order_tau_4)) %>% 
+  group_by(freesort_comparison_type) %>% 
+  mutate(mean_comparison_type_tau = mean(tau)) %>% 
+  ungroup()
+
+freesort_task_order_correlations 
+
+```
+
+### Causal Pairs task
+
+```{r}
+#within-order split-half similarities
+within_first_tau <- rdm_tau(causal_task_first_odd,
+                            causal_task_first_even)
+
+within_second_tau <- rdm_tau(causal_task_second_odd,
+                             causal_task_second_even)
+
+#cross-order similarities 
+cross_order_tau_1 <- rdm_tau(causal_task_first_odd,
+                             causal_task_second_odd)
+
+cross_order_tau_2 <- rdm_tau(causal_task_first_odd,
+                             causal_task_second_even)
+
+cross_order_tau_3 <- rdm_tau(causal_task_first_even,
+                             causal_task_second_odd)
+
+cross_order_tau_4 <- rdm_tau(causal_task_first_even, 
+                             causal_task_second_even)
+
+
+causal_task_order_correlations <- tibble(causal_comparison = c(
+                                            "within_first_odd_even", "within_second_odd_even",
+                                            "cross_order_first_odd_second_odd", 
+                                            "cross_order_first_odd_second_even",
+                                            "cross_order_first_even_second_odd", 
+                                            "cross_order_first_even_second_even"),
+                                           causal_comparison_type = c(rep("within", 2), 
+                                                               "cross_within",
+                                                               "cross-cross",
+                                                               "cross-cross",
+                                                               "cross-within"),
+                                           tau = c(
+                                            within_first_tau, within_second_tau,
+                                            cross_order_tau_1, cross_order_tau_2,
+                                            cross_order_tau_3, cross_order_tau_4)) %>% 
+  group_by(causal_comparison_type) %>% 
+  mutate(mean_comparison_type_tau = mean(tau)) %>% 
+  ungroup()
+
+causal_task_order_correlations 
+
+```
+
+## Random split correlations
+
+### Freesort task
+
+```{r}
+split_subjects_in_half <- function(subjects) {
+  
+  shuffled_subjects <- sample(subjects)
+  half_point <- floor(length(shuffled_subjects) / 2)
+  
+  list(first_half = shuffled_subjects[1:half_point],
+       second_half = shuffled_subjects[(half_point + 1):length(shuffled_subjects)])
+}
+
+random_split_freesort_order_taus <- function(data) {
+  
+  df_freesort_first <- data %>%
+    filter(trial_type_order == "causation_second")
+  
+  df_freesort_second <- data %>%
+    filter(trial_type_order == "causation_first")
+  
+  freesort_first_subjects <- sort(unique(df_freesort_first$subject_id))
+  freesort_second_subjects <- sort(unique(df_freesort_second$subject_id))
+  
+  freesort_first_split <- split_subjects_in_half(freesort_first_subjects)
+  freesort_second_split <- split_subjects_in_half(freesort_second_subjects)
+  
+  freesort_first_half_1 <- mean_freesort_rdm(df_freesort_first,
+                                             freesort_first_split$first_half)
+  
+  freesort_first_half_2 <- mean_freesort_rdm(df_freesort_first,
+                                             freesort_first_split$second_half)
+  
+  freesort_second_half_1 <- mean_freesort_rdm(df_freesort_second,
+                                              freesort_second_split$first_half)
+  
+  freesort_second_half_2 <- mean_freesort_rdm(df_freesort_second,
+                                              freesort_second_split$second_half)
+  
+  within_first_tau <- rdm_tau(freesort_first_half_1,
+                              freesort_first_half_2)
+  
+  within_second_tau <- rdm_tau(freesort_second_half_1,
+                               freesort_second_half_2)
+  
+  cross_order_tau_1 <- rdm_tau(freesort_first_half_1,
+                               freesort_second_half_1)
+  
+  cross_order_tau_2 <- rdm_tau(freesort_first_half_1,
+                               freesort_second_half_2)
+  
+  cross_order_tau_3 <- rdm_tau(freesort_first_half_2,
+                               freesort_second_half_1)
+  
+  cross_order_tau_4 <- rdm_tau(freesort_first_half_2,
+                               freesort_second_half_2)
+  
+  tibble(within_first_tau = within_first_tau,
+         within_second_tau = within_second_tau,
+         mean_within_tau = mean(c(within_first_tau, within_second_tau)),
+         mean_cross_order_tau = mean(c(cross_order_tau_1,
+                                  cross_order_tau_2,
+                                  cross_order_tau_3,
+                                  cross_order_tau_4)),
+         difference = mean_within_tau - mean_cross_order_tau)
+  }
+
+set.seed(123)
+
+freesort_order_split_results <- bind_rows(replicate(1000,
+                                                    random_split_freesort_order_taus(df_combined),
+                                                    simplify = FALSE))
+
+freesort_order_split_results_summarized <- freesort_order_split_results %>%
+  summarise(mean_within_tau = mean(mean_within_tau),
+            mean_cross_order_tau = mean(mean_cross_order_tau),
+            mean_difference = mean(difference),
+            difference_ci_low = quantile(difference, .025),
+            difference_ci_high = quantile(difference, .975)#,
+            # proportion_within_greater_than_cross_order = mean(difference > 0)
+            )
+
+freesort_order_split_results_summarized
+
+ggplot(freesort_order_split_results, aes(x = difference)) +
+  geom_histogram(bins = 30, color = "black", fill = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_bw() +
+  labs(
+    x = "Within-order similarity minus cross-order similarity",
+    y = "Number of random splits")
+
+```
+
+### Causal task
+
+```{r}
+split_subjects_in_half <- function(subjects) {
+  
+  shuffled_subjects <- sample(subjects)
+  half_point <- floor(length(shuffled_subjects) / 2)
+  
+  list(first_half = shuffled_subjects[1:half_point],
+       second_half = shuffled_subjects[(half_point + 1):length(shuffled_subjects)])
+}
+
+random_split_causal_order_taus <- function(data) {
+  
+  df_causal_first <- data %>%
+    filter(trial_type_order == "causation_second")
+  
+  df_causal_second <- data %>%
+    filter(trial_type_order == "causation_first")
+  
+  causal_first_subjects <- sort(unique(df_causal_first$subject_id))
+  causal_second_subjects <- sort(unique(df_causal_second$subject_id))
+  
+  causal_first_split <- split_subjects_in_half(causal_first_subjects)
+  causal_second_split <- split_subjects_in_half(causal_second_subjects)
+  
+  causal_first_half_1 <- mean_causal_rdm(df_causal_first,
+                                             causal_first_split$first_half)
+  
+  causal_first_half_2 <- mean_causal_rdm(df_causal_first,
+                                             causal_first_split$second_half)
+  
+  causal_second_half_1 <- mean_causal_rdm(df_causal_second,
+                                              causal_second_split$first_half)
+  
+  causal_second_half_2 <- mean_causal_rdm(df_causal_second,
+                                              causal_second_split$second_half)
+  
+  within_first_tau <- rdm_tau(causal_first_half_1,
+                              causal_first_half_2)
+  
+  within_second_tau <- rdm_tau(causal_second_half_1,
+                               causal_second_half_2)
+  
+  cross_order_tau_1 <- rdm_tau(causal_first_half_1,
+                               causal_second_half_1)
+  
+  cross_order_tau_2 <- rdm_tau(causal_first_half_1,
+                               causal_second_half_2)
+  
+  cross_order_tau_3 <- rdm_tau(causal_first_half_2,
+                               causal_second_half_1)
+  
+  cross_order_tau_4 <- rdm_tau(causal_first_half_2,
+                               causal_second_half_2)
+  
+  tibble(within_first_tau = within_first_tau,
+         within_second_tau = within_second_tau,
+         mean_within_tau = mean(c(within_first_tau, within_second_tau)),
+         mean_cross_order_tau = mean(c(cross_order_tau_1,
+                                  cross_order_tau_2,
+                                  cross_order_tau_3,
+                                  cross_order_tau_4)),
+         difference = mean_within_tau - mean_cross_order_tau)
+  }
+
+set.seed(123)
+
+causal_order_split_results <- bind_rows(replicate(1000,
+                                                    random_split_causal_order_taus(df_combined),
+                                                    simplify = FALSE))
+
+causal_order_split_results_summarized <- causal_order_split_results %>%
+  summarise(mean_within_tau = mean(mean_within_tau),
+            mean_cross_order_tau = mean(mean_cross_order_tau),
+            mean_difference = mean(difference),
+            difference_ci_low = quantile(difference, .025),
+            difference_ci_high = quantile(difference, .975)#,
+            # proportion_within_greater_than_cross_order = mean(difference > 0)
+            )
+
+causal_order_split_results_summarized
+
+ggplot(causal_order_split_results, aes(x = difference)) +
+  geom_histogram(bins = 30, color = "black", fill = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_bw() +
+  labs(
+    x = "Within-order similarity minus cross-order similarity",
+    y = "Number of random splits")
+
+```
+
+## save outputs
+
+```{r}
+
 ```
 
 # THE END

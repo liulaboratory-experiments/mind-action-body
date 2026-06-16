@@ -268,6 +268,56 @@ ggsave("figures/counterfactuals_slope.png",
 
 ```
 
+## Figure with slope - black and white dots
+
+```{r, fig.width = 3.5, fig.height = 6}
+fig_slope <- dat_long %>% 
+  ggplot(aes(x = counterfactual_type, y = likelihood, fill = counterfactual_type)) +
+  stat_summary(fun.data = mean_se, geom = "bar", color = "black") +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = .2) +
+  # geom_point(data = dat_trials_summarized, aes(x = counterfactual_type, y = mean_likelihood), 
+  #            alpha = 0.2, size = 5) +
+
+    geom_point(data = dat_trials_summarized,
+             aes(x = counterfactual_type, y = mean_likelihood, 
+                 fill = counterfactual_type),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
+  geom_line(data = dat_trials_summarized, 
+            aes(x = counterfactual_type, 
+                y = mean_likelihood, 
+                group = target), 
+            alpha = 0.2, color = "black") +
+  labs(y = "Counterfactual Likelihood", 
+       x = "Preceding Item Type",
+       fill = "Type") +
+  theme_cowplot() +
+  scale_fill_manual(values = c("#CCCCCC", "white")) + 
+  theme(
+        axis.text.x = element_text(size = 20),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        legend.position = "top",
+        legend.title = element_text(size = 25),
+        legend.text = element_text(size = 25)
+        ) +
+  ylim(0, 100)
+
+fig_slope
+
+ggsave("figures/counterfactuals_slope-black-and-white.png", 
+                    width = 3, height = 6, plot = fig_slope, bg = "white")
+
+```
+
 ## Figure facet by trial
 
 ```{r, fig.width = 12, fig.height = 12}
@@ -471,13 +521,13 @@ write_csv(dat_trials_summarized_distances_long, "dat_counterfactuals_distances.c
 analysis_path <- here("code", "main", "analysis")
 
 dat_trials_summarized_distances_long <- read_csv(paste0(analysis_path,
-                "/counterfactuals/dat_counterfactuals_distances.csv"))
+                "/3_counterfactuals/dat_counterfactuals_distances.csv"))
 
 ```
 
 # Distances - Figures
 
-## 1 smooth line
+## 1 fit line
 
 ```{r}
 fig_distances <- dat_trials_summarized_distances_long %>% 
@@ -510,6 +560,12 @@ fig_distances <- dat_trials_summarized_distances_long %>%
 
 fig_distances
 
+# ggsave("figures/counterfactuals_distances.png", 
+#                         width = 6, height = 4, plot = fig_distances, bg = "white")
+
+# ggsave("figures/counterfactuals_distances_3_lines.png", width = 6, height = 4,
+#                         plot = fig_distances, bg = "white")
+
 ggsave("figures/counterfactuals_distances_1_lines.png", width = 6, height = 4,
                         plot = fig_distances, bg = "white")
 
@@ -518,7 +574,7 @@ ggsave("figures/counterfactuals_distances_1_lines.png", width = 6, height = 4,
 
 ```
 
-## 2 smooth lines
+## 1 fit line - black and white with fill vs outline
 
 ```{r}
 fig_distances <- dat_trials_summarized_distances_long %>% 
@@ -526,10 +582,19 @@ fig_distances <- dat_trials_summarized_distances_long %>%
          counterfactual = recode(counterfactual,!!!short_names)) %>% 
   mutate(labels = paste0("target: ", target, "\n", counterfactual_type, ": ", counterfactual)) %>% 
   ggplot(aes(y = mean_likelihood, x = joint_distance)) +
-  geom_point(alpha = 0.4, size = 5, aes(color = counterfactual_type)) +
+  # geom_point(alpha = 0.4, size = 5, aes(color = counterfactual_type)) +
+  geom_point(aes(fill = counterfactual_type),
+                      shape = 21,
+                      color = "black",
+                      size = 5,
+                      alpha = 0.8) +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
   # geom_smooth(method = "lm") + 
-  geom_smooth(aes(color = counterfactual_type), method = "lm") +
-  # geom_smooth(method = "lm", color = "black") +
+  # geom_smooth(aes(color = counterfactual_type), method = "lm") +
+  geom_smooth(method = "lm", color = "black") +
   # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
   theme_bw() +
   theme(axis.text.x = element_text(size = 30),
@@ -551,7 +616,73 @@ fig_distances <- dat_trials_summarized_distances_long %>%
 
 fig_distances
 
-ggsave("figures/counterfactuals_distances_2_lines.png", width = 6, height = 4,
+# ggsave("figures/counterfactuals_distances.png", 
+#                         width = 6, height = 4, plot = fig_distances, bg = "white")
+
+ggsave("figures/counterfactuals_distances_1_lines.png", width = 6, height = 4,
+                        plot = fig_distances, bg = "white")
+
+# ggsave("figures/counterfactual_distances_labels.png", 
+#                                width = 5, height = 5, plot = fig_distances_labels, bg = "white")
+
+```
+
+## 2 fit lines - black and white with fill vs outline
+
+```{r}
+fig_distances <- dat_trials_summarized_distances_long %>% 
+  mutate(target = recode(target, !!!short_names),
+         counterfactual = recode(counterfactual,!!!short_names)) %>% 
+  mutate(labels = paste0("target: ", target, "\n", counterfactual_type, ": ", counterfactual)) %>% 
+  ggplot(aes(y = mean_likelihood, x = joint_distance)) +
+  # geom_point(alpha = 0.4, size = 5, aes(color = counterfactual_type)) +
+  geom_point(aes(fill = counterfactual_type),
+                      shape = 21,
+                      color = "black",
+                      size = 5,
+                      alpha = 0.8) +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
+  # geom_smooth(method = "lm") + 
+  # geom_smooth(aes(color = counterfactual_type), method = "lm") +
+  # geom_smooth(method = "lm", color = "black") +
+  
+  geom_smooth(aes(color = counterfactual_type), method = "lm") +
+  
+  
+  scale_color_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+  
+   ylim(0, 100) +
+
+  # geom_text(aes(label = labels), vjust = -0.5, size = 2) + #uncomment this to include labels
+  theme_bw() +
+  theme(axis.text.x = element_text(size = 30),
+        axis.text.y = element_text(size = 30),
+        axis.title.x = element_text(size = 10),
+        axis.title.y = element_text(size = 25),
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 18),
+        legend.position = "top",
+        plot.title = element_text(hjust = 0.5)
+        ) +
+  labs(
+    title = "Counterfactuals",
+    color = "Choice Item",
+    fill = "Choice Item",
+    x = "More intrinsically relevant, More directly relevant",
+    y = "Likelihood"
+  ) 
+
+fig_distances
+
+# ggsave("figures/counterfactuals_distances.png", 
+#                         width = 6, height = 4, plot = fig_distances, bg = "white")
+
+ggsave("figures/counterfactuals_distances_2_lines-black-white.png", width = 6, height = 4,
                         plot = fig_distances, bg = "white")
 
 # ggsave("figures/counterfactual_distances_labels.png", 

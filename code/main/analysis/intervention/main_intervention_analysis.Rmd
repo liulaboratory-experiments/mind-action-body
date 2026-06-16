@@ -281,6 +281,76 @@ fig_slope <- ggsave("figures/intervention_slope.png", width = 3.5, height = 6, p
 
 ```
 
+## Figure with slope - black and white
+
+```{r, fig.width = 3, fig.height = 5}
+fig_slope <- dat_summarized_conditions %>%
+  mutate(response = fct_relevel(response, "Direct", "Intrinsic")) %>% 
+  mutate(condition = fct_relevel(condition, c("Magical", "Ordinary"))) %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_summarized_conditions, response == "Intrinsic"),
+              aes(ymax = ci_high,
+                  ymin = ci_low,
+                  width = 0.3)) +
+  # geom_point(
+  #     data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+  #   aes(group = interaction(itemB, response)),
+  #   alpha = 0.4, color = "black", size = 5
+  # ) +
+  
+  geom_point(
+      data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+    aes(group = interaction(itemB, response),
+        fill = response),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  scale_fill_manual(values = c(
+          "Direct" = "#CCCCCC",
+          "Intrinsic" = "white")) +
+
+  # geom_point(
+  #   data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+  #   aes(group = joined,
+  #       fill = response),
+  #            alpha = 0.8, 
+  #            size = 5,
+  #            shape = 21,
+  #            color = "black") +
+  # scale_fill_manual(values = c(
+  #         "Direct" = "#CCCCCC",
+  #         "Intrinsic" = "white")) +
+  
+  geom_line(
+    data = dplyr::filter(dat_summarized_trials, response == "Intrinsic"),
+    aes(group = interaction(itemB, response)),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion", x = "Condition", fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    legend.text = element_text(size = 25),
+    panel.background = element_rect(fill='transparent', color=NA),
+    plot.background = element_rect(fill='transparent', color=NA)
+  )
+
+fig_slope
+
+fig_slope <- ggsave("figures/intervention_slope.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+
+```
+
 ## Item-level with distances
 
 ```{r, fig.width = 12, fig.height = 12}
