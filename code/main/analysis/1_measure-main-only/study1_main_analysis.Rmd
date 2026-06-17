@@ -435,6 +435,56 @@ legend(
 
 ```
 
+## Figure: Mean freesort rdm with numbers
+
+```{r}
+
+png(
+  file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM-numbers.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+#large image
+corrplot(
+  df_mean_freesort_matrix,
+  method = "color",
+  is.corr = FALSE,
+  col = brewer.pal(11, "RdBu"),
+  tl.col = "black",
+  tl.cex = 2,
+  na.label = "square",
+  na.label.col = "darkgrey",
+  addCoef.col = "black",
+  number.cex = 1.2,
+  number.digits = 2,
+  mar = c(0, 0, 2, 0),
+  addgrid.col = "grey65",
+  cl.offset = 1.0,
+  cl.cex = 2,
+  cl.ratio = 0.22,
+  cex.main = 3
+)
+
+
+#run this with the above to include legend for the domain colors
+legend(
+  "topleft",
+  inset = c(0.1, 0.1), #move the legend outside the plot
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n", #no box around the legend
+  cex = 2, #text size
+  xpd = TRUE, #allow drawing outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #increase this for more space between rows
+)
+```
+
 ## Specific freesort relations reported in paper 
 
 ```{r}
@@ -672,6 +722,58 @@ legend(
 )
 
 ```
+
+## Figure: Mean causal rdm with numbers
+
+```{r}
+
+png(
+  file = paste0(rdms_outputs_path, "/causal/averageCausalRDM-numbers.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+#large image
+corrplot(
+  df_mean_causal_matrix,
+  method = "color",
+  is.corr = FALSE,
+  col = brewer.pal(11, "RdBu"),
+  tl.col = "black",
+  tl.cex = 2,
+  na.label = "square",
+  na.label.col = "darkgrey",
+  addCoef.col = "black",
+  number.cex = 1.2,
+  number.digits = 2,
+  mar = c(0, 0, 2, 0),
+  addgrid.col = "grey65",
+  cl.offset = 1.0,
+  cl.cex = 2,
+  cl.ratio = 0.22,
+  cex.main = 3
+)
+
+
+#run this together with above to include a domains color legend
+legend(
+  "topleft",
+  inset = c(0.1, 0.1),
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n",
+  cex = 2, #text size
+  xpd = TRUE, #draw outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #more space between rows
+)
+
+```
+
 
 ## Specific causal relations reported in paper 
 
@@ -1448,6 +1550,8 @@ bar_plot <- ggplot(d_combined_correlations,
   geom_hline(yintercept = noise_ceiling_causal$upper_tri_upper_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
   geom_hline(yintercept = noise_ceiling_causal$upper_tri_lower_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
   theme_cowplot() +
+  # ylim(-0.5, 0.5) +
+  scale_y_continuous(limits = c(-0.5, 0.5), breaks = seq(-0.5, 0.5, by = 0.1)) +
   theme(
     panel.background = element_rect(fill = NA, color = NA),
     plot.background = element_rect(fill = NA, color = NA),
@@ -2089,6 +2193,8 @@ freesort_task_order_correlations <- tibble(freesort_comparison = c(
   ungroup()
 
 freesort_task_order_correlations 
+
+write.csv(freesort_task_order_correlations, "freesort_task_order_correlations.csv")
 
 ```
 

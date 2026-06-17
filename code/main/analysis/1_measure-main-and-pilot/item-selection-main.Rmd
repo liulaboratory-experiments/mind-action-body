@@ -17,7 +17,7 @@ What this script: groups by item pairs (this is also what we do in other scripts
 
 # Setup
 
-## load packages
+## Load packages
 
 ```{r, setup, include = FALSE}
 #knitr::opts_chunk$set(echo = FALSE, message = FALSE)
@@ -86,11 +86,13 @@ rmarkdown::paged_table(df_combined)
 
 ```
 
-# Long list
+# Non-normalized
 
-## "Freesort - causal" calculation
+# Preceding - for Experiment 2 (Explanation), 3 (Counterfactual), and 5 (Intervention)
 
-THis is where we normalize! uncomment to see previous plots
+## Long list 
+
+### Select long list 
 
 ```{r}
 #get mean distances by item pairs
@@ -101,8 +103,8 @@ df_pair_means <- df_combined %>%
   summarize(mean_causal_distance = mean(causal_distance, na.rm = TRUE),
          mean_freesort_distance = mean(freesort_distance, na.rm = TRUE)) %>% 
   ungroup() %>% 
-  mutate(mean_causal_distance = (mean_causal_distance - min(mean_causal_distance)) / (max(mean_causal_distance) - min(mean_causal_distance)), #NORMALIZE distances! Uncomment to see former plots!
-         mean_freesort_distance = (mean_freesort_distance - min(mean_freesort_distance)) / (max(mean_freesort_distance) - min(mean_freesort_distance))) %>%
+  # mutate(mean_causal_distance = (mean_causal_distance - min(mean_causal_distance)) / (max(mean_causal_distance) - min(mean_causal_distance)), #NORMALIZE distances! Uncomment to see former plots!
+         # mean_freesort_distance = (mean_freesort_distance - min(mean_freesort_distance)) / (max(mean_freesort_distance) - min(mean_freesort_distance))) %>%
   separate(item_pairs, c("itemA", "itemB"), sep = "_")
 
 #add domain labels
@@ -128,16 +130,15 @@ df_item_pair_means_freesort_minus_causal <- df_item_pair_means_domain_long %>%
               values_from = "values") %>% 
   mutate(freesort_minus_causal = mean_freesort_distance - mean_causal_distance)
 
+df_item_pair_means_freesort_minus_causal
+
 #save as csv
 write.csv(df_item_pair_means_freesort_minus_causal,
           freesort_minus_causal_distances_output_path, row.names = F)
 
 ```
 
-
-# Preceding Causal Items and Similar Items - for Explanation, Intervention, Counterfactuals Tasks
-
-## Plot long list
+### Plot long list - table
 
 ```{r}
 long_list_items <- df_item_pair_means_freesort_minus_causal %>% 
@@ -173,46 +174,6 @@ long_list_items
 
 
 ```
-
-## troubleshooting plot -- for choose what to do 
-```{r}
-long_list_items <- df_item_pair_means_freesort_minus_causal %>% 
-  group_by(itemB) %>% 
-  arrange(desc(freesort_minus_causal)) %>% 
-  ungroup() %>% 
-  arrange(itemB) %>% 
-  rename("cd" = mean_causal_distance,
-         "fd" = mean_freesort_distance,
-         "fd_minus_cd" = freesort_minus_causal,
-         "target" = itemB) %>% 
-  mutate(cd = round(cd, 2),
-         fd = round(fd, 2),
-         fd_minus_cd = round(fd_minus_cd, 2)) %>% 
-  relocate(fd, .before = cd) %>% 
-  filter(target == "choose what to do") 
-
-#Generate a unique color for each itemB
-unique_items <- unique(long_list_items$itemB)
-color_palette <- scales::hue_pal()(length(unique_items))  # Generate distinct colors
-color_map <- setNames(color_palette, unique_items)
-
-#Create the table with conditional formatting
-long_list_items <- long_list_items %>% 
-  gt() %>% 
-  data_color(
-    columns = target,  #apply color to this column
-    colors = color_map
-  )
-
-long_list_items 
-
-gtsave(long_list_items, "figures/item-selection/preceding_long-list-normalized-choose.png")
-# gtsave(long_list_items, "figures/item-selection/preceding_long-list-non-normalized.png")
-
-
-```
-
-
 
 ## Short list - no domain constraints
 
@@ -256,6 +217,289 @@ paged_table(short_list_selected_items)
 
 ```
 
+### Plot short list
+
+```{r}
+short_list_table <- short_list_selected_items %>%
+  mutate(
+    group = case_when(
+      target_item %in% c("see something", "hear something", "remember something", "think about something", "choose what to do") ~ "mind",
+      target_item %in% c("reach for something", "sit down", "jump up and down", "kick something", "take a walk") ~ "action",
+      target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
+      TRUE ~ "other"
+    ),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ")"),
+        #inline styles to highlight text for 'target_item' based on group
+    target_item = case_when(
+      group == "mind" ~ paste0("<span style='color: #f7bf2a; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #69ad44; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #f36b2d; font-weight: bold;'>", target_item, "</span>"),
+      TRUE ~ target_item
+    )
+  ) %>% 
+  #replace group labels with blanks after the first row of each group
+  group_by(group) %>%
+  mutate(group = ifelse(row_number() == 1, group, "")) %>%
+  ungroup() %>%
+  select(group, target_item, causal_choice, similar_choice)  # Keep the domain column
+
+
+df_table <- short_list_table %>%
+  gt() %>%
+  tab_header(
+    title = "Target and Choice Items"
+  ) %>%
+  cols_label(
+    group = "Domain",
+    target_item = "Target Item",
+    causal_choice = md("CC item<br>(CC distance, Freesort Distance)"),
+    similar_choice = md("CO item<br>(CC distance, Freesort Distance)")
+  ) %>%
+  fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
+  fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
+  #custom styles for domain (group) column
+  tab_style(
+    style = list(
+      cell_text(color = "#f7bf2a", weight = "bold")  
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "mind"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#69ad44", weight = "bold")
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "action"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#f36b2d", weight = "bold") 
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "body"
+    )
+  ) %>%
+  tab_options(
+    table.font.names = "Arial"
+  )
+
+df_table
+
+gtsave(df_table, "figures/item-selection/preceding_short-list-non-normalized.png")
+
+```
+
+## Short list - domain constraints
+
+### Select short list 
+
+
+```{r}
+similar_items_same_domain <- df_item_pair_means_freesort_minus_causal %>%
+  filter(domain_itemA == domain_itemB) %>% #first condition
+  group_by(itemB) %>%
+  slice_min(freesort_minus_causal, with_ties = FALSE) %>% #second and third condition
+  ungroup()
+
+causal_items_cross_domain <- df_item_pair_means_freesort_minus_causal %>%
+  filter(domain_itemA != domain_itemB) %>% #firs condition
+  group_by(itemB) %>%
+  slice_max(freesort_minus_causal, with_ties = FALSE) %>% #2nd and third condition
+  ungroup()
+  
+  
+#join
+short_list_selected_items_domain_constraints <- causal_items_cross_domain %>% 
+  select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>% 
+  rename(causal_choice = itemA,
+         causal_distance_causal_choice = mean_causal_distance,
+         freesort_distance_causal_choice = mean_freesort_distance,
+         freesort_minus_causal_distance_causal = freesort_minus_causal) %>% 
+  left_join(similar_items_same_domain %>% 
+              select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>%
+              rename(similar_choice = itemA, 
+                     causal_distance_similar_choice = mean_causal_distance,
+                     freesort_distance_similar_choice = mean_freesort_distance,
+                     freesort_minus_causal_distance_similar = freesort_minus_causal),
+            by = "itemB") %>% 
+  relocate("similar_choice", .after = "causal_choice") %>% 
+  relocate("itemB", .before = "causal_choice") %>% 
+  rename(target_item = itemB) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2))
+
+#view items
+paged_table(short_list_selected_items_domain_constraints)
+
+#save as csv
+write_csv(file = "snapshots_study1_main_analysis/preceding_short_list_domain_constraints-non-normalized.csv",
+          short_list_selected_items_domain_constraints)
+
+```
+
+### Plot short list constrained
+
+```{r}
+short_list_table_domain_constraints <- short_list_selected_items_domain_constraints %>%
+  mutate(
+    group = case_when(
+      target_item %in% c("see something", "hear something", "remember something", "think about something", "choose what to do") ~ "mind",
+      target_item %in% c("reach for something", "sit down", "jump up and down", "kick something", "take a walk") ~ "action",
+      target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
+      TRUE ~ "other"
+    ),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ", ", freesort_minus_causal_distance_causal, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ", ", freesort_minus_causal_distance_similar, ")"),
+        #inline styles to highlight text for 'target_item' based on group
+    target_item = case_when(
+      group == "mind" ~ paste0("<span style='color: #db9728; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #d0495a; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #00788a; font-weight: bold;'>", target_item, "</span>"),
+      TRUE ~ target_item
+    )
+  ) %>% 
+  #replace group labels with blanks after the first row of each group
+  group_by(group) %>%
+  mutate(group = ifelse(row_number() == 1, group, "")) %>%
+  ungroup() %>%
+  select(group, target_item, causal_choice, similar_choice)  # Keep the domain column
+
+
+df_table_domain_constraints <- short_list_table_domain_constraints %>%
+  gt() %>%
+  tab_header(
+    title = "Target and Choice Items"
+  ) %>%
+  cols_label(
+    group = "Domain",
+    target_item = "Target Item",
+    causal_choice = md("CC item<br>(CP distance, Freesort distance, joint distance)"),
+    similar_choice = md("CO item<br>(CP distance, Freesort distance, joint distance)")
+  ) %>%
+  fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
+  fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
+  
+  #custom styles for domain (group) column
+  tab_style(
+    style = list(
+      cell_text(color = "#db9728", weight = "bold")  
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "mind"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#d0495a", weight = "bold")
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "action"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#00788a", weight = "bold") 
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "body"
+    )
+  ) %>%
+  tab_options(
+    table.font.names = "Arial"
+  )
+
+df_table_domain_constraints
+
+gtsave(df_table_domain_constraints,
+       "figures/item-selection/preceding_short-list-constrained-non-normalized.png")
+```
+
+# Following - for Experiment 5 (Prediction)
+
+## Plot long list
+
+```{r}
+long_list_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemA) %>% 
+  arrange(desc(freesort_minus_causal)) %>% 
+  ungroup() %>% 
+  arrange(itemA)
+
+#Generate a unique color for each itemA
+unique_items <- unique(long_list_items$itemA)
+color_palette <- scales::hue_pal()(length(unique_items))  # Generate distinct colors
+color_map <- setNames(color_palette, unique_items)
+
+#Create the table with conditional formatting
+long_list_items <- long_list_items %>% 
+  gt() %>% 
+  data_color(
+    columns = itemA,  #apply color to this column
+    colors = color_map
+  )
+
+long_list_items 
+
+gtsave(long_list_items, "figures/item-selection/following_long-list-Prediction-task-non-normalized.png")
+
+```
+
+## Short list - no domain constraints
+
+### Select short list
+
+```{r}
+#similar item (item with lowest freesort_minus_causal)
+similar_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemA) %>% 
+  slice_min(freesort_minus_causal)
+ 
+#causal item (item with highest freesort_minus_causal)
+causal_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemA) %>% 
+  slice_max(freesort_minus_causal)
+
+#join
+short_list_selected_items <- causal_items %>% 
+  select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>% 
+  rename(causal_choice = itemB,
+         causal_distance_causal_choice = mean_causal_distance,
+         freesort_distance_causal_choice = mean_freesort_distance,
+         freesort_minus_causal_distance_causal = freesort_minus_causal) %>% 
+  left_join(similar_items %>% 
+              select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>%
+              rename(similar_choice = itemB, 
+                     causal_distance_similar_choice = mean_causal_distance,
+                     freesort_distance_similar_choice = mean_freesort_distance,
+                     freesort_minus_causal_distance_similar = freesort_minus_causal),
+            by = "itemA") %>% 
+  relocate("similar_choice", .after = "causal_choice") %>% 
+  relocate("itemA", .before = "causal_choice") %>% 
+  rename(target_item = itemA) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2))
+
+#view items
+paged_table(short_list_selected_items)
+
+
+```
 
 ### Plot short list
 
@@ -293,8 +537,347 @@ df_table <- short_list_table %>%
   cols_label(
     group = "Domain",
     target_item = "Target Item",
-    causal_choice = md("Causal Choice<br>(Causal Distance, Freesort Distance)"),
-    similar_choice = md("Similar Choice<br>(Causal Distance, Freesort Distance)")
+    causal_choice = md("CC item<br>(CC distance, Freesort Distance)"),
+    similar_choice = md("CO item<br>(CC distance, Freesort Distance)")
+  ) %>%
+  fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
+  fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
+  #custom styles for domain (group) column
+  tab_style(
+    style = list(
+      cell_text(color = "#f7bf2a", weight = "bold")  
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "mind"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#69ad44", weight = "bold")
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "action"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#f36b2d", weight = "bold") 
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "body"
+    )
+  ) %>%
+  tab_options(
+    table.font.names = "Arial"
+  )
+
+df_table
+
+gtsave(df_table, "figures/item-selection/following_short-list-Prediction-task-non-normalized.png")
+
+```
+
+## Short list - domain constraints
+
+### Select short list 
+
+
+```{r}
+similar_items_same_domain <- df_item_pair_means_freesort_minus_causal %>%
+  filter(domain_itemA == domain_itemB) %>% #first condition
+  group_by(itemA) %>%
+  slice_min(freesort_minus_causal, with_ties = FALSE) %>% #second and third condition
+  ungroup()
+
+causal_items_cross_domain <- df_item_pair_means_freesort_minus_causal %>%
+  filter(domain_itemA != domain_itemB) %>% #firs condition
+  group_by(itemA) %>%
+  slice_max(freesort_minus_causal, with_ties = FALSE) %>% #2nd and third condition
+  ungroup()
+  
+  
+#join
+short_list_selected_items_domain_constraints <- causal_items_cross_domain %>% 
+  select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>% 
+  rename(causal_choice = itemB,
+         causal_distance_causal_choice = mean_causal_distance,
+         freesort_distance_causal_choice = mean_freesort_distance,
+         freesort_minus_causal_distance_causal = freesort_minus_causal) %>% 
+  left_join(similar_items_same_domain %>% 
+              select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>%
+              rename(similar_choice = itemB, 
+                     causal_distance_similar_choice = mean_causal_distance,
+                     freesort_distance_similar_choice = mean_freesort_distance,
+                     freesort_minus_causal_distance_similar = freesort_minus_causal),
+            by = "itemA") %>% 
+  relocate("similar_choice", .after = "causal_choice") %>% 
+  relocate("itemA", .before = "causal_choice") %>% 
+  rename(target_item = itemA) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2),
+         freesort_minus_causal_distance_causal = round(freesort_minus_causal_distance_causal, 2),
+         freesort_minus_causal_distance_similar = round(freesort_minus_causal_distance_similar, 2))
+
+write_csv(file = "snapshots_study1_main_analysis/following_short_list_Prediction_domain_constraints-non-normalized.csv",
+          short_list_selected_items_domain_constraints)
+
+#view items
+paged_table(short_list_selected_items_domain_constraints)
+
+
+```
+
+### Plot short list constrained
+
+```{r}
+short_list_table_domain_constraints <- short_list_selected_items_domain_constraints %>%
+  mutate(
+    group = case_when(
+      target_item %in% c("see something", "hear something", "remember something", "think about something", "choose what to do") ~ "mind",
+      target_item %in% c("reach for something", "sit down", "jump up and down", "kick something", "take a walk") ~ "action",
+      target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
+      TRUE ~ "other"
+    ),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ", ", freesort_minus_causal_distance_causal, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ", ", freesort_minus_causal_distance_similar, ")"),
+        #inline styles to highlight text for 'target_item' based on group
+    target_item = case_when(
+      group == "mind" ~ paste0("<span style='color: #db9728; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #d0495a; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #00788a; font-weight: bold;'>", target_item, "</span>"),
+      TRUE ~ target_item
+    )
+  ) %>% 
+  #replace group labels with blanks after the first row of each group
+  group_by(group) %>%
+  mutate(group = ifelse(row_number() == 1, group, "")) %>%
+  ungroup() %>%
+  select(group, target_item, causal_choice, similar_choice)  # Keep the domain column
+
+
+df_table_domain_constraints <- short_list_table_domain_constraints %>%
+  gt() %>%
+  tab_header(
+    title = "Target and Choice Items"
+  ) %>%
+  cols_label(
+    group = "Domain",
+    target_item = "Target Item",
+    causal_choice = md("CC item<br>(CP distance, Freesort distance, joint distance)"),
+    similar_choice = md("CO item<br>(CP distance, Freesort distance, joint distance)")
+  ) %>%
+  fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
+  fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
+  #custom styles for domain (group) column
+  tab_style(
+    style = list(
+      cell_text(color = "#db9728", weight = "bold")  
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "mind"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#d0495a", weight = "bold")
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "action"
+    )
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(color = "#00788a", weight = "bold") 
+    ),
+    locations = cells_body(
+      columns = group,
+      rows = group == "body"
+    )
+  ) %>%
+  tab_options(
+    table.font.names = "Arial"
+  )
+
+df_table_domain_constraints
+
+gtsave(df_table_domain_constraints,
+       "figures/item-selection/following_short-list-Prediction-constrained-non-normalized.png")
+```
+
+# Normalized
+
+## Long list 
+
+### Select long list 
+
+```{r}
+#get mean distances by item pairs
+df_pair_means <- df_combined %>% 
+  select(subject_id, itemA, itemB, freesort_distance, causal_distance) %>% 
+  unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+  group_by(item_pairs) %>%
+  summarize(mean_causal_distance = mean(causal_distance, na.rm = TRUE),
+         mean_freesort_distance = mean(freesort_distance, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  mutate(mean_causal_distance = (mean_causal_distance - min(mean_causal_distance)) / (max(mean_causal_distance) - min(mean_causal_distance)), 
+  mean_freesort_distance = (mean_freesort_distance - min(mean_freesort_distance)) / (max(mean_freesort_distance) - min(mean_freesort_distance))) %>%
+  separate(item_pairs, c("itemA", "itemB"), sep = "_")
+
+#add domain labels
+df_item_pair_means_domain <- df_pair_means %>%
+  left_join(df_combined %>% 
+              select(itemA, itemB, domain_itemA, domain_itemB) %>% 
+              distinct(),
+              by = c("itemA", "itemB")) %>% 
+  relocate(domain_itemA, .after = "itemB") %>% 
+  relocate(domain_itemB, .after = "domain_itemA") %>% 
+  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(itemA = factor(itemA, levels = desired_order))
+
+df_item_pair_means_domain_long <- df_item_pair_means_domain %>% 
+  pivot_longer(
+    cols = c("mean_causal_distance", "mean_freesort_distance"),
+    names_to = "mean_type",
+    values_to = "values"
+  ) 
+
+df_item_pair_means_freesort_minus_causal <- df_item_pair_means_domain_long %>% 
+  pivot_wider(names_from = "mean_type",
+              values_from = "values") %>% 
+  mutate(freesort_minus_causal = mean_freesort_distance - mean_causal_distance)
+
+df_item_pair_means_freesort_minus_causal
+
+#save as csv
+write.csv(df_item_pair_means_freesort_minus_causal,
+          freesort_minus_causal_distances_output_path, row.names = F)
+
+```
+
+### Plot long list - table
+
+```{r}
+long_list_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemB) %>% 
+  arrange(desc(freesort_minus_causal)) %>% 
+  ungroup() %>% 
+  arrange(itemB) %>% 
+  rename("cd" = mean_causal_distance,
+         "fd" = mean_freesort_distance,
+         "fd_minus_cd" = freesort_minus_causal) %>% 
+  mutate(cd = round(cd, 2),
+         fd = round(fd, 2),
+         fd_minus_cd = round(fd_minus_cd, 2)) %>% 
+  relocate(fd, .before = cd)
+
+#Generate a unique color for each itemB
+unique_items <- unique(long_list_items$itemB)
+color_palette <- scales::hue_pal()(length(unique_items))  # Generate distinct colors
+color_map <- setNames(color_palette, unique_items)
+
+#Create the table with conditional formatting
+long_list_items <- long_list_items %>% 
+  gt() %>% 
+  data_color(
+    columns = itemB,  #apply color to this column
+    colors = color_map
+  )
+
+long_list_items 
+
+# gtsave(long_list_items, "figures/item-selection/preceding_long-list-normalized.png")
+# gtsave(long_list_items, "figures/item-selection/preceding_long-list-non-normalized.png")
+
+
+```
+
+## Short list - no domain constraints
+
+### Select short list
+
+```{r}
+#similar item (item with lowest freesort_minus_causal)
+similar_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemB) %>% 
+  slice_min(freesort_minus_causal)
+ 
+#causal item (item with highest freesort_minus_causal)
+causal_items <- df_item_pair_means_freesort_minus_causal %>% 
+  group_by(itemB) %>% 
+  slice_max(freesort_minus_causal)
+
+#join
+short_list_selected_items <- causal_items %>% 
+  select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>% 
+  rename(causal_choice = itemA,
+         causal_distance_causal_choice = mean_causal_distance,
+         freesort_distance_causal_choice = mean_freesort_distance,
+         freesort_minus_causal_distance_causal = freesort_minus_causal) %>% 
+  left_join(similar_items %>% 
+              select(itemA, itemB, mean_causal_distance, mean_freesort_distance, freesort_minus_causal) %>%
+              rename(similar_choice = itemA, 
+                     causal_distance_similar_choice = mean_causal_distance,
+                     freesort_distance_similar_choice = mean_freesort_distance,
+                     freesort_minus_causal_distance_similar = freesort_minus_causal),
+            by = "itemB") %>% 
+  relocate("similar_choice", .after = "causal_choice") %>% 
+  relocate("itemB", .before = "causal_choice") %>% 
+  rename(target_item = itemB) %>% 
+  mutate(causal_distance_causal_choice = round(causal_distance_causal_choice, 2),
+         freesort_distance_causal_choice = round(freesort_distance_causal_choice, 2),
+         causal_distance_similar_choice = round(causal_distance_similar_choice, 2),
+         freesort_distance_similar_choice = round(freesort_distance_similar_choice, 2))
+
+#view items
+paged_table(short_list_selected_items)
+
+```
+
+### Plot short list
+
+```{r}
+short_list_table <- short_list_selected_items %>%
+  mutate(
+    group = case_when(
+      target_item %in% c("see something", "hear something", "remember something", "think about something", "choose what to do") ~ "mind",
+      target_item %in% c("reach for something", "sit down", "jump up and down", "kick something", "take a walk") ~ "action",
+      target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
+      TRUE ~ "other"
+    ),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ")"),
+        #inline styles to highlight text for 'target_item' based on group
+    target_item = case_when(
+      group == "mind" ~ paste0("<span style='color: #f7bf2a; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #69ad44; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #f36b2d; font-weight: bold;'>", target_item, "</span>"),
+      TRUE ~ target_item
+    )
+  ) %>% 
+  #replace group labels with blanks after the first row of each group
+  group_by(group) %>%
+  mutate(group = ifelse(row_number() == 1, group, "")) %>%
+  ungroup() %>%
+  select(group, target_item, causal_choice, similar_choice)  # Keep the domain column
+
+
+df_table <- short_list_table %>%
+  gt() %>%
+  tab_header(
+    title = "Target and Choice Items"
+  ) %>%
+  cols_label(
+    group = "Domain",
+    target_item = "Target Item",
+    causal_choice = md("CC item<br>(CC distance, Freesort Distance)"),
+    similar_choice = md("CO item<br>(CC distance, Freesort Distance)")
   ) %>%
   fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
   fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
@@ -399,13 +982,13 @@ short_list_table_domain_constraints <- short_list_selected_items_domain_constrai
       target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
       TRUE ~ "other"
     ),
-    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ")"),
-    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ")"),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ", ", freesort_minus_causal_distance_causal, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ", ", freesort_minus_causal_distance_similar, ")"),
         #inline styles to highlight text for 'target_item' based on group
     target_item = case_when(
-      group == "mind" ~ paste0("<span style='color: #f7bf2a; font-weight: bold;'>", target_item, "</span>"),
-      group == "action" ~ paste0("<span style='color: #69ad44; font-weight: bold;'>", target_item, "</span>"),
-      group == "body" ~ paste0("<span style='color: #f36b2d; font-weight: bold;'>", target_item, "</span>"),
+      group == "mind" ~ paste0("<span style='color: #db9728; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #d0495a; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #00788a; font-weight: bold;'>", target_item, "</span>"),
       TRUE ~ target_item
     )
   ) %>% 
@@ -424,15 +1007,16 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   cols_label(
     group = "Domain",
     target_item = "Target Item",
-    causal_choice = md("Causal Choice<br>(Causal Distance, Freesort Distance)"),
-    similar_choice = md("Similar Choice<br>(Causal Distance, Freesort Distance)")
+    causal_choice = md("CC item<br>(CP distance, Freesort distance, joint distance)"),
+    similar_choice = md("CO item<br>(CP distance, Freesort distance, joint distance)")
   ) %>%
   fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
   fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
+  
   #custom styles for domain (group) column
   tab_style(
     style = list(
-      cell_text(color = "#f7bf2a", weight = "bold")  
+      cell_text(color = "#db9728", weight = "bold")  
     ),
     locations = cells_body(
       columns = group,
@@ -441,7 +1025,7 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   ) %>%
   tab_style(
     style = list(
-      cell_text(color = "#69ad44", weight = "bold")
+      cell_text(color = "#d0495a", weight = "bold")
     ),
     locations = cells_body(
       columns = group,
@@ -450,7 +1034,7 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   ) %>%
   tab_style(
     style = list(
-      cell_text(color = "#f36b2d", weight = "bold") 
+      cell_text(color = "#00788a", weight = "bold") 
     ),
     locations = cells_body(
       columns = group,
@@ -467,7 +1051,7 @@ gtsave(df_table_domain_constraints,
        "figures/item-selection/preceding_short-list-constrained-normalized.png")
 ```
 
-# Following Causal Items and Similar Items - for Prediction Task
+# Following - for Experiment 5 (Prediction)
 
 ## Plot long list
 
@@ -478,8 +1062,8 @@ long_list_items <- df_item_pair_means_freesort_minus_causal %>%
   ungroup() %>% 
   arrange(itemA)
 
-#Generate a unique color for each itemB
-unique_items <- unique(long_list_items$itemB)
+#Generate a unique color for each itemA
+unique_items <- unique(long_list_items$itemA)
 color_palette <- scales::hue_pal()(length(unique_items))  # Generate distinct colors
 color_map <- setNames(color_palette, unique_items)
 
@@ -540,7 +1124,6 @@ paged_table(short_list_selected_items)
 
 ```
 
-
 ### Plot short list
 
 ```{r}
@@ -577,8 +1160,8 @@ df_table <- short_list_table %>%
   cols_label(
     group = "Domain",
     target_item = "Target Item",
-    causal_choice = md("Causal Choice<br>(Causal Distance, Freesort Distance)"),
-    similar_choice = md("Similar Choice<br>(Causal Distance, Freesort Distance)")
+    causal_choice = md("CC item<br>(CC distance, Freesort Distance)"),
+    similar_choice = md("CO item<br>(CC distance, Freesort Distance)")
   ) %>%
   fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
   fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
@@ -683,13 +1266,13 @@ short_list_table_domain_constraints <- short_list_selected_items_domain_constrai
       target_item %in% c("get tired", "become hungry", "feel scared", "experience pain", "get sick") ~ "body",
       TRUE ~ "other"
     ),
-    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ")"),
-    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ")"),
+    causal_choice = paste0(causal_choice, " (", causal_distance_causal_choice, ", ", freesort_distance_causal_choice, ", ", freesort_minus_causal_distance_causal, ")"),
+    similar_choice = paste0(similar_choice, " (", causal_distance_similar_choice, ", ", freesort_distance_similar_choice, ", ", freesort_minus_causal_distance_similar, ")"),
         #inline styles to highlight text for 'target_item' based on group
     target_item = case_when(
-      group == "mind" ~ paste0("<span style='color: #f7bf2a; font-weight: bold;'>", target_item, "</span>"),
-      group == "action" ~ paste0("<span style='color: #69ad44; font-weight: bold;'>", target_item, "</span>"),
-      group == "body" ~ paste0("<span style='color: #f36b2d; font-weight: bold;'>", target_item, "</span>"),
+      group == "mind" ~ paste0("<span style='color: #db9728; font-weight: bold;'>", target_item, "</span>"),
+      group == "action" ~ paste0("<span style='color: #d0495a; font-weight: bold;'>", target_item, "</span>"),
+      group == "body" ~ paste0("<span style='color: #00788a; font-weight: bold;'>", target_item, "</span>"),
       TRUE ~ target_item
     )
   ) %>% 
@@ -708,15 +1291,15 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   cols_label(
     group = "Domain",
     target_item = "Target Item",
-    causal_choice = md("Causal Choice<br>(Causal Distance, Freesort Distance)"),
-    similar_choice = md("Similar Choice<br>(Causal Distance, Freesort Distance)")
+    causal_choice = md("CC item<br>(CP distance, Freesort distance, joint distance)"),
+    similar_choice = md("CO item<br>(CP distance, Freesort distance, joint distance)")
   ) %>%
   fmt_markdown(columns = target_item) %>%  # Render markdown for inline styles
   fmt_markdown(columns = c(causal_choice, similar_choice)) %>%
   #custom styles for domain (group) column
   tab_style(
     style = list(
-      cell_text(color = "#f7bf2a", weight = "bold")  
+      cell_text(color = "#db9728", weight = "bold")  
     ),
     locations = cells_body(
       columns = group,
@@ -725,7 +1308,7 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   ) %>%
   tab_style(
     style = list(
-      cell_text(color = "#69ad44", weight = "bold")
+      cell_text(color = "#d0495a", weight = "bold")
     ),
     locations = cells_body(
       columns = group,
@@ -734,7 +1317,7 @@ df_table_domain_constraints <- short_list_table_domain_constraints %>%
   ) %>%
   tab_style(
     style = list(
-      cell_text(color = "#f36b2d", weight = "bold") 
+      cell_text(color = "#00788a", weight = "bold") 
     ),
     locations = cells_body(
       columns = group,
@@ -750,8 +1333,6 @@ df_table_domain_constraints
 gtsave(df_table_domain_constraints,
        "figures/item-selection/following_short-list-Prediction-task-constrained-normalized.png")
 ```
-
-
 
 
 # END
