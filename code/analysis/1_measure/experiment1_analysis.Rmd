@@ -1,0 +1,1646 @@
+---
+title: "Experiment 1 analysis"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-7-1"
+author: Joseph Outa
+---
+
+Background:
+This is the analysis script for the measure experiment (experiment 1).
+
+This experiment was conducted on 6/30/25 on Connect CloudResearch, N = 102 participants.  
+
+Experiment 1 presented two tasks in a random order in a within-subjects design: a Freesort Task and a Causal Pairs Task. Subjects sorted 15 items in a sorting canvas, and rated causal relatedness between all 210 pairs of the 15 items (excluding self pairs). 
+
+The N was 102 adults (before exclusions), recruited online via Cloud Research Connect.
+
+The two research questions are: (1) How do subjects sort items? Do they sort into 3 groups, 2 group, 6 groups, or based on feature-based similarity. (2) Do subjects' causal pairs ratings (from the Causal Pairs Task) reflect boundaries in Freesort Task or do they go beyond, and if so, what is their structure?
+
+Script description:
+This script:-  
+- proceeds from the output of the preprocessing script.   
+- takes as input `data_processed_step1.csv`, and `data_model_prediction.csv`
+- plots Sorting and Causal Pairs Task rdms, gets correlations between empirical and models RDM, gets within subject correlations.   
+- outputs `data_freesort_mins_causals.csv` for use in study 2 script for item selection.
+
+What this script does: Per-subject normalize, followed by average, followed be renormalizing. For correlations with models: only correlates upper tris. 
+
+# Setup
+
+## Load packages
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(pacman)
+pacman::p_load(tidyverse,
+               ggforce,
+               conflicted,
+               here,
+               cowplot,
+               lme4,
+               lmerTest,
+               colorspace,
+               effects,
+               Hmisc,
+               performance,
+               rmarkdown,
+               purrr,
+               gt,
+               ragg,
+               readr,
+               scales,
+               patchwork,
+               corrplot,
+               magick,
+               pdftools,
+               simr,
+               viridis,
+               rcartocolor,
+               RColorBrewer,
+               effectsize,
+               parameters,
+               flextable
+               )
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ 
+       conflict_prefer(.x, "dplyr"))
+
+conflicts_prefer(simr::fixed)
+theme_set(theme_bw())
+sessionInfo()
+
+```
+
+## Set variables
+
+```{r}
+# variables
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+domain_order <- c("mind", "action", "body")
+freesort_columns <- c("subject_id", "x", "y", "item")
+freesort_columns_with_trial_order <- c("subject_id", "x", "y", "item", "trial_type", "trial_type_order")
+causal_pairs_columns <- c("subject_id", "itemA", "itemB", "response")
+
+# paths
+## script inputs
+base_path <- here("code", "analysis", "1_measure")
+snapshots_input_path <- paste0(base_path, "/snapshots_experiment1_preprocessing_analysis") 
+data_input_path <- paste0(snapshots_input_path, "/data_processed_step1.csv")
+model_predictions_input_path <- paste0(snapshots_input_path, "/data_model_predictions.csv") 
+rdms_input_path <- paste0(base_path, "/figures/model-rdms")
+
+## script outputs
+snapshots_output_path <- paste0(base_path, "/snapshots_experiment1_analysis")
+rdms_outputs_path <- paste0(base_path, "/figures")
+freesort_minus_causal_pairs_distances_output_path <- paste0(snapshots_output_path, "/freesort_minus_causals.csv")
+
+## saved dataframes 
+data_processed_output_path <- paste0(snapshots_output_path, "/data_processed_step2.csv") #used in item-selection script
+correlations_output_path <- paste0(snapshots_output_path, "/correlations.csv") #not used in this script
+
+```
+
+# Confirmatory Findings - Prep
+
+## Read data
+
+```{r}
+d <- read_csv(data_input_path)
+
+#how many subjects
+d %>% 
+  slice(length(d$subject_id)) %>% 
+  pull(subject_id)
+
+```
+
+## Reshape data
+
+Create separate data frames for Sorting Task, Causal Pairs Task and a combined data frame. 
+
+```{r}
+df_causal_pairs <- d %>%
+  filter(trial_type == "causal_pairs", !attention_check, itemA != itemB) %>%
+  select(all_of(causal_pairs_columns)) %>%
+  
+  #normalize causal distances and flip scale
+  mutate(
+    causal_pairs_distance = (1 - response / 100 - min(1 - response / 100, na.rm = TRUE)) /
+                            (max(1 - response / 100, na.rm = TRUE) - min(1 - response / 100, na.rm = TRUE))
+  ) %>%
+  select(subject_id, itemA, itemB, causal_pairs_distance) %>% 
+  mutate(domain_itemA = case_when(itemA == "hear something" ~ "mind", #labels for first item of pair
+                             itemA == "choose what to do" ~ "mind",
+                             itemA == "remember something" ~ "mind",
+                             itemA == "think about something" ~ "mind",
+                             itemA == "see something" ~ "mind",
+                             itemA == "reach for something" ~ "action",
+                             itemA == "sit down" ~ "action", 
+                             itemA == "jump up and down" ~ "action",
+                             itemA == "kick something" ~ "action",
+                             itemA == "take a walk" ~ "action",
+                             itemA == "get tired" ~ "body", 
+                             itemA == "become hungry" ~ "body",
+                             itemA == "feel scared"~ "body",
+                             itemA == "experience pain"~ "body",
+                             itemA == "get sick"~ "body"),
+         domain_itemB = case_when(itemB == "hear something" ~ "mind", 
+                               itemB == "choose what to do" ~ "mind",
+                               itemB == "remember something" ~ "mind",
+                               itemB == "think about something" ~ "mind",
+                               itemB == "see something" ~ "mind",
+                               itemB == "reach for something" ~ "action",
+                               itemB == "sit down" ~ "action", 
+                               itemB == "jump up and down" ~ "action",
+                               itemB == "kick something" ~ "action",
+                               itemB == "take a walk" ~ "action",
+                               itemB == "get tired" ~ "body", 
+                               itemB == "become hungry" ~ "body",
+                               itemB == "feel scared"~ "body",
+                               itemB == "experience pain"~ "body",
+                               itemB == "get sick"~ "body")) %>% 
+  relocate(domain_itemA, .after = "itemB") %>% 
+  relocate(domain_itemB, .after = "domain_itemA") %>% 
+  mutate(itemA = factor(itemA, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) 
+
+
+df_freesort <- d %>%
+  filter(trial_type == "freesort") %>%
+  select(all_of(freesort_columns_with_trial_order)) %>%
+  rename(item_freesort = item) %>%
+  
+  #expand pairs within each subject
+  group_by(subject_id, trial_type_order) %>%
+  summarize(pairs = list(expand.grid(itemA = item_freesort, itemB = item_freesort, stringsAsFactors = FALSE)), .groups = "drop") %>%
+  unnest(pairs) %>%
+  filter(itemA != itemB) %>%
+  
+  #join in freesort coordinates
+  left_join(d %>% filter(trial_type == "freesort") %>%
+              select(subject_id, itemA = item, x, y),
+            by = c("subject_id", "itemA")) %>%
+  rename(x_itemA = x, y_itemA = y) %>%
+  
+  left_join(d %>% filter(trial_type == "freesort") %>%
+              select(subject_id, itemB = item, x, y),
+            by = c("subject_id", "itemB")) %>%
+  rename(x_itemB = x, y_itemB = y) %>%
+  
+  group_by(subject_id) %>% 
+  
+  #compute and normalize Euclidean distances
+  mutate(
+    euclidean_distance = sqrt((x_itemA - x_itemB)^2 + (y_itemA - y_itemB)^2),
+    freesort_distance = round( (euclidean_distance - min(euclidean_distance, na.rm = TRUE)) /
+                    (max(euclidean_distance, na.rm = TRUE) - min(euclidean_distance, na.rm = TRUE)),2),
+    
+    trial_type_order = ifelse(trial_type_order == "first", "causal_pairs_second", "causal_pairs_first"),
+    
+    itemA = factor(itemA, levels = desired_order),
+    itemB = factor(itemB, levels = desired_order)) %>%
+  select(subject_id, itemA, itemB, freesort_distance, trial_type_order) %>%
+  ungroup() %>% 
+  mutate(domain_itemA = case_when(itemA == "hear something" ~ "mind", #labels for first item of pair
+                             itemA == "choose what to do" ~ "mind",
+                             itemA == "remember something" ~ "mind",
+                             itemA == "think about something" ~ "mind",
+                             itemA == "see something" ~ "mind",
+                             itemA == "reach for something" ~ "action",
+                             itemA == "sit down" ~ "action", 
+                             itemA == "jump up and down" ~ "action",
+                             itemA == "kick something" ~ "action",
+                             itemA == "take a walk" ~ "action",
+                             itemA == "get tired" ~ "body", 
+                             itemA == "become hungry" ~ "body",
+                             itemA == "feel scared"~ "body",
+                             itemA == "experience pain"~ "body",
+                             itemA == "get sick"~ "body"),
+         domain_itemB = case_when(itemB == "hear something" ~ "mind", 
+                               itemB == "choose what to do" ~ "mind",
+                               itemB == "remember something" ~ "mind",
+                               itemB == "think about something" ~ "mind",
+                               itemB == "see something" ~ "mind",
+                               itemB == "reach for something" ~ "action",
+                               itemB == "sit down" ~ "action", 
+                               itemB == "jump up and down" ~ "action",
+                               itemB == "kick something" ~ "action",
+                               itemB == "take a walk" ~ "action",
+                               itemB == "get tired" ~ "body", 
+                               itemB == "become hungry" ~ "body",
+                               itemB == "feel scared"~ "body",
+                               itemB == "experience pain"~ "body",
+                               itemB == "get sick"~ "body")) 
+
+df_combined <- df_freesort %>%
+  # left_join(df_causal_pairs, by = c("subject_id", "itemA", "itemB")) # %>% 
+  left_join(df_causal_pairs, by = c("subject_id", "itemA", "itemB", "domain_itemA", "domain_itemB")) %>%
+  mutate(domain_itemA = factor(domain_itemA, levels = domain_order),
+         domain_itemB = factor(domain_itemB, levels = domain_order)) %>% 
+  relocate(freesort_distance, .before = "causal_pairs_distance") %>%
+  relocate(trial_type_order, .after = "domain_itemB")
+
+paged_table(df_combined)
+
+```
+
+## Write data into csvs
+
+```{r}
+write.csv(df_combined, data_processed_output_path, row.names = F)
+write.csv(df_combined, paste0(snapshots_output_path, "/df_combined.csv"), row.names = F)
+write.csv(df_causal_pairs, paste0(snapshots_output_path, "/df_causal_pairs.csv"), row.names = F)
+write.csv(df_freesort, paste0(snapshots_output_path, "/df_freesort.csv"), row.names = F)
+```
+
+# Confirmatory Findings - RDM Figures
+
+## Freesort Task
+
+## Figure 02A: Mean Freesort RDM 
+
+```{r, fig.width = 12, fig.height = 12}
+df_mean_freesort <- df_freesort %>% 
+  unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+  group_by(item_pairs) %>% 
+  mutate(mean_freesort_distance = mean(freesort_distance)) %>% 
+  ungroup()  
+  
+# matrixify and plot
+df_mean_freesort_rdm <- df_mean_freesort %>% 
+  distinct(item_pairs, .keep_all = TRUE) %>% 
+  select(itemA, itemB, mean_freesort_distance) %>% 
+  pivot_wider(names_from = itemB, values_from = mean_freesort_distance) %>% 
+  column_to_rownames("itemA")  
+  
+df_mean_freesort_rdm <- df_mean_freesort_rdm[desired_order, desired_order]
+
+diag(df_mean_freesort_rdm) <- NA #set diagonals 
+
+#min max normalize
+df_mean_freesort_matrix <- as.matrix(df_mean_freesort_rdm) 
+min_val <- min(df_mean_freesort_matrix, na.rm = TRUE) 
+max_val <- max(df_mean_freesort_matrix, na.rm = TRUE) 
+df_mean_freesort_matrix <- (df_mean_freesort_matrix - min_val) / (max_val - min_val) 
+
+group_colors <- c("#db9728", "#d0495a", "#00788a")
+
+
+my_cols <- brewer.pal(11, "RdBu")
+
+custom_palette <- colorRampPalette(c("#5E0E20", "white", "#132F5E")) 
+
+png(
+  file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+#large image
+corrplot(
+  df_mean_freesort_matrix,
+  method = "color",
+  is.corr = FALSE,
+  col = brewer.pal(11, "RdBu"),
+  tl.col = "black",
+  tl.cex = 2,
+  na.label = "square",       
+  na.label.col = "darkgrey",   
+  mar = c(0, 0, 2, 0),
+  # addgrid.col = "darkgray",
+  addgrid.col = "grey65",
+  cl.offset = 1.0,  # Push labels even further
+  cl.cex = 2,     # Slightly smaller label text
+  cl.ratio = 0.22,   # Widen the legend bar. Change this to push words far away
+  cex.main = 3
+)
+
+#run this with the above to include legend for the domain colors
+legend(
+  "topleft",
+  inset = c(0.1, 0.1), #move the legend outside the plot
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n", #no box around the legend
+  cex = 2, #text size
+  xpd = TRUE, #allow drawing outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #increase this for more space between rows
+)
+
+```
+
+## Figure S1A: Mean Freesort RDM with numbers
+
+```{r}
+
+png(
+  file = paste0(rdms_outputs_path, "/freesort/averageFreesortRDM-numbers.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+#large image
+corrplot(
+  df_mean_freesort_matrix,
+  method = "color",
+  is.corr = FALSE,
+  # col = brewer.pal(11, "RdBu"),
+  # col = brewer.pal(11, "RdBu")[3:9],
+  col = lighten(
+    brewer.pal(11, "RdBu"),
+    amount = 0.2),
+  tl.col = "black",
+  tl.cex = 2,
+  na.label = "square",
+  na.label.col = "darkgrey",
+  addCoef.col = "black",
+  number.cex = 1.2,
+  number.digits = 2,
+  mar = c(0, 0, 2, 0),
+  addgrid.col = "grey65",
+  cl.offset = 1.0,
+  cl.cex = 2,
+  cl.ratio = 0.22,
+  cex.main = 3
+)
+
+
+#run this with the above to include legend for the domain colors
+legend(
+  "topleft",
+  inset = c(0.1, 0.1), #move the legend outside the plot
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n", #no box around the legend
+  cex = 2, #text size
+  xpd = TRUE, #allow drawing outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #increase this for more space between rows
+)
+```
+
+# Causal Pairs Task
+
+## Figure 02B: Mean Causal Pairs RDM
+
+```{r, fig.width = 12, fig.height = 12}
+df_mean_causal_pairs <- df_causal_pairs %>% 
+  mutate(item_pairs = str_c(itemA, itemB, sep = "-"))  %>%
+  group_by(item_pairs) %>%
+  mutate(mean_causal_pairs_distance = mean(causal_pairs_distance, na.rm = TRUE)) %>%  #average across participants
+  ungroup() 
+
+df_mean_causal_pairs_rdm <- df_mean_causal_pairs %>%
+  distinct(item_pairs, .keep_all = TRUE) %>% 
+  select(itemA, itemB, mean_causal_pairs_distance) %>% 
+  pivot_wider(names_from = itemB, values_from = mean_causal_pairs_distance) %>%
+  column_to_rownames("itemA")  
+
+df_mean_causal_pairs_rdm <- df_mean_causal_pairs_rdm[desired_order, desired_order]
+
+diag(df_mean_causal_pairs_rdm) <- NA 
+
+#min max normalize
+df_mean_causal_pairs_matrix <- as.matrix(df_mean_causal_pairs_rdm) 
+min_val <- min(df_mean_causal_pairs_matrix, na.rm = TRUE) 
+max_val <- max(df_mean_causal_pairs_matrix, na.rm = TRUE) 
+df_mean_causal_pairs_matrix <- (df_mean_causal_pairs_matrix - min_val) / (max_val - min_val) 
+
+#colors
+group_colors <- c("#db9728", "#d0495a", "#00788a") 
+
+
+item_colors <- setNames(c(rep(group_colors[1], 5), #mind
+                          rep(group_colors[2], 5), #action
+                          rep(group_colors[3], 5)), #body
+                        desired_order)
+
+label_colors <- item_colors[rownames(df_mean_causal_pairs_rdm)]
+
+png(
+  file = paste0(rdms_outputs_path, "/causal_pairs/averageCausalPairsRDM.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+
+#large image
+corrplot(
+  df_mean_causal_pairs_matrix,
+  method = "color",
+  is.corr = FALSE,
+  # col = custom_palette(200),
+  col = brewer.pal(11, "RdBu"),
+  tl.col = "black",
+  # tl.col = label_colors, 
+  tl.cex = 2,
+  mar = c(0, 0, 2, 0),
+  addgrid.col = "darkgray",
+  na.label = "square",       
+  na.label.col = "darkgrey",
+  cl.offset = 1.0, 
+  cl.cex = 2, #label text
+  cl.ratio = 0.22, #push words far away
+  cex.main = 3
+)
+
+#run this together with above to include a domains color legend
+legend(
+  "topleft",
+  inset = c(0.1, 0.1),
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n",
+  cex = 2, #text size
+  xpd = TRUE, #draw outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #more space between rows
+)
+
+```
+
+## Figure S1B: Mean Causal Pairs RDM with numbers
+
+```{r}
+
+png(
+  file = paste0(rdms_outputs_path, "/causal_pairs/averageCausalPairsRDM-numbers.png"),
+  width = 12,
+  height = 12,
+  units = "in",
+  res = 300,
+  bg = "transparent"
+)
+
+#large image
+corrplot(
+  df_mean_causal_pairs_matrix,
+  method = "color",
+  is.corr = FALSE,
+  # col = brewer.pal(11, "RdBu"),
+  col = lighten(
+    brewer.pal(11, "RdBu"),
+    amount = 0.2),
+  tl.col = "black",
+  tl.cex = 2,
+  na.label = "square",
+  na.label.col = "darkgrey",
+  addCoef.col = "black",
+  number.cex = 1.2,
+  number.digits = 2,
+  mar = c(0, 0, 2, 0),
+  addgrid.col = "grey65",
+  cl.offset = 1.0,
+  cl.cex = 2,
+  cl.ratio = 0.22,
+  cex.main = 3
+)
+
+
+#run this together with above to include a domains color legend
+legend(
+  "topleft",
+  inset = c(0.1, 0.1),
+  legend = c("Mind", "Action", "Body"),
+  fill = group_colors,
+  border = NA,
+  bty = "n",
+  cex = 2, #text size
+  xpd = TRUE, #draw outside the plot area
+  #ncol = 1,
+  y.intersp = 1.4 #more space between rows
+)
+
+```
+
+# Confirmatory Findings - RDM Descriptive Analyses
+
+## Specific Freesort Task relations reported in paper 
+
+```{r}
+compute_ci_freesort <- function(df, condition_label) {
+  mean_distance <- mean(df$freesort_distance, na.rm = TRUE)
+  sem <- sd(df$freesort_distance, na.rm = TRUE) / sqrt(nrow(df))
+  ci_lower <- mean_distance - qt(0.975, df = nrow(df) - 1) * sem
+  ci_upper <- mean_distance + qt(0.975, df = nrow(df) - 1) * sem
+
+  cat(sprintf("%s: mean distance = %.3f [95%% CI: %.3f, %.3f]\n", 
+              condition_label, mean_distance, ci_lower, ci_upper))
+}
+
+#compute and print within domain similarities
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "mind", domain_itemB == "mind"), "mind → mind")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "action", domain_itemB == "action"), "action → action")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "body"), "body → body")
+
+#compute and print cross domain similarities
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "action", domain_itemB == "mind"), "mind → mind")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "mind"), "action → action")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "action"), "body → body")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "mind", domain_itemB == "action"), "body → body")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "mind", domain_itemB == "body"), "body → body")
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "action", domain_itemB == "body"), "body → body")
+
+
+#average cross-domain similarity
+(.565 + .574 + .582 + .565 + .574 + .583) / 6
+
+#average within domain similarity
+(.355 + .37 + .368) / 3
+
+#feeling scared and physio
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "body") %>% filter(itemA == "feel scared"), "scared → body")
+
+#feeling scared and mind
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "mind") %>% filter(itemA == "feel scared"), "scared → mind")
+
+#all other body/physio and mind
+compute_ci_freesort(df_freesort %>% filter(domain_itemA == "body", domain_itemB == "mind") %>% filter(itemA != "feel scared"), "scared → mind")
+
+#sitting and jumping
+compute_ci_freesort(df_freesort %>% filter(itemA == "sit down") %>% filter(itemB == "jump up and down"), "sit → jump")
+
+```
+
+## Specific Causal Pairs relations reported in paper 
+
+```{r}
+#========Function========#
+compute_ci <- function(df, condition_label) {
+  mean_distance <- mean(df$causal_pairs_distance, na.rm = TRUE)
+  sem <- sd(df$causal_pairs_distance, na.rm = TRUE) / sqrt(nrow(df))
+  ci_lower <- mean_distance - qt(0.975, df = nrow(df) - 1) * sem
+  ci_upper <- mean_distance + qt(0.975, df = nrow(df) - 1) * sem
+
+  cat(sprintf("%s: mean distance = %.3f [95%% CI: %.3f, %.3f]\n", 
+              condition_label, mean_distance, ci_lower, ci_upper))
+}
+
+#========Mind & Action========#
+
+#Mind → Action
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "mind", domain_itemB == "action"), "mind → action")
+
+#Action → Mind
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "action", domain_itemB == "mind"), "action → mind")
+
+##Effect size of Mind → Action vs Action → Mind
+df_mind_to_action <- df_causal_pairs %>%
+  filter(domain_itemA == "mind") %>%
+  filter(domain_itemB == "action") %>% 
+  mutate(type = "mind_to_action") %>% 
+  select(subject_id, domain_itemA, domain_itemB, causal_pairs_distance, type) 
+
+df_action_to_mind <- df_causal_pairs %>% 
+              filter(domain_itemA == "action") %>%
+              filter(domain_itemB == "mind") %>% 
+              mutate(type = "action_to_mind") %>% 
+              select(subject_id, domain_itemA, domain_itemB, causal_pairs_distance, type)
+
+df_mind_action <- rbind(df_mind_to_action, df_action_to_mind) %>% 
+  mutate(type = factor(type, levels = c("mind_to_action", "action_to_mind")))
+
+paste0("ES of walk to mind to action vs action to mind")
+model_mind_action <- lmerTest::lmer(causal_pairs_distance ~ type + (1 | subject_id),
+                             data = df_mind_action)
+
+summary(model_mind_action)
+standardize_parameters(model_mind_action)
+
+#========Walk & Actions vs Mind========#
+
+#Walking → Mind
+compute_ci(df_causal_pairs %>% filter(itemA == "take a walk", domain_itemB == "mind"), "walk → mind")
+
+#All other actions → Mind
+compute_ci(df_causal_pairs %>% filter(itemA != "take a walk", domain_itemB == "mind"), "other actions → mind")
+
+#Effect size of Walk → Mind vs All other actions → Mind
+df_walk <- df_causal_pairs %>%
+  filter(domain_itemB == "mind") %>%  
+  mutate(walking = ifelse(itemA == "take a walk", "walk", "not_walk"),
+         walking = factor(walking, levels = c("walk", "not_walk")))
+
+paste0("ES of Walk to Mind vs ALl other Actions to Mind")
+model_walk <- lmerTest::lmer(causal_pairs_distance ~ walking + (1 | subject_id),
+  data = df_walk)
+
+summary(model_walk)
+standardize_parameters(model_walk)
+
+#========Assorted pairs========#
+
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "action", domain_itemB == "action"), "action → action")
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "body", domain_itemB == "body"), "body → body")
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "body", domain_itemB == "action"), "body → action")
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "action", domain_itemB == "body"), "action → body")
+
+#========Perception & Cognition========#
+
+#Perception → Cognition
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "mind", domain_itemB == "mind", 
+                    itemA %in% c("hear something", "see something"),
+                    itemB %in% c("choose what to do", "think about something", "remember something")),
+           "perception → cognition")
+
+#Cognition → Perception
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "mind", domain_itemB == "mind", 
+                    itemB %in% c("hear something", "see something"),
+                    itemA %in% c("choose what to do", "think about something", "remember something")),
+           "cognition → perception")
+
+#Effect size of Per → Cog vs Cog to Per
+df_perception_to_cognition <- df_causal_pairs %>%
+  filter(domain_itemA == "mind", domain_itemB == "mind", 
+         itemA %in% c("hear something", "see something"),
+         itemB %in% c("choose what to do", "think about something", "remember something")) %>% 
+  mutate(type = "perception_to_cognition") %>% 
+  select(subject_id, domain_itemA, domain_itemB, causal_pairs_distance, type) 
+
+df_cognition_to_perception <- df_causal_pairs %>% 
+  filter(domain_itemA == "mind", domain_itemB == "mind", 
+         itemB %in% c("hear something", "see something"),
+         itemA %in% c("choose what to do", "think about something", "remember something")) %>% 
+  mutate(type = "cognition_to_perception") %>% 
+  select(subject_id, domain_itemA, domain_itemB, causal_pairs_distance, type)
+
+df_perception_cognition <- rbind(df_perception_to_cognition, df_cognition_to_perception) %>% 
+  mutate(type = factor(type, levels = c("perception_to_cognition", 
+                                        "cognition_to_perception")))
+
+paste0("ES of Per to Cog vs Cog to Per")
+model_perception_cognition <- lmerTest::lmer(causal_pairs_distance ~ type + (1 | subject_id),
+                             data = df_perception_cognition)
+
+summary(model_perception_cognition)
+standardize_parameters(model_perception_cognition)
+
+#========Other Assorted========#
+
+#Seeing → Sick
+compute_ci(df_causal_pairs %>% filter(itemA == "see something", itemB == "get sick"), "seeing → sick")
+
+#Hearing → Sick
+compute_ci(df_causal_pairs %>% filter(itemA == "hear something", itemB == "get sick"), "hearing → sick")
+
+#Sitting → Jumping
+compute_ci(df_causal_pairs %>% filter(itemA == "sit down", itemB == "jump up and down"), "sit → jump")
+
+#Jumping → Sitting
+compute_ci(df_causal_pairs %>% filter(itemA == "jump up and down", itemB == "sit down"), "jump → sit")
+
+#========Walk & Actions vs Mind========#
+
+#Walking → Mind
+compute_ci(df_causal_pairs %>% filter(itemA == "take a walk", domain_itemB == "mind"), "walk → mind")
+
+#All other actions → Mind
+compute_ci(df_causal_pairs %>% filter(itemA != "take a walk", domain_itemB == "mind"), "other actions → mind")
+
+##Effect size of Walk → Mind vs All Other actions → Mind
+df_walk <- df_causal_pairs %>%
+  filter(domain_itemB == "mind") %>%  
+  mutate(walking = ifelse(itemA == "take a walk", "walk", "not_walk"),
+         walking = factor(walking, levels = c("walk", "not_walk")))
+
+model_walk <- lmerTest::lmer(causal_pairs_distance ~ walking + (1 | subject_id),
+  data = df_walk)
+
+summary(model_walk)
+standardize_parameters(model_walk)
+
+#========Jump & Kick vs Mind========#
+
+#Jumping → Mind
+compute_ci(df_causal_pairs %>% filter(itemA == "jump up and down", domain_itemB == "mind"), "jump → mind")
+
+#Kicking → Mind
+compute_ci(df_causal_pairs %>% filter(itemA == "kick something", domain_itemB == "mind"), "jump → mind")
+
+#=======Causal Promiscuity Across Domains========#
+
+#Mind -> All
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "mind"), "mind → all")
+
+#Action -> All
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "action"), "action → all")
+
+#Body -> All
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "body"), "body → all")
+
+#effect size: mind vs action vs body
+df_from_three_way <- df_causal_pairs %>%
+  mutate(domain_source = domain_itemA) %>% 
+  mutate(domain_source = factor(domain_source, levels = c("mind", "action", "body")))
+
+model_from_three_way <- lmerTest::lmer(causal_pairs_distance ~ domain_source + (1|subject_id), 
+                     data = df_from_three_way)
+summary(model_from_three_way)
+
+##standardized betas
+standardize_parameters(model_from_three_way)
+
+#effect size 2: mind vs mean od body and action
+df_from_two_way <- df_causal_pairs %>%
+  mutate(domain_source = domain_itemA) %>% 
+  mutate(domain_source = ifelse(domain_itemA == "mind", "mind", "other")) %>% 
+  mutate(domain_source = factor(domain_source, levels = c("mind", "other")))
+
+model_from_two_way <- lmerTest::lmer(causal_pairs_distance ~ domain_source + (1|subject_id), 
+                     data = df_from_two_way)
+summary(model_from_two_way)
+
+##standardized betas
+standardize_parameters(model_from_two_way)
+
+
+#===========Mind & Body===========#
+
+#Mind -> Body
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "mind", domain_itemB == "body"), "mind → body")
+
+#Body -> Mind
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "body", domain_itemB == "mind"), "body → mind")
+
+df_mind_body <- df_causal_pairs %>%
+  filter(
+    (domain_itemA == "mind" & domain_itemB == "body") |
+    (domain_itemA == "body" & domain_itemB == "mind")
+  ) %>%
+  mutate(direction = case_when(
+    domain_itemA == "mind" & domain_itemB == "body" ~ "mind_to_body",
+    domain_itemA == "body" & domain_itemB == "mind" ~ "body_to_mind"
+  ),
+  direction = factor(direction,
+                     levels = c("body_to_mind", "mind_to_body")))
+
+model_mind_body <- lmerTest::lmer(
+  causal_pairs_distance ~ direction + (1 | subject_id),
+  data = df_mind_body
+)
+
+summary(model_mind_body)
+parameters::standardize_parameters(model_mind_body)
+
+#===========Body to Cog vs Body to Percep and Body to Action===========#
+
+#Body -> Cog
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "body", domain_itemB == "mind", 
+                    itemB %in% c("choose what to do", "think about something", "remember something")),
+           "body → cognition")
+#Body -> Per
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "body", domain_itemB == "mind", 
+                    itemB %in% c("see something", "hear something")),
+           "body → perception")
+
+#Body -> Action
+compute_ci(df_causal_pairs %>% filter(domain_itemA == "body", domain_itemB == "action"), "body → action")
+
+##Effect size of Body -> Cog vs Body -> Per and Body -> Action
+df_body <- df_causal_pairs %>%
+  filter(domain_itemA == "body") %>%
+  mutate(effect_type = case_when(
+      itemB %in% c("choose what to do", 
+                   "think about something", 
+                   "remember something") ~ "cognitive",
+      itemB %in% c("see something", "hear something") ~ "perceptual",
+      domain_itemB == "action" ~ "action",
+      TRUE ~ NA_character_),
+    effect_type = factor(effect_type, levels = c("cognitive", "perceptual", "action"))
+  ) %>%
+  filter(!is.na(effect_type))
+
+model_body_targets <- lmerTest::lmer(causal_pairs_distance ~ effect_type + (1 | subject_id),
+  data = df_body
+)
+summary(model_body_targets)
+standardize_parameters(model_body_targets)
+
+#===========Action, Cog & Per===========#
+
+#Action -> Cog
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "action", domain_itemB == "mind", 
+                    itemB %in% c("choose what to do", "think about something", "remember something")),
+           "action → cognition")
+
+#Action -> Per
+compute_ci(df_causal_pairs %>% 
+             filter(domain_itemA == "action", domain_itemB == "mind", 
+                    itemB %in% c("see something", "hear something")),
+           "action → perception")
+
+```
+
+# Checkpoint: Read back in data
+
+Can start running code at this point!
+
+```{r}
+df_combined <- read_csv(paste0(snapshots_output_path, "/df_combined.csv"))
+df_causal_pairs <- read_csv( paste0(snapshots_output_path, "/df_causal_pairs.csv"))
+df_freesort <- read_csv(paste0(snapshots_output_path, "/df_freesort.csv"))
+d_model_predictions <- read_csv(model_predictions_input_path)
+```
+
+# Confirmatory Findings - Noise ceiling Analysis
+
+### Prepare functions 
+
+```{r}
+###============================ Noise ceiling functio ============================ ###
+
+calculate_freesort_noise_ceiling <- function(data, subjects, desired_order, metric = "kendall") {
+  # Initialize storage for correlations
+  upper_bound <- numeric(length(subjects))
+  lower_bound <- numeric(length(subjects))
+  
+  for (i in seq_along(subjects)) {
+    subject <- subjects[i]
+    
+    #Subject's RDM
+    subject_rdm <- data %>%
+        filter(subject_id == subject) %>%
+        select(subject_id, itemA, itemB, freesort_distance) %>% 
+        pivot_wider(names_from = itemB, values_from = freesort_distance) %>%
+        column_to_rownames("itemA") %>%
+        as.matrix()
+    subject_rdm <- subject_rdm[desired_order, desired_order]
+    
+    #Grand average RDM
+    grand_avg_rdm <- data %>%
+        select(subject_id, itemA, itemB, freesort_distance) %>% 
+        unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+        group_by(item_pairs) %>%
+        mutate(freesort_distance = mean(freesort_distance)) %>%
+        ungroup() %>% 
+        distinct(item_pairs, .keep_all = TRUE) %>% 
+        select(-c(item_pairs, subject_id)) %>% 
+        pivot_wider(names_from = itemB, values_from = freesort_distance) %>%
+        column_to_rownames("itemA") %>%
+        as.matrix()
+    grand_avg_rdm <- grand_avg_rdm[desired_order, desired_order]
+    
+    #Other subjects' average RDM
+    other_avg_rdm <- data %>%
+      select(subject_id, itemA, itemB, freesort_distance) %>% 
+      filter(subject_id != subject) %>%
+      unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+      group_by(item_pairs) %>%
+      mutate(freesort_distance = mean(freesort_distance)) %>%
+      ungroup() %>% 
+      distinct(item_pairs, .keep_all = TRUE) %>% 
+      select(-c(item_pairs, subject_id)) %>% 
+      pivot_wider(names_from = itemB, values_from = freesort_distance) %>%
+      column_to_rownames("itemA") %>%
+      as.matrix()
+    other_avg_rdm <- other_avg_rdm[desired_order, desired_order]
+    
+    subject_upper <- as.numeric(subject_rdm[upper.tri(subject_rdm)])
+    other_upper <- as.numeric(other_avg_rdm[upper.tri(other_avg_rdm)])
+    grand_upper <- as.numeric(grand_avg_rdm[upper.tri(grand_avg_rdm)])
+    
+    lower_bound[i] <- cor(subject_upper, other_upper, method = metric) 
+    upper_bound[i] <- cor(subject_upper, grand_upper, method = metric) 
+  }
+  
+  # Return average bounds
+  list(
+    upper_bound = mean(upper_bound, na.rm = TRUE),
+    lower_bound = mean(lower_bound, na.rm = TRUE)
+  )
+}
+
+calculate_causal_pairs_noise_ceiling <- function(data, subjects, desired_order, metric = "kendall") {
+  #Initialize storage for correlations
+  upper_tri_upper_bound <- numeric(length(subjects))
+  upper_tri_lower_bound <- numeric(length(subjects))
+  
+  lower_tri_upper_bound <- numeric(length(subjects))
+  lower_tri_lower_bound <- numeric(length(subjects))
+  
+  #Loop through each subject
+  for (i in seq_along(subjects)) {
+    subject <- subjects[i]
+    
+    #subject's RDM
+    subject_rdm <- data %>%
+        filter(subject_id == subject) %>%
+        select(subject_id, itemA, itemB, causal_pairs_distance) %>% 
+        pivot_wider(names_from = itemB, values_from = causal_pairs_distance) %>%
+        column_to_rownames("itemA") %>%
+        as.matrix()
+    subject_rdm <- subject_rdm[desired_order, desired_order]
+    
+    #grand average RDM
+    grand_avg_rdm <- data %>%
+        select(subject_id, itemA, itemB, causal_pairs_distance) %>% 
+        unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+        group_by(item_pairs) %>%
+        mutate(causal_pairs_distance = mean(causal_pairs_distance)) %>%
+        ungroup() %>% 
+        distinct(item_pairs, .keep_all = TRUE) %>% 
+        select(-c(item_pairs, subject_id)) %>% 
+        pivot_wider(names_from = itemB, values_from = causal_pairs_distance) %>%
+        column_to_rownames("itemA") %>%
+        as.matrix()
+    grand_avg_rdm <- grand_avg_rdm[desired_order, desired_order]
+    
+    #other subjects' average RDM
+    other_avg_rdm <- data %>%
+      select(subject_id, itemA, itemB, causal_pairs_distance) %>% 
+      filter(subject_id != subject) %>%
+      unite("item_pairs", itemA, itemB, sep = "_", remove = FALSE) %>% 
+      group_by(item_pairs) %>%
+      mutate(causal_pairs_distance = mean(causal_pairs_distance)) %>%
+      ungroup() %>% 
+      distinct(item_pairs, .keep_all = TRUE) %>% 
+      select(-c(item_pairs, subject_id)) %>% 
+      pivot_wider(names_from = itemB, values_from = causal_pairs_distance) %>%
+      column_to_rownames("itemA") %>%
+      as.matrix()
+    other_avg_rdm <- other_avg_rdm[desired_order, desired_order]
+    
+    #upper tri noise ceiling
+    subject_upper <- as.numeric(subject_rdm[upper.tri(subject_rdm)])
+    other_upper <- as.numeric(other_avg_rdm[upper.tri(other_avg_rdm)])
+    grand_upper <- as.numeric(grand_avg_rdm[upper.tri(grand_avg_rdm)])
+
+    upper_tri_lower_bound[i] <- cor(subject_upper, other_upper, method = metric)
+    upper_tri_upper_bound[i] <- cor(subject_upper, grand_upper, method = metric)
+
+    #lower tri noise ceiling
+    subject_lower <- as.numeric(subject_rdm[lower.tri(subject_rdm)])
+    other_lower <- as.numeric(other_avg_rdm[lower.tri(other_avg_rdm)])
+    grand_lower <- as.numeric(grand_avg_rdm[lower.tri(grand_avg_rdm)])
+    
+    lower_tri_lower_bound[i] <- cor(subject_lower, other_lower, method = metric)
+    lower_tri_upper_bound[i] <- cor(subject_lower, grand_lower, method = metric)
+
+  }
+  
+  #return average bounds
+  list(
+    upper_tri_upper_bound = mean(upper_tri_upper_bound, na.rm = TRUE),
+    upper_tri_lower_bound = mean(upper_tri_lower_bound, na.rm = TRUE),
+    
+    lower_tri_upper_bound = mean(lower_tri_upper_bound, na.rm = TRUE),
+    lower_tri_lower_bound = mean(lower_tri_lower_bound, na.rm = TRUE)
+  )
+}
+
+
+
+###============================ Rdm correlation function ============================ ###
+
+
+extract_upper_tri <- function(matrix) {
+  matrix[upper.tri(matrix)]
+}
+
+compute_rdm_correlation <- function(data, emp_col, model_col, desired_order, method = "kendall") {
+  rdm1 <- data %>%
+    select(itemA, itemB, {{ emp_col }}) %>%
+    pivot_wider(names_from = itemB, values_from = {{ emp_col }}) %>%
+    column_to_rownames("itemA") %>%
+    as.matrix()
+  
+  rdm2 <- data %>%
+    select(itemA, itemB, {{ model_col }}) %>%
+    pivot_wider(names_from = itemB, values_from = {{ model_col }}) %>%
+    column_to_rownames("itemA") %>%
+    as.matrix()
+  
+  rdm1 <- rdm1[desired_order, desired_order]
+  rdm2 <- rdm2[desired_order, desired_order]
+  
+  diag(rdm1) <- NA
+  diag(rdm2) <- NA
+  
+  upper_rdm1 <- extract_upper_tri(rdm1)
+  upper_rdm2 <- extract_upper_tri(rdm2)
+  
+  cor(upper_rdm1, upper_rdm2, method = method, use = "complete.obs")
+}
+
+```
+
+### Sorting Task noise ceiling
+
+```{r}
+d_freesort_correlations <- df_combined %>%
+  left_join(d_model_predictions, by = c("itemA", "itemB")) %>%
+  group_by(subject_id) %>%
+  mutate(
+    `model1_mind_action_body` = compute_rdm_correlation(pick(everything()), freesort_distance, `model1_mind_action_body`, desired_order),
+    `model2_fine_grained` = compute_rdm_correlation(pick(everything()), freesort_distance, `model2_fine_grained`, desired_order),
+    `model3_psychological_physical` = compute_rdm_correlation(pick(everything()), freesort_distance, `model3_psychological_physical`, desired_order),
+    `model4_use_embeddings` = compute_rdm_correlation(pick(everything()), freesort_distance, `model4_use_embeddings`, desired_order),
+    `5_causal_judgments` = compute_rdm_correlation(pick(everything()), freesort_distance, `causal_pairs_distance`, desired_order)
+  ) %>%
+  ungroup() %>%
+  relocate(causal_pairs_distance, .after = "freesort_distance")
+
+subjects_freesort <- unique(d_freesort_correlations$subject_id)
+noise_ceiling_sorting <- calculate_freesort_noise_ceiling(d_freesort_correlations, subjects_freesort, desired_order)
+noise_ceiling_sorting
+
+```
+
+### Causal Pairs Task noise ceiling
+
+```{r}
+d_causal_pairs_correlations <- df_combined %>%
+  left_join(d_model_predictions, by = c("itemA", "itemB")) %>% 
+  group_by(subject_id) %>%
+  mutate(
+    `model1_mind_action_body` = compute_rdm_correlation(pick(everything()), causal_pairs_distance, `model1_mind_action_body`, desired_order),
+    `model2_fine_grained` = compute_rdm_correlation(pick(everything()), causal_pairs_distance, `model2_fine_grained`, desired_order),
+    `model3_psychological_physical` = compute_rdm_correlation(pick(everything()), causal_pairs_distance, `model3_psychological_physical`, desired_order),
+    `model4_use_embeddings` = compute_rdm_correlation(pick(everything()), causal_pairs_distance, `model4_use_embeddings`, desired_order),
+    `5_causal_judgments` = compute_rdm_correlation(pick(everything()), causal_pairs_distance, `causal_pairs_distance`, desired_order)
+  ) %>%
+  ungroup() #%>% 
+  # distinct(subject_id, RDM_type, tau) #added 5/7/26
+
+# Compute noise ceiling for all subjects
+subjects_causal_pairs <- unique(d_causal_pairs_correlations$subject_id)
+noise_ceiling_causal_pairs <- calculate_causal_pairs_noise_ceiling(d_causal_pairs_correlations,subjects_causal_pairs, desired_order)
+noise_ceiling_causal_pairs
+
+```
+
+# Confirmatory Findings - Model Correlations 
+
+## Linear models describing Freesort 
+
+```{r}
+freesort_correlations <- d_freesort_correlations %>% 
+  rename("mind_action_physiology_model" = `model1_mind_action_body`,
+         "finegrained_mind_action_physiology_model" = `model2_fine_grained`,
+         "physical_psychological_model" = `model3_psychological_physical`,
+         "use_phrase_embeddings_model" = `model4_use_embeddings`) %>% 
+  pivot_longer(
+    cols = c("mind_action_physiology_model":"use_phrase_embeddings_model"),
+    names_to = "RDM_type",
+    values_to = "tau"
+  ) %>%
+  select(subject_id, itemA, itemB, domain_itemA, domain_itemB, 
+         trial_type_order, freesort_distance, causal_pairs_distance, RDM_type, tau) %>% 
+  mutate(
+    RDM_type = as.factor(RDM_type), 
+    RDM_type = relevel(RDM_type, ref = "mind_action_physiology_model") 
+  ) %>% 
+  mutate(subject_id = as.factor(subject_id)) %>% 
+  distinct(subject_id, RDM_type, .keep_all = TRUE) %>%
+  select(subject_id, RDM_type, tau)
+
+#Note: mind action physiology is reference model. Estimates are mean kendall's taus
+model_freesort <- lmerTest::lmer(tau ~ RDM_type + (1 | subject_id), 
+              data = freesort_correlations)
+
+summary(model_freesort)
+
+confint(model_freesort)
+
+
+##======================== Freesort Model table for SI ======================##
+
+model_freesort_table <- model_parameters(model_freesort,
+                                         ci = 0.95,
+                                         # standardize = "refit")
+                                         standardize = NULL) #do not standardize
+
+model_freesort_table <- model_freesort_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_freesort_table
+
+model_freesort_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_freesort_table.docx")
+
+```
+
+## Linear models describing Causal Pairs data 
+
+```{r}
+causal_pairs_correlations <- d_causal_pairs_correlations %>% 
+  rename("mind_action_physiology_model" = `model1_mind_action_body`,
+         "finegrained_mind_action_physiology_model" = `model2_fine_grained`,
+         "physical_psychological_model" = `model3_psychological_physical`,
+         "use_phrase_embeddings_model" = `model4_use_embeddings`) %>% 
+  pivot_longer(
+    cols = c("mind_action_physiology_model":"use_phrase_embeddings_model"),
+    names_to = "RDM_type",
+    values_to = "tau"
+  ) %>%
+  select(subject_id, itemA, itemB, domain_itemA, domain_itemB, trial_type_order, freesort_distance, causal_pairs_distance, RDM_type, tau) %>% 
+  mutate(RDM_type = as.factor(RDM_type), 
+         RDM_type = relevel(RDM_type, ref = "mind_action_physiology_model")) %>% 
+  mutate(subject_id = as.factor(subject_id)) %>% 
+  distinct(subject_id, RDM_type, .keep_all = TRUE) %>% #summarize to 1 row per subject per model
+  select(subject_id, RDM_type, tau)
+
+#Note: mind action physiology is reference model. Estimates are mean kendall's taus
+model_causal_pairs <- lmerTest::lmer(tau ~ RDM_type + (1 | subject_id), 
+              data = causal_pairs_correlations)
+
+summary(model_causal_pairs)
+
+confint(model_causal_pairs)
+
+##======================== Causal pairs model table for SI====================##
+
+model_causal_pairs_table <- model_parameters(model_causal_pairs,
+                                         ci = 0.95,
+                                         standardize = NULL) #do not standardize
+
+model_causal_pairs_table <- model_causal_pairs_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_causal_pairs_table
+
+model_causal_pairs_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_causal_pairs_table.docx")
+
+
+```
+
+## Linear model comparing best model of Freesort (MAP) to Causal Pairs Task
+
+```{r}
+causal_pairs_subject_level <- causal_pairs_correlations %>% 
+  mutate(task = "Causal Pairs")
+
+freesort_subject_level <- freesort_correlations %>% 
+  mutate(task = "Sorting")
+
+combined_taus <- bind_rows(causal_pairs_subject_level,
+                           freesort_subject_level) %>% 
+  mutate(task = factor(task),
+         task = relevel(task, ref = "Sorting")) %>% 
+  mutate(RDM_type = as.character(RDM_type)) %>% 
+  filter(RDM_type == "mind_action_physiology_model")
+
+model_taus <- lmerTest::lmer(tau ~ task + (1 | subject_id),
+                             data = combined_taus)
+
+summary(model_taus)
+
+standardize_parameters(model_taus) #NB: intercept is comparison to grand mean, slope is comparison to intercept
+
+# Manual standardization
+# standardized_data <- combined_data %>% 
+#   mutate(mean_tau = mean(tau), #grand mean
+#          sd_tau = sd(tau)) %>% 
+#   ungroup() %>% 
+#   rowwise() %>% 
+#   mutate(z_scored_taus = (tau - mean_tau) / sd_tau)
+# 
+# model_standardized_data <- lmerTest::lmer(z_scored_taus ~ task + (1 | subject_id),
+#                data = standardized_data)
+# 
+# summary(model_standardized_data)
+
+## =============== model table for SI ================ ##
+
+model_taus_table <- model_parameters(model_taus,
+                                         ci = 0.95,
+                                         standardize = "refit") #do not standardize
+
+model_taus_table <- model_taus_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+model_taus_table
+
+model_taus_table %>%
+  flextable() %>%
+  save_as_docx(path = "model_tables/model_taus_table.docx")
+
+```
+
+## Reshape correlations
+
+```{r}
+aggregated_freesort_correlations <- d_freesort_correlations %>% 
+  rename("3 Category" = `model1_mind_action_body`,
+         "6 Category" = `model2_fine_grained`,
+         "2 Category" = `model3_psychological_physical`,
+         "Cosine Similarity" = `model4_use_embeddings`) %>% 
+  pivot_longer(
+    cols = c("2 Category", "3 Category", "6 Category", "Cosine Similarity"),
+    names_to = "correlation_type",
+    values_to = "correlation_value"
+  ) %>%
+  group_by(subject_id, correlation_type) %>%
+  summarize(mean_correlation = mean(correlation_value, na.rm = TRUE), .groups = "drop") %>% 
+  mutate(method = "Sorting Task")
+
+aggregated_causal_pairs_correlations <- d_causal_pairs_correlations %>% 
+  rename("3 Category" = `model1_mind_action_body`,
+         "6 Category" = `model2_fine_grained`,
+         "2 Category" = `model3_psychological_physical`,
+         "Cosine Similarity" = `model4_use_embeddings`) %>% 
+  pivot_longer(
+    cols = c("2 Category", "3 Category", "6 Category", "Cosine Similarity"),
+    names_to = "correlation_type",
+    values_to = "correlation_value"
+  ) %>%
+  group_by(subject_id, correlation_type) %>%
+  summarize(mean_correlation = mean(correlation_value, na.rm = TRUE), .groups = "drop") %>% 
+  mutate(method = "Causal Pairs Task")
+
+#combine both corrs into one
+d_combined_correlations <- bind_rows(aggregated_freesort_correlations, aggregated_causal_pairs_correlations) %>% 
+  mutate(method = factor(method, levels = c("Sorting Task", "Causal Pairs Task")))
+
+# d_freesort_correlations <- d_combined_correlations %>% 
+#   mutate(method = as.character(method)) %>% 
+#   filter(method == "Sorting Task")
+
+```
+
+
+## T-tests of correlations
+
+This compared correlations to 0.
+
+```{r}
+t_test_results <- d_combined_correlations %>%
+  group_by(method, correlation_type) %>%
+  summarise(
+    mean_mean_correlation = mean(mean_correlation, na.rm = TRUE),
+
+    test = list(t.test(mean_correlation, mu = 0)),
+    
+    t_value = test[[1]]$statistic,
+    p_value = test[[1]]$p.value,
+    ci_low  = test[[1]]$conf.int[1],
+    ci_high = test[[1]]$conf.int[2],
+    
+    .groups = "drop"
+  ) %>%
+  select(-test)
+
+print(t_test_results)
+
+```
+
+# Confirmatory Findings - Model Correlation - Figures
+
+## Figure S2: RSA Model Correlations
+
+```{r, fig.height = 10, fig.width = 12}
+bar_plot <- ggplot(d_combined_correlations, 
+                   aes(x = reorder(correlation_type, mean_correlation, FUN = function(x) -mean(x)), 
+                        y = mean_correlation, fill = method)) +
+  stat_summary(
+    fun = "mean",
+    geom = "bar",
+    position = "dodge",  
+    color = "black"
+  ) +
+  stat_summary(
+    fun.data = mean_se,
+    geom = "errorbar",
+    width = 0.3,
+    position = position_dodge(width = 0.9), 
+    color = "black"
+  ) +
+  geom_point(aes(color = method), alpha = 0.3, size = 3, position = position_jitterdodge(jitter.width = 0.2)) +
+  scale_fill_manual(values = c("Sorting Task" = "grey80", "Causal Pairs Task" = "#000000")) + #bar fill
+  scale_color_manual(values = c("Sorting Task" = "darkgray", "Causal Pairs Task" = "#4A4A4A")) + #point colors
+  
+  geom_hline(yintercept = noise_ceiling_sorting$upper_bound, color = "darkgray", linetype = "dashed", linewidth = 0.5) +
+  geom_hline(yintercept = noise_ceiling_sorting$lower_bound, color = "darkgray", linetype = "dashed", linewidth = 0.5) +
+  geom_hline(yintercept = noise_ceiling_causal_pairs$upper_tri_upper_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
+  geom_hline(yintercept = noise_ceiling_causal_pairs$upper_tri_lower_bound, color = "black", linetype = "dashed", linewidth = 0.5) +
+  theme_cowplot() +
+  # ylim(-0.5, 0.5) +
+  scale_y_continuous(limits = c(-0.5, 0.5), breaks = seq(-0.5, 0.5, by = 0.1)) +
+  theme(
+    panel.background = element_rect(fill = NA, color = NA),
+    plot.background = element_rect(fill = NA, color = NA),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 16),
+    axis.ticks.length = unit(.25, "cm"),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 18),
+    legend.position = "top",
+    legend.title = element_blank(),
+    plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
+    plot.margin = margin(t = 10, r = 10, b = 20, l = 20)
+  ) +
+  labs(
+    y = "Kendall's Tau Correlations",
+    title = "Comparison of Theoretical and Empirical RDM Correlations"
+  )
+
+# Load and create RDM images
+rdm_2_category <- ggdraw() + draw_image(paste0(rdms_input_path, "/model_4.png"), scale = 1.2)
+rdm_3_category <- ggdraw() + draw_image(paste0(rdms_input_path, "/model_2.png"), scale = 1.2)
+rdm_6_category <- ggdraw() + draw_image(paste0(rdms_input_path, "/model_3.png"), scale = 1.2)
+rdm_cosine <- ggdraw() + draw_image(paste0(rdms_input_path, "/model_1.png"), scale = 1.2)
+
+rdm_row <- rdm_3_category + rdm_6_category + rdm_2_category + rdm_cosine +
+  plot_layout(ncol = 4)
+# 
+# plot_correlations <- bar_plot / rdm_row + 
+#   plot_layout(heights = c(5, 2)) #adjusts height ratio
+
+
+plot_correlations <- bar_plot / rdm_row +
+  plot_layout(heights = c(5, 2)) &
+  theme(plot.background = element_rect(fill = NA, color = NA))
+
+plot_correlations
+
+# ggsave(
+#   filename = "figures/rdm_correlation_plot.pdf",
+#   plot = plot_correlations,
+#   device = "pdf",
+#   #path = "path/to/directory",
+#   width = 12,
+#   height = 5,
+#   units = "in"
+# )
+
+#this is the chunk to run:
+ggsave(
+  filename = "figures/correlations/rdm_correlation_plot.png", 
+  plot = plot_correlations,
+  device = "png",
+  width = 12,
+  height = 6,
+  units = "in",
+  dpi = 300,
+  bg = "transparent" 
+)
+
+```
+
+# Checkpoint: Read back in csvs
+
+```{r}
+#inputs
+df_combined <- read_csv(paste0(snapshots_output_path, "/df_combined.csv"))
+
+```
+
+# Exploratory Findings - Order effects Freesort task 
+
+## Generate Freesort rdms
+
+```{r}
+#mean helper functions
+mean_freesort_rdm <- function(data, subjects) {
+
+  data %>%
+    filter(subject_id %in% subjects) %>%
+    group_by(itemA, itemB) %>%
+    summarise(mean_distance = mean(freesort_distance),
+              .groups = "drop")
+}
+
+#split into individual rdms
+df_freesort_rdm_freesort_first <- df_combined %>%
+  select(-causal_pairs_distance) %>% 
+  filter(trial_type_order == "causal_pairs_second")
+
+df_freesort_rdm_freesort_second <- df_combined %>%
+  select(-causal_pairs_distance) %>% 
+  filter(trial_type_order == "causal_pairs_first")
+
+#grab unique subjects 
+first_subjects <- sort(unique(df_freesort_rdm_freesort_first$subject_id)) #same as for causal pairs rdm
+second_subjects <- sort(unique(df_freesort_rdm_freesort_second$subject_id))
+
+#grab odd & even subjects
+first_odd_subjects <- first_subjects[c(TRUE, FALSE)]
+first_even_subjects <- first_subjects[c(FALSE, TRUE)]
+
+second_odd_subjects <- second_subjects[c(TRUE, FALSE)]
+second_even_subjects <- second_subjects[c(FALSE, TRUE)]
+
+#build the 4 mean rdms
+freesort_task_first_odd <- mean_freesort_rdm(df_freesort_rdm_freesort_first, 
+                                 first_odd_subjects)
+freesort_task_first_even <- mean_freesort_rdm(df_freesort_rdm_freesort_first, 
+                                 first_even_subjects)
+
+freesort_task_second_odd <- mean_freesort_rdm(df_freesort_rdm_freesort_second, 
+                                   second_odd_subjects)
+freesort_task_second_even <- mean_freesort_rdm(df_freesort_rdm_freesort_second, 
+                                   second_even_subjects)
+
+#view one of the rdms as example:
+freesort_task_first_odd
+# freesort_task_first_even
+# freesort_task_second_odd
+# freesort_task_second_even
+
+```
+
+## Compute Odd-even split correlations
+
+```{r}
+#correlation function
+rdm_tau <- function(first_rdm, second_rdm) {
+
+  merged_rdm <- first_rdm %>%
+    inner_join(second_rdm,
+               by = c("itemA", "itemB"),
+               suffix = c("_first", "_second"))
+
+  cor(merged_rdm$mean_distance_first,
+      merged_rdm$mean_distance_second,
+      method = "kendall")
+}
+
+#within-order split-half similarities
+within_first_tau <- rdm_tau(freesort_task_first_odd,
+                            freesort_task_first_even)
+
+within_second_tau <- rdm_tau(freesort_task_second_odd,
+                             freesort_task_second_even)
+
+#cross-order similarities 
+cross_order_tau_1 <- rdm_tau(freesort_task_first_odd,
+                             freesort_task_second_odd)
+
+cross_order_tau_2 <- rdm_tau(freesort_task_first_odd,
+                             freesort_task_second_even)
+
+cross_order_tau_3 <- rdm_tau(freesort_task_first_even,
+                             freesort_task_second_odd)
+
+cross_order_tau_4 <- rdm_tau(freesort_task_first_even, 
+                             freesort_task_second_even)
+
+
+freesort_task_order_correlations <- tibble(freesort_comparison = c(
+                                            "within_first_odd_even", "within_second_odd_even",
+                                            "cross_order_first_odd_second_odd", 
+                                            "cross_order_first_odd_second_even",
+                                            "cross_order_first_even_second_odd", 
+                                            "cross_order_first_even_second_even"),
+                                           freesort_comparison_type = c(rep("within", 2), 
+                                                               "cross_within",
+                                                               "cross-cross",
+                                                               "cross-cross",
+                                                               "cross-within"),
+                                           tau = c(
+                                            within_first_tau, within_second_tau,
+                                            cross_order_tau_1, cross_order_tau_2,
+                                            cross_order_tau_3, cross_order_tau_4)) %>% 
+  group_by(freesort_comparison_type) %>% 
+  mutate(mean_comparison_type_tau = mean(tau)) %>% 
+  ungroup()
+
+freesort_task_order_correlations 
+
+write.csv(freesort_task_order_correlations, paste0(snapshots_output_path, "/freesort_task_order_correlations.csv"), row.names = F)
+
+```
+
+# Exploratory Findings - Order effects Causal Pairs task 
+
+## Generate Causal Pairs RDMs
+
+```{r}
+#mean helper function
+mean_causal_pairs_rdm <- function(data, subjects) {
+
+  data %>%
+    filter(subject_id %in% subjects) %>%
+    group_by(itemA, itemB) %>%
+    summarise(mean_distance = mean(causal_pairs_distance),
+              .groups = "drop")
+}
+
+#split into individual rdms
+df_causal_pairs_rdm_freesort_first <- df_combined %>%
+  select(-freesort_distance) %>%
+  filter(trial_type_order == "causal_pairs_second")
+
+df_causal_pairs_rdm_freesort_second <- df_combined %>%
+  select(-freesort_distance) %>%
+  filter(trial_type_order == "causal_pairs_first")
+
+#grab unique subjects
+first_subjects <- sort(unique(df_causal_pairs_rdm_freesort_first$subject_id))
+second_subjects <- sort(unique(df_causal_pairs_rdm_freesort_second$subject_id))
+
+first_odd_subjects <- first_subjects[c(TRUE, FALSE)]
+first_even_subjects <- first_subjects[c(FALSE, TRUE)]
+
+second_odd_subjects <- second_subjects[c(TRUE, FALSE)]
+second_even_subjects <- second_subjects[c(FALSE, TRUE)]
+
+#build the 4 mean rdms
+causal_pairs_task_first_odd <- mean_causal_pairs_rdm(
+  df_causal_pairs_rdm_freesort_first,
+  first_odd_subjects)
+
+causal_pairs_task_first_even <- mean_causal_pairs_rdm(
+  df_causal_pairs_rdm_freesort_first,
+  first_even_subjects)
+
+causal_pairs_task_second_odd <- mean_causal_pairs_rdm(
+  df_causal_pairs_rdm_freesort_second,
+  second_odd_subjects)
+
+causal_pairs_task_second_even <- mean_causal_pairs_rdm(
+  df_causal_pairs_rdm_freesort_second,
+  second_even_subjects)
+
+#view one of the rdms as example:
+causal_pairs_task_first_odd
+# causal_pairs_task_first_even
+# causal_pairs_task_second_odd
+# causal_pairs_task_second_even
+
+```
+
+## Odd-even split correlations
+
+```{r}
+#within-order split-half similarities
+within_first_tau <- rdm_tau(causal_pairs_task_first_odd,
+                            causal_pairs_task_first_even)
+
+within_second_tau <- rdm_tau(causal_pairs_task_second_odd,
+                             causal_pairs_task_second_even)
+
+#cross-order similarities 
+cross_order_tau_1 <- rdm_tau(causal_pairs_task_first_odd,
+                             causal_pairs_task_second_odd)
+
+cross_order_tau_2 <- rdm_tau(causal_pairs_task_first_odd,
+                             causal_pairs_task_second_even)
+
+cross_order_tau_3 <- rdm_tau(causal_pairs_task_first_even,
+                             causal_pairs_task_second_odd)
+
+cross_order_tau_4 <- rdm_tau(causal_pairs_task_first_even, 
+                             causal_pairs_task_second_even)
+
+
+causal_task_order_correlations <- tibble(causal_comparison = c(
+                                            "within_first_odd_even", "within_second_odd_even",
+                                            "cross_order_first_odd_second_odd", 
+                                            "cross_order_first_odd_second_even",
+                                            "cross_order_first_even_second_odd", 
+                                            "cross_order_first_even_second_even"),
+                                           causal_comparison_type = c(rep("within", 2), 
+                                                               "cross_within",
+                                                               "cross-cross",
+                                                               "cross-cross",
+                                                               "cross-within"),
+                                           tau = c(
+                                            within_first_tau, within_second_tau,
+                                            cross_order_tau_1, cross_order_tau_2,
+                                            cross_order_tau_3, cross_order_tau_4)) %>% 
+  group_by(causal_comparison_type) %>% 
+  mutate(mean_comparison_type_tau = mean(tau)) %>% 
+  ungroup()
+
+causal_task_order_correlations 
+
+```
+
+# THE END
+
+```{r}
+
+```
+

@@ -1,0 +1,31 @@
+target,counterfactual,counterfactual_type,domain_target,domain_counterfactual,mean_likelihood,joint_distance
+see something,hear something,CO,mind,mind,50.71153846153847,-0.239006622516556
+see something,take a walk,CC,mind,action,34.375,0.376158940397351
+hear something,see something,CO,mind,mind,66.42307692307693,-0.26523178807947
+hear something,take a walk,CC,mind,action,33.94230769230769,0.329337748344371
+choose what to do,experience pain,CC,mind,body,33.41346153846154,0.363841059602649
+choose what to do,remember something,CO,mind,mind,30.413461538461537,0.215298013245033
+remember something,take a walk,CC,mind,action,37.58653846153847,0.367814569536424
+remember something,think about something,CO,mind,mind,28.048076923076923,0.0812582781456954
+think about something,get sick,CC,mind,body,35.96153846153847,0.399602649006623
+think about something,remember something,CO,mind,mind,32.11538461538461,0.0765562913907285
+reach for something,become hungry,CC,action,body,35.50961538461539,0.353841059602649
+reach for something,kick something,CO,action,action,47.23076923076923,-0.147218543046358
+sit down,experience pain,CC,action,body,41.25,0.454304635761589
+sit down,jump up and down,CO,action,action,51.34615384615385,-0.23317880794702
+jump up and down,see something,CC,action,mind,31.509615384615383,0.319337748344371
+jump up and down,sit down,CO,action,action,58.73076923076923,-0.524503311258278
+kick something,sit down,CO,action,action,46.84615384615385,-0.286423841059603
+kick something,think about something,CC,action,mind,32.0673076923077,0.22682119205298
+take a walk,sit down,CO,action,action,76.15384615384616,-0.439470198675497
+take a walk,think about something,CC,action,mind,33.64423076923077,0.320794701986755
+get tired,feel scared,CO,body,body,59.89423076923077,-0.0233774834437087
+get tired,jump up and down,CC,body,action,31.134615384615383,0.433576158940397
+become hungry,feel scared,CO,body,body,75.58653846153847,-0.222980132450331
+become hungry,take a walk,CC,body,action,30.211538461538463,0.369139072847682
+feel scared,get tired,CO,body,body,56.05769230769231,-0.109470198675497
+feel scared,see something,CC,body,mind,32.40384615384615,0.418079470198676
+experience pain,get tired,CO,body,body,58.04807692307692,-0.0202649006622517
+experience pain,kick something,CC,body,action,37.54807692307693,0.383311258278146
+get sick,get tired,CO,body,body,55.53846153846154,-0.0570198675496688
+get sick,see something,CC,body,mind,29.644230769230766,0.248609271523179

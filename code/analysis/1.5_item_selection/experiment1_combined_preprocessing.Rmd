@@ -1,0 +1,275 @@
+---
+title: "experiment1 preprocessing"
+output: 
+  html_document:
+      toc: true
+      toc_float: true
+      toc_depth: 3
+      number_sections: true
+date: "2024-7-7"
+author: anonymous
+---
+
+This script does the following:  
+1. Combines raw data from the pilot and main studies `pilot_data_raw.csv` and `data_raw.csv`. The codebooks for the raw datasets are available at `data/experiment1_data_raw_codebook` and XXX (generate codebook for the other one!)  
+2. Parses it into a combined (i.e. freesort + causation) data frame and saves into csv `combined_data_processed_step1.csv`. The codebook for this data frame is available at `/snapshots_experiment1_preprocessing_analysis/data_processed_step1_codebook`.  
+
+Study description:    
+- Pilot was ran on 12/13/24 on Connect CloudResearch, N = 50 participants.
+- Main study was ran 6/30/25 on Connect CloudResearch, N = 102 participants.
+- Subject selection criteria: 95% approval rate, minimum 10 previous submissions, and fluent in English. 
+- NB: Total N should be reported as 152, not 155 as is in preregistrations, since we lost N = 3 in main round to technical issues with datapipe.
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+pacman::p_load(tidyverse, here, corrplot, jsonlite)
+
+sessionInfo()
+
+```
+
+# Read data
+
+```{r}
+base_path <- here("code")
+
+data_path_1 <- paste0(base_path, "/data/1_measure/data_raw.csv")
+data_path_2 <- paste0(base_path, "/data/1_measure/pilot_data_raw.csv")
+
+d1 <- read_csv(data_path_1, col_types = cols(
+  .default = col_guess(),
+  final_locations = col_character(),
+  init_locations = col_character(),
+  moves = col_character()
+))
+
+d2 <- read_csv(data_path_2, col_types = cols(
+  .default = col_guess(),
+  final_locations = col_character(),
+  init_locations = col_character(),
+  moves = col_character()
+)) %>% 
+  mutate(subject_id = sprintf("subj_%03d", dense_rank(subject_id) + 102)) 
+
+d_combined <- bind_rows(d1, d2)
+
+d <- d_combined
+
+```
+
+# Set variables
+
+```{r}
+items <- c("choose what to do", "reach for something", "feel scared",  #items in exact order of img1.png to img15.png used in sort task
+           "experience pain", "get sick", "get tired", "become hungry", 
+           "see something", "think about something", "hear something", 
+           "remember something", "jump up and down", "kick something", 
+           "take a walk", "sit down")
+
+# desired_order <- c("see something", "hear something", "choose what to do", #ordering by domain
+#                    "remember something", "think about something", "reach for something", 
+#                    "sit down", "jump up and down", "kick something", "take a walk", 
+#                    "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+
+desired_order <- c("see something", "hear something", "choose what to do", 
+                  "remember something", "think about something", "reach for something", 
+                  "kick something", "sit down", "jump up and down", "take a walk", 
+                  "feel scared","experience pain", "get tired", "become hungry","get sick")
+
+#paths: data outputs
+analysis_path <- paste0(base_path, "/analysis/1.5_item_selection")
+combined_output_csv <- "combined_data_processed_step1"
+snapshots_path <- paste0(analysis_path, "/snapshots_experiment1_preprocessing_analysis")
+combined_output_path <- paste0(snapshots_path, "/", combined_output_csv, ".csv") 
+
+```
+
+
+# Parse data frames
+
+## Parse Sorting Task data
+
+```{r}
+data_freesort <- d %>%
+  filter(trial_type == "freesort") %>% 
+  select(subject_id, trial_index, final_locations) %>% 
+  mutate(parsed_location = map(final_locations, ~ fromJSON(.))) %>% #parse JSON
+  unnest(parsed_location) %>% #unnest the list column
+  mutate(
+    img_number = as.numeric(str_extract(src, "\\d+")), #etract image numbers from `src`
+    item = items[img_number] #map image numbers to item labels
+  ) %>%
+  select(-c("final_locations", "src", "img_number")) %>% 
+  mutate(trial_type = "freesort") %>% 
+  relocate(trial_type, .after = subject_id) %>% 
+  rename(original_trial_index = trial_index)
+
+#write.csv(data_freesort, file = freesort_output_path, row.names = F)
+```
+
+## Parse Causal Pairs Task data
+
+```{r}
+response_data <- d %>%
+  filter(trial_type == "survey-slider") %>% 
+  select(subject_id, trial_index, response) %>%
+  mutate(response = map(response, ~ tryCatch(
+    fromJSON(.) %>%
+      enframe(name = "question_id", value = "response"),
+    error = function(e) tibble(question_id = character(), response = character())
+  ))) %>%
+  unnest(response) %>% 
+  mutate(
+    response = unlist(response), 
+    response = as.numeric(response), 
+    question_index = str_remove(question_id, "Q") 
+  ) %>%
+  select(subject_id, trial_index, question_index, response)
+
+metadata_data <- d %>%
+  select(subject_id, trial_index, `0`:`14`, `15`) %>% 
+  pivot_longer(
+    cols = -c(subject_id, trial_index),  
+    names_to = "question_index",      
+    values_to = "metadata"            
+  ) %>% 
+  mutate(
+    parsed_metadata = map(metadata, ~ {
+      if (is.na(.x)) {
+        tibble() # Handle NA metadata
+      } else {
+        fromJSON(.x, simplifyVector = FALSE) %>%
+          map(~ if (is.null(.)) NA else .) %>%  #replace NULL with NA
+          as_tibble()
+      }
+    })
+  ) %>% 
+  unnest(parsed_metadata) %>%    
+  select(-metadata)           
+
+#merge the response_data and metadata_data into data_causal_pairs
+data_causal_pairs <- response_data %>%
+  inner_join(metadata_data, by = c("subject_id", "trial_index", "question_index")) %>% 
+  mutate(trial_type = "causal_pairs") %>% 
+  relocate(trial_type, .after = subject_id) %>%
+  rename(original_trial_index = trial_index, 
+         original_question_index = question_index) %>% 
+  group_by(subject_id, trial_type) %>%
+  mutate(trial_index = dense_rank(original_trial_index),
+         question_index = row_number()) %>%
+  ungroup() %>% 
+  relocate(c("trial_index", "question_index"), .after = "trial_type") %>% 
+  relocate(c("original_trial_index", "original_question_index"), .after = "correct_response")
+
+```
+
+## Exclusions
+
+- In Causal Pairs Task we have 4 attention checks at pages 4, 8, 10 and 13. No attention checks in Sorting Task 
+- We are excluding subjects who fail at least 2 attention checks (Other possible criteria: time taken to complete study)
+
+```{r}
+data_causal_pairs <- data_causal_pairs %>%
+  mutate(attention_check_id = case_when(
+    attention_check == TRUE & trial_index == 4  ~ 1, 
+    attention_check == TRUE & trial_index == 8  ~ 2, 
+    attention_check == TRUE & trial_index == 10 ~ 3, 
+    attention_check == TRUE & trial_index == 13 ~ 4, 
+    TRUE ~ NA_integer_ #non-attention check rows
+  )) %>%
+  mutate(correct_response = case_when(
+    attention_check == TRUE & trial_index == 4  ~ 0, #"Move slider all the way to left"
+    attention_check == TRUE & trial_index == 8  ~ 75,  #"Move slider to 'Maybe yes'"
+    attention_check == TRUE & trial_index == 10 ~ 100, #"Move slider all the way to right"
+    attention_check == TRUE & trial_index == 13 ~ 0,   #"Move slider to 'Definitely not'"
+    TRUE ~ correct_response # Retain existing values for non-attention check rows
+  )) %>%
+  mutate(correct = case_when(
+    attention_check == TRUE & trial_index == 4  & response >= 0 & response <= 5   ~ TRUE, 
+    attention_check == TRUE & trial_index == 8  & response >= 70 & response <= 80 ~ TRUE, 
+    attention_check == TRUE & trial_index == 10 & response >= 0 & response <= 5 ~ TRUE, #3 and 4 are switched for some reason
+    attention_check == TRUE & trial_index == 13 & response >= 95 & response <= 100   ~ TRUE,
+    attention_check == TRUE ~ FALSE, #outside acceptable range
+    TRUE ~ NA #non-attn check rows
+  ))
+
+excluded_participants <- data_causal_pairs %>%
+  filter(attention_check == TRUE) %>% 
+  group_by(subject_id) %>% 
+  summarize(
+    num_incorrect = sum(correct == FALSE, na.rm = TRUE), 
+    .groups = "drop"
+  ) %>%
+  filter(num_incorrect >= 2) %>% #identify participants with x or more incorrect
+  pull(subject_id) 
+
+data_causal_pairs <- data_causal_pairs %>%
+  filter(!subject_id %in% excluded_participants)
+
+data_freesort <- data_freesort %>%
+  filter(!subject_id %in% excluded_participants)
+
+#excluded 1 subject: subj_14
+
+```
+
+## Add trial order column
+
+```{r}
+#Combine trial types to compare their starting original_trial_index
+trial_order_info <- bind_rows(
+  data_causal_pairs %>% distinct(subject_id, trial_type, original_trial_index),
+  data_freesort %>% distinct(subject_id, trial_type, original_trial_index)
+) %>%
+  group_by(subject_id) %>%
+  summarize(
+    trial_type_order = case_when(
+      min(original_trial_index[trial_type == "causal_pairs"]) < min(original_trial_index[trial_type == "freesort"]) ~ 
+        list(c(causal_pairs = "first", freesort = "second")),
+      TRUE ~ list(c(causal_pairs = "second", freesort = "first"))
+    )
+  ) %>%
+  unnest_wider(trial_type_order)
+
+#Add trial_type_order to data_causal_pairs
+data_causal_pairs <- data_causal_pairs %>%
+  left_join(
+    trial_order_info %>% select(subject_id, causal_pairs),
+    by = "subject_id"
+  ) %>%
+  rename(trial_type_order = causal_pairs) %>%
+  relocate(trial_type_order, .after = trial_type)
+
+# Add trial_type_order to data_freesort
+data_freesort <- data_freesort %>%
+  left_join(
+    trial_order_info %>% select(subject_id, freesort),
+    by = "subject_id"
+  ) %>%
+  rename(trial_type_order = freesort) %>%
+  relocate(trial_type_order, .after = trial_type)
+
+```
+
+## Create combined data frame 
+
+```{r}
+data_combined <- bind_rows(
+  data_causal_pairs,
+  data_freesort
+)
+
+assign(combined_output_csv, data_combined)
+
+write.csv(data_combined, combined_output_path, row.names = F)
+
+```
+
+THE END
+
+```{r}
+
+```
+
+

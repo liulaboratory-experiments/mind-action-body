@@ -1,7 +1,0 @@
-"","freesort_comparison","freesort_comparison_type","tau","mean_comparison_type_tau"
-"1","within_first_odd_even","within",0.586206906412458,0.582143047503926
-"2","within_second_odd_even","within",0.578079188595393,0.582143047503926
-"3","cross_order_first_odd_second_odd","cross_within",0.470480452545878,0.470480452545878
-"4","cross_order_first_odd_second_even","cross-cross",0.6152576977184,0.562074328838834
-"5","cross_order_first_even_second_odd","cross-cross",0.508890959959269,0.562074328838834
-"6","cross_order_first_even_second_even","cross-within",0.596626339328239,0.596626339328239

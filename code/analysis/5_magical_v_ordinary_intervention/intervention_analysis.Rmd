@@ -1,0 +1,699 @@
+---
+title: "Intervention"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-09-11"
+author: ""
+
+---
+
+# ReadMe
+
+- This is the analysis script for the CC vs CO Intervention study.  
+- Date run: 11/11/25
+- N = 105 before exclusions
+- 2 between-subjects conditions
+- DV: What would you to make someone x? (CC Intervention), what spell would you cast to give creature capacity x (CO Intervention), IV: Binary choice between CC vs CO item   
+- Hypothesis: subjects choose CC item for CC interventions, and CO item for CO interventions
+
+# Setup
+
+## Load packages
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+pacman::p_load(
+               lme4, 
+               here, 
+               patchwork, 
+               cowplot, 
+               viridis, 
+               effects,  
+               gt,
+               webshot2,
+               knitr,
+               performance,
+               effectsize,
+               tidyverse,
+               simr,
+               conflicted)
+sessionInfo()
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), 
+     ~ conflict_prefer(.x, "dplyr"))
+conflicts_prefer(simr::fixed)
+
+```
+
+## Global variables
+
+```{r}
+base_path <- here("code")
+
+snapshots_item_selection_path <- paste0(base_path,
+                                        "/analysis/1.5_item_selection/snapshots_experiment1_combined_analysis")
+preceding_distances_path <- paste0(snapshots_item_selection_path,
+                                   "/preceding_short_list.csv")
+following_distances_path <- paste0(snapshots_item_selection_path,
+                                   "/following_short_list.csv")
+
+```
+
+# Confirmatory Analysis - Prep
+
+The main confirmatory analysis asks what proportion of subjects select the CC vs CO item in each condition. 
+
+## Read data
+
+```{r, warnings = FALSE}
+data_path_cf <- paste0(base_path, "/data/5_magical_v_ordinary_intervention/JO-mbc-main-v2_intervention-105N")
+
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+
+file_paths <- list.files(path = data_path_cf, pattern = "^2025-", full.names = TRUE)
+
+d <- imap_dfr(file_paths, ~ {
+  read_csv(.x, col_types = cols(response = col_character())) %>%
+    rename(
+      CC_item = causal_itemA,
+      CO_item = similar_itemA,
+      selected_item = selected_choice
+    ) %>%
+    mutate(
+      filename = basename(.x),
+      subject_id = paste0("subj_", str_pad(.y, 2, pad = "0"))
+    )}) %>%
+  select(-c(mturk_participant_id, mturk_assignment_id, mturk_project_id)) %>%
+  relocate(subject_id, .before = "success")
+
+```
+
+## Wrangle data
+
+```{r}
+subjects_to_exclude <- d %>%
+  filter(grepl("attention_check", condition)) %>% 
+  mutate(attn_correct = correct_response_attn == selected_item) %>%
+  filter(attn_correct == FALSE) %>%
+  pull(subject_id) %>% 
+  unique()
+
+dat <- d %>% 
+  filter(!subject_id %in% subjects_to_exclude) %>% #exclude 1 subject who failed attn check
+  filter(condition %in% c("ordinary", "magical")) %>%
+  # mutate(condition = ifelse(condition == "ordinary", "CC", "CO")) %>%
+  mutate(condition = ifelse(condition == "ordinary", "Ordinary", "Magical")) %>%
+  mutate(response = ifelse(response == "causal", "CC", "CO")) %>% 
+  mutate(condition = as.factor(condition)) %>% 
+  rowwise() %>%
+  mutate(response = case_when(
+    grepl(CC_item, selected_item) ~ "CC",
+    grepl(CO_item, selected_item) ~ "CO",
+    TRUE ~ "other"
+  )) %>% 
+  mutate(response = as.factor(response)) %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC"))) %>% 
+  ungroup() %>% 
+  select(subject_id, condition, itemB, CC_item, CO_item, response) %>% 
+  mutate(CC_item = factor(CC_item, levels = desired_order),
+         CO_item = factor(CO_item, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(domain_itemB = case_when(itemB == "hear something" ~ "mind", 
+                                 itemB == "choose what to do" ~ "mind",
+                                 itemB == "remember something" ~ "mind",
+                                 itemB == "think about something" ~ "mind",
+                                 itemB == "see something" ~ "mind",
+                                 itemB == "reach for something" ~ "action",
+                                 itemB == "sit down" ~ "action", 
+                                 itemB == "jump up and down" ~ "action",
+                                 itemB == "kick something" ~ "action",
+                                 itemB == "take a walk" ~ "action",
+                                 itemB == "get tired" ~ "body", 
+                                 itemB == "become hungry" ~ "body",
+                                 itemB == "feel scared"~ "body",
+                                 itemB == "experience pain"~ "body",
+                                 itemB == "get sick"~ "body"),
+         domain_CC_item = case_when(CC_item == "hear something" ~ "mind", 
+                                 CC_item == "choose what to do" ~ "mind",
+                                 CC_item == "remember something" ~ "mind",
+                                 CC_item == "think about something" ~ "mind",
+                                 CC_item == "see something" ~ "mind",
+                                 CC_item == "reach for something" ~ "action",
+                                 CC_item == "sit down" ~ "action", 
+                                 CC_item == "jump up and down" ~ "action",
+                                 CC_item == "kick something" ~ "action",
+                                 CC_item == "take a walk" ~ "action",
+                                 CC_item == "get tired" ~ "body", 
+                                 CC_item == "become hungry" ~ "body",
+                                 CC_item == "feel scared"~ "body",
+                                 CC_item == "experience pain"~ "body",
+                                 CC_item == "get sick"~ "body"),
+          domain_CO_item = case_when(CO_item == "hear something" ~ "mind", 
+                                 CO_item == "choose what to do" ~ "mind",
+                                 CO_item == "remember something" ~ "mind",
+                                 CO_item == "think about something" ~ "mind",
+                                 CO_item == "see something" ~ "mind",
+                                 CO_item == "reach for something" ~ "action",
+                                 CO_item == "sit down" ~ "action", 
+                                 CO_item == "jump up and down" ~ "action",
+                                 CO_item == "kick something" ~ "action",
+                                 CO_item == "take a walk" ~ "action",
+                                 CO_item == "get tired" ~ "body", 
+                                 CO_item == "become hungry" ~ "body",
+                                 CO_item == "feel scared"~ "body",
+                                 CO_item == "experience pain"~ "body",
+                                 CO_item == "get sick"~ "body")) 
+
+rmarkdown::paged_table(dat)
+
+```
+
+## Demographics
+
+```{r}
+# demographics
+df_demographics <- d %>% 
+  filter(trial_type == "survey-html-form") %>% 
+  select("trial_id", "filename", 
+         "feedback", "age", "ethnicity", "gender", "race") 
+
+paste0("pre-exclusion N: ", d %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+paste0("post-exclusion N: ", dat %>% distinct(subject_id) %>% summarize(n = n()) %>% pull(n))
+summary(df_demographics$filename)
+summary(df_demographics$age)
+table(df_demographics$gender)
+table(df_demographics$ethnicity)
+table(df_demographics$race)
+
+```
+
+## Summarize data
+
+```{r}
+# Condition-level summary, with cis 
+dat_summarized_conditions <- dat %>% 
+  group_by(condition) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, response) %>%
+  summarize(
+    count = n(),  
+    total = first(total), 
+    mean_proportion = count / total, 
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total),  
+    .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se))
+
+rmarkdown::paged_table(dat_summarized_conditions)
+
+# Trial-level summary
+dat_summarized_trials <- dat %>%
+  tidyr::complete(response, nesting(condition, itemB, 
+                                    CC_item, CO_item,
+                                    domain_CC_item, domain_CO_item,
+                                    domain_itemB), fill = list(count = 0)) %>% 
+  group_by(condition, itemB) %>%
+  mutate(total = n()) %>%  
+  ungroup() %>% 
+  group_by(condition, itemB, response) %>%
+  mutate(
+    count = n(),  
+    total = first(total),  
+    mean_proportion = count / total,
+    se = sqrt(mean_proportion * (1 - mean_proportion) / total)) %>%
+  distinct(condition, itemB, .keep_all = TRUE) %>%
+  select(-subject_id) %>%
+  ungroup() 
+
+rmarkdown::paged_table(dat_summarized_trials)
+
+```
+
+# Confirmatory Analysis - Figures
+
+## Figure with slope 
+
+Black and white
+
+```{r, fig.width = 3, fig.height = 5}
+fig_slope <- dat_summarized_conditions %>%
+  mutate(response = fct_relevel(response, "CC", "CO")) %>% 
+  mutate(condition = fct_relevel(condition, c("Magical", "Ordinary"))) %>%
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  geom_errorbar(data = filter(dat_summarized_conditions, response == "CO"),
+              aes(ymax = ci_high,
+                  ymin = ci_low,
+                  width = 0.3)) +
+  geom_point(
+      data = dplyr::filter(dat_summarized_trials, response == "CO"),
+    aes(group = interaction(itemB, response),
+        fill = response),
+             alpha = 0.8, 
+             size = 5,
+             shape = 21,
+             color = "black") +
+  scale_fill_manual(values = c(
+          "CC" = "#CCCCCC",
+          "CO" = "white")) +
+  geom_line(
+    data = dplyr::filter(dat_summarized_trials, response == "CO"),
+    aes(group = interaction(itemB, response)),
+    alpha = 0.4, color = "black"
+  ) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_cowplot() +
+  labs(y = "Proportion", x = "Condition", fill = "Response") +
+  ylim(0, 1) +
+  theme(
+    axis.text.x = element_text(size = 25),
+    axis.text.y = element_text(size = 25),
+    axis.title.x = element_blank(),
+    axis.title.y = element_text(size = 25),
+    legend.position = "top",
+    legend.title = element_text(size = 25),
+    legend.text = element_text(size = 25),
+    panel.background = element_rect(fill='transparent', color=NA),
+    plot.background = element_rect(fill='transparent', color=NA)
+  )
+
+fig_slope
+
+fig_slope <- ggsave("figures/intervention_slope_black_and_white.png", width = 3.5, height = 6, plot = fig_slope, bg = "white")
+
+```
+
+## Item-level with distances
+
+```{r, fig.width = 12, fig.height = 12}
+d_distances <- read_csv(preceding_distances_path)
+
+dat_labels <- dat_summarized_trials %>%
+  mutate(response = fct_relevel(response, c("CO", "CC"))) %>% 
+  distinct(itemB, CC_item, CO_item) %>% 
+  left_join(d_distances %>%
+              rename(itemB = target_item),
+            by = c("itemB", "CC_item", "CO_item")) %>%
+  mutate(itemB = factor(itemB, levels = desired_order)) %>% 
+  mutate(freesort_minus_causal_pairs_distance_CO = 
+           round(freesort_minus_causal_pairs_distance_CO, 2),
+         freesort_minus_causal_pairs_distance_CC = 
+           round(freesort_minus_causal_pairs_distance_CC, 2)) %>% 
+  mutate(facet_label = paste0(
+    itemB, "\n",
+    "", CC_item, "\n", 
+    "", CO_item   
+  )) %>% 
+  mutate(facet_label = paste0(itemB, "\n",
+                              "CC: ", CC_item, "\n",
+                              "cd,fd,f-c: (",
+                              causal_pairs_distance_CC_item, ",",
+                              freesort_distance_CC_item, ",",
+                              freesort_minus_causal_pairs_distance_CC, ")", "\n",  
+                              "CO: ", CO_item, "\n",
+                              "cd,fd,f-c: (",
+                              causal_pairs_distance_CO_item, ",",
+                              freesort_distance_CO_item, ",",
+                              freesort_minus_causal_pairs_distance_CO, ")", "\n"))
+
+#sort by itemB and extract the ordered facet labels
+ordered_facet_labels <- dat_labels %>%
+  arrange(itemB) %>%
+  pull(facet_label)
+
+#set facet_label as a factor with that order
+dat_labels <- dat_labels %>%
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+dat_summarized_by_item_levels <- dat_summarized_trials %>%
+  left_join(dat_labels %>% select(itemB, facet_label), by = "itemB") %>% 
+  mutate(facet_label = factor(facet_label, levels = ordered_facet_labels))
+
+p_intervention <-  dat_summarized_by_item_levels %>% 
+  ggplot(aes(x = condition, y = mean_proportion, fill = response)) +
+  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", colour = "black") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_errorbar(data = filter(dat_summarized_by_item_levels, response == "CC"), 
+                aes(ymax = mean_proportion + se,
+                    ymin = mean_proportion - se),
+                stat = "identity", position = "identity", width = 0.3) +
+  scale_fill_manual(values = c("#CCCCCC", "white")) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25),
+        # legend.position = "none",
+        plot.title = element_text(hjust = 0.5, size = 25),
+        strip.text = element_text(size = 15)) +
+  labs(y = "Proportion (CC)",
+       title = "Intervention") +
+  facet_wrap(~facet_label, nrow = 3)
+
+p_intervention
+
+# ggsave(
+#   filename = "figures/p_intervention_item-level_stacked.pdf",
+#   plot = p_intervention,          
+#   device = "pdf",           
+#   width = 20,               
+#   height = 15,             
+#   units = "in")
+# 
+# ggsave(
+#   filename = "figures/p_intervention_item-level_stacked.png",
+#   plot = p_intervention,  
+#   bg = "white",
+#   width = 20,               
+#   height = 15,             
+#   units = "in")
+
+```
+
+# Confirmatory Analysis - Analysis
+
+## Logistic regression
+
+```{r}
+d_model <- dat %>%
+  mutate(subject_id = factor(subject_id)) %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC"))) %>% 
+  mutate(condition = factor(condition, levels = c("Magical", "Ordinary")))
+
+model_effect_of_intervention <- glmer(response ~ condition + 
+                                        (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_model)
+
+summary(model_effect_of_intervention)
+
+std_parameters <- standardize_parameters(model_effect_of_intervention, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+
+```
+
+## Get specific probabilities
+
+```{r}
+effects_data <- allEffects(model_effect_of_intervention)
+effects_df <- as.data.frame(effects_data$condition)
+effects_df
+
+```
+
+## Ordinary-only model
+
+```{r}
+d_ordinary <- d_model %>% 
+  mutate(subject_id = factor(subject_id)) %>% 
+  filter(condition == "Ordinary") %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC"))) 
+
+model_effect_of_ordinary <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_ordinary)
+
+summary(model_effect_of_ordinary)
+paste0("probability: ", plogis(fixef(model_effect_of_ordinary)[1]))
+paste0("odds ratio: ", exp(fixef(model_effect_of_ordinary)[1]))
+
+```
+
+## Magical-only model
+
+```{r}
+d_magical <- d_model %>% 
+  mutate(subject_id = factor(subject_id)) %>% 
+  filter(condition == "Magical") %>% 
+  mutate(response = fct_relevel(response, c("CO", "CC"))) 
+
+model_effect_of_magical <- glmer(response ~ 1 + (1 | subject_id), 
+      family = binomial(link = 'logit'), 
+      data = d_magical)
+
+summary(model_effect_of_magical)
+paste0("probability: ", plogis(fixef(model_effect_of_magical)[1]))
+paste0("odds ratio: ", exp(fixef(model_effect_of_magical)[1]))
+
+```
+
+# Exploratory Analysis - Prep
+
+The exploratory distance analysis asks whether we can use the quantitative distances to explain variation in effect sizes across trials.  
+
+## Append distances
+
+```{r}
+distances <- read_csv(preceding_distances_path)
+``` 
+
+## Merge and save distances
+
+```{r}
+dat_distances_intervention <- dat %>% 
+  left_join(distances %>%
+              rename(itemB = target_item),
+            by = c("itemB", "CC_item", "CO_item")) %>% 
+  mutate(causal_pairs_distance_CC_item = round(causal_pairs_distance_CC_item, 2),
+         freesort_distance_CC_item = round(freesort_distance_CC_item, 2),
+         freesort_minus_causal_pairs_distance_CC = round(freesort_minus_causal_pairs_distance_CC, 2),
+         causal_pairs_distance_CO_item = round(causal_pairs_distance_CO_item, 2),
+         freesort_distance_CO_item = round(freesort_distance_CO_item, 2),
+         freesort_minus_causal_pairs_distance_CO = round(freesort_minus_causal_pairs_distance_CO, 2))
+
+rmarkdown::paged_table(dat_distances_intervention)
+
+write_csv(dat_distances_intervention, "dat_intervention_distances.csv")
+
+```
+
+## Read back in distances
+
+```{r}
+analysis_path <- here("code", "analysis")
+
+dat_distances_intervention <- read_csv(paste0(analysis_path,
+                "/5_magical_v_ordinary_intervention/dat_intervention_distances.csv")) 
+
+```
+
+# Exploratory Analysis - Figures
+
+## Ordinary condition
+
+```{r}
+short_names <- c(
+  "see something" = "see",
+  "hear something" = "hear",
+  "choose what to do" = "choose",
+  "remember something" = "remember",
+  "think about something" = "think",
+  
+  "take a walk" = "walk", 
+  "jump up and down" = "jump",
+  "reach for something" = "reach",
+  "sit down" = "sit",
+  "kick something" = "kick",
+  
+  "get sick" = "sick",
+  "feel scared" = "scared",
+  "become hungry" = "hungry",
+  "experience pain" = "pain",
+  "get tired" = "tired")
+
+dat_distances_wrangled <- dat_distances_intervention %>% 
+  unite("joined", c(itemB, CC_item, CO_item), sep = "_") %>% 
+  group_by(condition, joined) %>%
+  mutate(total = n()) %>% 
+  group_by(condition, joined, response, freesort_minus_causal_pairs_distance_CC,
+           freesort_minus_causal_pairs_distance_CO) %>%
+  summarize(count = n(),  
+         total = first(total), 
+         mean_proportion = count / total, 
+         se = sqrt(mean_proportion * (1 - mean_proportion) / total), 
+         .groups = "drop") %>% 
+  mutate(ci_low = pmax(0, mean_proportion - 1.96 * se),
+         ci_high = pmin(1, mean_proportion + 1.96 * se)) %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_pairs_distance_CC - freesort_minus_causal_pairs_distance_CO) %>% 
+  arrange(mean_proportion) %>% 
+  relocate(mean_proportion, .after = joined) 
+
+dat_distances_ordinary <- dat_distances_wrangled %>% 
+  filter(condition == "Ordinary") %>% 
+  filter(response == "CC")  %>% 
+  separate(joined, into = c("itemB", "CC_item", "CO_item"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "CC: ", CC_item, "\n", "CO: ", CO_item))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    CC_item   = recode(CC_item, !!!short_names),
+    CO_item  = recode(CO_item, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "CC: ", 
+                         CC_item, "\n", "CO: ",
+                         CO_item))  
+
+fig_ordinary_distance <- dat_distances_ordinary %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = 0.4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  # geom_text(aes(label = labels), size = 3, vjust = 1.3) + #uncomment to see labels
+  theme_bw() +
+  labs(
+      title = "Ordinary Condition",
+      x = "CC more causally relevant →\nCO item more CO-relevant →",
+       y = "Proportion (CC)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25, hjust = .5),
+        # plot.title = element_text(hjust = .5, size = 25),
+        plot.title = element_blank(),
+        legend.position = "none") 
+
+fig_ordinary_distance 
+
+fig_ordinary_distance <- ggsave("figures/ordinary_distances.png", width = 6, height = 4.5, 
+                        plot = fig_ordinary_distance, bg = "white")
+
+```
+
+## Magical condition
+
+```{r}
+dat_distances_magical <- dat_distances_wrangled %>% 
+  filter(condition == "Magical") %>% 
+  filter(response == "CC")  %>% 
+  separate(joined, into = c("itemB", "CC_item", "CO_item"),
+         sep = "_") %>%
+  mutate(joined = paste0("target: ", itemB, "\n", "CC: ", CC_item, "\n", "CO: ", CO_item))  %>% 
+  mutate(
+    itemB         = recode(itemB, !!!short_names),
+    CC_item   = recode(CC_item, !!!short_names),
+    CO_item  = recode(CO_item, !!!short_names)) %>% 
+  mutate(labels = paste0("target: ", itemB, "\n", "CC: ", CC_item, "\n", "CO: ",
+                         CO_item))  
+
+fig_magical_distance <- dat_distances_magical %>% 
+  ggplot(aes(x = joint_distance_difference, y = mean_proportion)) +
+  geom_point(size = 5, alpha = 0.4) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  theme_bw() +
+  labs(
+      title = "Magical Condition",
+      x = "CC more causally relevant →\nCO item more CO-relevant →",
+      y = "Proportion (CC)") +
+  coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
+  theme(
+        axis.text.x = element_text(size = 25),
+        axis.text.y = element_text(size = 25),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25, hjust = .5),
+        # plot.title = element_text(hjust = .5, size = 25),
+        plot.title = element_blank(),
+        legend.position = "none")
+ 
+fig_magical_distance
+
+fig_magical_distance <- ggsave("figures/magical_distances.png", width = 6, height = 4.5, 
+                        plot = fig_magical_distance, bg = "white")
+
+```
+
+# Exploratory Analysis - Analysis
+
+## Prepare for modelling
+
+```{r}
+dat_distances_intervention_model <- dat_distances_intervention %>% 
+  mutate(joint_distance_difference = freesort_minus_causal_pairs_distance_CC -
+           freesort_minus_causal_pairs_distance_CO) %>% 
+  mutate(response = factor(response, levels = c("CO", "CC"))) %>% 
+  mutate(condition = factor(condition, levels = c("Ordinary", "Magical"))) %>% 
+  mutate(subject_id = as.factor(subject_id)) 
+
+```
+
+## Ordinary condition
+
+```{r}
+model_ordinary_distances <- glmer(response ~ joint_distance_difference + 
+                                  (1 | subject_id), 
+    data = dat_distances_intervention_model %>% 
+      filter(condition == "Ordinary") %>% 
+      mutate(response = fct_relevel(response, c("CO", "CC"))),
+    family = binomial(link = 'logit'))
+
+summary(model_ordinary_distances)
+
+std_parameters <- standardize_parameters(model_ordinary_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+
+```
+
+## Magical condition
+
+```{r}
+model_magical_distances <- glmer(response ~ joint_distance_difference + (1 | subject_id), 
+    data = dat_distances_intervention_model %>% 
+      filter(condition == "Magical") %>% 
+      mutate(response = fct_relevel(response, c("CO", "CC"))),
+    family = binomial(link = 'logit'))
+
+summary(model_magical_distances)
+
+std_parameters <- standardize_parameters(model_magical_distances, 
+                                  ci = 0.95) %>% 
+  as.data.frame() %>%
+  mutate(OR = exp(Std_Coefficient),
+         OR_low = exp(CI_low),
+         OR_high = exp(CI_high)) %>% 
+  rename("Log_odds" = Std_Coefficient) %>% 
+  relocate(c("OR", "OR_low", "OR_high"), .before = "Log_odds")
+
+std_parameters
+
+```
+
+# THE END
+
+```{r}
+
+```
+
+
+
+
+
+
+

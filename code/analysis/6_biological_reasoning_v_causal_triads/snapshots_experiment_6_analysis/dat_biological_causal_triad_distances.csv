@@ -1,0 +1,937 @@
+subject_id,condition,first_item,middle_CC_item,middle_CO_item,third_item,response,domain_first_item,domain_third_item,domain_middle_CC_item,domain_middle_CO_item,freesort_minus_causal_pairs_distance_CC,rank_CC,freesort_minus_causal_pairs_distance_CO,rank_CO,joint_distance_difference
+subj_01,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_01,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_01,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_01,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_01,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_01,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_01,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_01,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_01,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_02,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_02,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_02,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_02,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_02,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_02,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_02,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_02,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_02,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_03,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_03,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_03,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_03,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_03,causal_triads,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_03,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_03,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_03,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_03,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_04,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_04,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_04,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_04,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_04,causal_triads,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_04,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_04,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_04,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_04,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_05,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_05,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_05,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_05,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_05,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_05,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_05,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_05,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_05,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_06,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_06,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_06,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_06,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_06,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_06,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_06,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_06,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_06,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_07,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_07,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_07,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_07,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_07,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_07,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_07,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_07,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_07,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_08,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_08,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_08,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_08,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_08,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_08,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_08,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_08,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_08,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_09,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_09,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_09,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_09,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_09,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_09,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_09,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_09,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_09,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_10,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_10,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_10,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_10,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_10,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_10,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_10,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_10,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_10,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_11,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_11,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_11,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_11,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_11,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_11,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_11,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_11,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_11,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_12,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_12,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_12,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_12,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_12,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_12,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_12,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_12,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_12,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_13,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_13,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_13,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_13,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_13,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_13,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_13,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_13,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_13,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_14,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_14,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_14,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_14,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_14,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_14,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_14,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_14,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_14,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_15,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_15,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_15,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_15,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_15,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_15,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_15,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_15,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_15,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_16,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_16,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_16,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_16,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_16,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_16,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_16,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_16,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_16,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_17,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_17,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_17,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_17,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_17,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_17,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_17,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_17,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_17,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_18,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_18,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_18,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_18,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_18,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_18,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_18,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_18,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_18,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_19,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_19,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_19,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_19,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_19,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_19,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_19,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_19,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_19,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_20,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_20,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_20,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_20,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_20,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_20,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_20,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_20,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_20,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_21,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_21,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_21,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_21,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_21,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_21,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_21,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_21,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_21,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_22,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_22,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_22,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_22,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_22,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_22,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_22,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_22,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_22,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_23,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_23,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_23,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_23,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_23,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_23,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_23,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_23,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_23,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_24,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_24,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_24,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_24,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_24,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_24,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_24,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_24,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_24,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_25,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_25,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_25,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_25,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_25,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_25,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_25,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_25,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_25,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_26,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_26,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_26,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_26,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_26,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_26,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_26,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_26,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_26,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_27,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_27,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_27,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_27,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_27,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_27,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_27,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_27,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_27,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_28,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_28,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_28,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_28,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_28,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_28,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_28,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_28,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_28,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_29,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_29,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_29,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_29,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_29,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_29,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_29,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_29,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_29,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_30,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_30,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_30,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_30,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_30,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_30,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_30,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_30,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_30,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_31,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_31,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_31,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_31,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_31,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_31,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_31,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_31,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_31,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_32,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_32,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_32,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_32,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_32,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_32,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_32,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_32,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_32,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_33,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_33,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_33,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_33,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_33,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_33,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_33,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_33,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_33,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_34,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_34,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_34,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_34,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_34,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_34,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_34,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_34,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_34,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_35,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_35,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_35,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_35,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_35,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_35,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_35,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_35,biological_reasoning,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_35,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_36,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_36,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_36,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_36,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_36,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_36,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_36,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_36,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_36,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_37,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_37,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_37,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_37,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_37,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_37,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_37,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_37,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_37,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_38,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_38,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_38,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_38,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_38,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_38,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_38,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_38,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_38,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_39,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_39,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_39,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_39,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_39,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_39,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_39,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_39,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_39,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_40,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_40,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_40,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_40,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_40,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_40,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_40,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_40,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_40,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_41,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_41,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_41,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_41,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_41,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_41,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_41,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_41,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_41,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_42,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_42,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_42,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_42,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_42,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_42,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_42,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_42,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_42,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_43,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_43,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_43,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_43,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_43,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_43,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_43,biological_reasoning,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_43,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_43,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_44,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_44,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_44,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_44,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_44,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_44,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_44,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_44,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_44,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_45,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_45,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_45,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_45,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_45,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_45,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_45,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_45,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_45,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_46,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_46,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_46,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_46,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_46,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_46,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_46,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_46,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_46,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_47,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_47,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_47,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_47,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_47,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_47,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_47,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_47,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_47,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_48,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_48,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_48,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_48,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_48,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_48,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_48,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_48,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_48,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_49,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_49,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_49,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_49,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_49,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_49,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_49,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_49,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_49,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_50,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_50,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_50,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_50,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_50,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_50,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_50,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_50,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_50,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_51,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_51,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_51,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_51,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_51,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_51,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_51,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_51,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_51,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_52,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_52,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_52,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_52,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_52,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_52,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_52,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_52,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_52,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_53,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_53,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_53,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_53,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_53,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_53,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_53,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_53,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_53,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_54,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_54,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_54,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_54,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_54,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_54,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_54,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_54,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_54,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_55,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_55,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_55,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_55,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_55,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_55,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_55,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_55,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_55,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_56,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_56,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_56,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_56,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_56,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_56,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_56,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_56,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_56,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_57,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_57,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_57,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_57,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_57,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_57,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_57,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_57,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_57,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_58,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_58,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_58,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_58,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_58,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_58,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_58,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_58,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_58,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_59,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_59,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_59,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_59,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_59,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_59,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_59,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_59,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_59,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_60,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_60,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_60,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_60,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_60,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_60,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_60,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_60,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_60,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_61,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_61,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_61,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_61,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_61,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_61,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_61,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_61,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_61,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_62,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_62,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_62,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_62,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_62,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_62,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_62,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_62,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_62,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_63,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_63,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_63,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_63,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_63,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_63,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_63,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_63,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_63,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_64,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_64,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_64,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_64,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_64,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_64,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_64,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_64,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_64,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_65,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_65,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_65,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_65,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_65,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_65,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_65,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_65,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_65,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_66,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_66,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_66,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_66,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_66,biological_reasoning,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_66,biological_reasoning,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_66,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_66,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_66,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_67,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_67,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_67,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_67,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_67,biological_reasoning,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_67,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_67,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_67,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_67,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_68,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_68,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_68,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_68,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_68,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_68,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_68,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_68,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_68,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_69,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_69,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_69,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_69,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_69,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_69,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_69,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_69,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_69,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_70,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_70,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_70,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_70,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_70,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_70,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_70,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_70,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_70,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_71,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_71,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_71,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_71,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_71,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_71,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_71,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_71,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_71,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_72,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_72,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_72,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_72,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_72,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_72,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_72,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_72,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_72,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_73,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_73,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_73,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_73,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_73,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_73,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_73,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_73,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_73,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_74,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_74,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_74,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_74,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_74,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_74,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_74,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_74,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_74,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_75,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_75,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_75,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_75,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_75,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_75,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_75,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_75,causal_triads,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_75,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_76,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_76,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_76,causal_triads,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_76,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_76,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_76,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_76,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_76,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_76,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_77,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_77,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_77,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_77,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_77,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_77,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_77,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_77,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_77,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_78,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_78,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_78,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_78,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_78,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_78,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_78,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_78,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_78,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_79,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_79,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_79,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_79,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_79,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_79,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_79,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_79,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_79,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_80,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_80,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_80,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_80,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_80,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_80,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_80,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_80,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_80,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_81,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_81,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_81,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_81,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_81,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_81,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_81,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_81,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_81,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_82,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_82,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_82,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_82,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_82,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_82,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_82,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_82,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_82,biological_reasoning,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_83,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_83,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_83,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_83,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_83,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_83,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_83,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_83,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_83,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_84,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_84,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_84,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_84,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_84,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_84,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_84,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_84,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_84,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_85,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_85,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_85,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_85,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_85,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_85,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_85,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_85,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_85,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_86,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_86,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_86,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_86,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_86,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_86,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_86,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_86,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_86,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_87,causal_triads,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_87,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_87,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_87,causal_triads,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_87,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_87,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_87,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_87,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_87,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_88,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_88,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_88,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_88,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_88,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_88,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_88,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_88,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_88,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_89,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_89,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_89,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_89,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_89,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_89,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_89,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_89,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_89,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_90,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_90,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_90,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_90,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_90,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_90,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_90,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_90,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_90,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_91,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_91,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_91,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_91,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_91,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_91,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_91,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_91,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_91,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_92,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_92,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_92,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_92,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_92,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_92,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_92,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_92,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_92,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_93,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_93,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_93,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_93,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_93,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_93,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_93,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_93,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_93,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_94,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_94,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_94,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_94,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_94,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_94,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_94,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_94,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_94,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_95,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_95,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_95,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_95,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_95,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_95,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_95,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_95,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_95,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_96,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_96,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_96,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_96,causal_triads,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_96,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_96,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_96,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_96,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_96,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_97,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_97,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_97,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_97,causal_triads,get sick,remember something,experience pain,become hungry,CC,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_97,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_97,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_97,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_97,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_97,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_98,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_98,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_98,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_98,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_98,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_98,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_98,biological_reasoning,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_98,biological_reasoning,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_98,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_99,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_99,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_99,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_99,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_99,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_99,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_99,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_99,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_99,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_100,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_100,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_100,biological_reasoning,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_100,biological_reasoning,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_100,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_100,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_100,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_100,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_100,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_101,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_101,causal_triads,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_101,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_101,causal_triads,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_101,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_101,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_101,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_101,causal_triads,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_101,causal_triads,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_102,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_102,biological_reasoning,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_102,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_102,biological_reasoning,become hungry,think about something,get tired,feel scared,CO,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_102,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_102,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_102,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_102,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_102,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_103,causal_triads,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_103,causal_triads,remember something,feel scared,think about something,hear something,CC,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_103,causal_triads,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_103,causal_triads,take a walk,see something,jump up and down,reach for something,CC,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
+subj_103,causal_triads,choose what to do,take a walk,see something,hear something,CC,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_103,causal_triads,get tired,choose what to do,become hungry,feel scared,CC,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_103,causal_triads,jump up and down,get tired,take a walk,sit down,CC,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_103,causal_triads,sit down,experience pain,take a walk,jump up and down,CC,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_103,causal_triads,see something,take a walk,remember something,hear something,CC,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_104,biological_reasoning,see something,take a walk,remember something,hear something,CO,mind,mind,action,mind,0.58,1,0.05,13,0.5299999999999999
+subj_104,biological_reasoning,become hungry,think about something,get tired,feel scared,CC,body,body,mind,body,0.7,1,-0.06,13,0.76
+subj_104,biological_reasoning,sit down,experience pain,take a walk,jump up and down,CO,action,action,body,action,0.4,5,-0.57,13,0.97
+subj_104,biological_reasoning,jump up and down,get tired,take a walk,sit down,CO,action,action,body,action,0.66,2,-0.4,13,1.06
+subj_104,biological_reasoning,get sick,remember something,experience pain,become hungry,CO,body,body,mind,body,0.52,3,-0.05,13,0.5700000000000001
+subj_104,biological_reasoning,get tired,choose what to do,become hungry,feel scared,CO,body,body,mind,body,0.53,3,-0.12,13,0.65
+subj_104,biological_reasoning,remember something,feel scared,think about something,hear something,CO,mind,mind,body,mind,0.46,3,-0.09,12,0.55
+subj_104,biological_reasoning,choose what to do,take a walk,see something,hear something,CO,mind,mind,action,mind,0.49,1,-0.13,13,0.62
+subj_104,biological_reasoning,take a walk,see something,jump up and down,reach for something,CO,action,action,mind,action,0.54,6,-0.33,13,0.8700000000000001
