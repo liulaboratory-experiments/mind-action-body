@@ -1,0 +1,252 @@
+---
+title: "study 1 analysis"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: cosmo
+    highlight: tango
+date: "2025-7-1"
+author: Joseph Outa
+---
+
+Background:
+This is the analysis script for the combined dataset for study 1 (N = 152), consisting of:   
+1: the pilot study (i.e. Study 1 of the 2025 Cogsci Paper: "Adults hold two parallel causal frameworks for reasoning about people’s minds, actions and bodies", ran on 12/13/24, N = 50).  
+2: the main study (i.e. the replication of Study 1, ran on 6/30/25, N = 102)
+
+Study 1 presented two tasks in a random order in a within-subjects design: a Freesorting Task and a Causal Task. Subjects sorted 15 items in a sorting canvas, and rated causal relatedness between all 210 pairs of the 15 items (excluding self pairs). 
+
+The subjects were recruited online via Cloud Research Connect. Study demo: https://liulaboratory-experiments.github.io/mbc/study1
+
+The two research questions are: (1) How do subjects sort items? Do they sort based on three latent causes, 2 latent causes, 6 latent causes, or feature-based similarity. (2) Do subjects' direct cause representations (from the Causal Task) reflect latent cause boundaries or do they go beyond, and if so, what is their structure?
+
+The manuscript and project materials for the pilot study can be found at: https://github.com/liulaboratory-experiments/mind-body-action-causation
+
+Script description:
+This script:-  
+- proceeds from the output of the preprocessing script.   
+- takes as input `combined_data_processed_step1.csv`, and `data_model_prediction.csv`
+- plots Sorting and Causal Task rdms, gets correlations between empirical and models RDM, gets within subject correlations.   
+- outputs `combined_data_freesort_mins_causals.csv` for use in study 2 script for item selection.
+
+What we do: calculate euclidean distances within subjects, then immediately normalize, then average to get mean rdm. Then we min-max normalize that mean. (so 2 normalizations are done)
+
+# Setup
+
+## Load packages
+
+```{r, setup, include = FALSE}
+#knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+
+library(pacman)
+pacman::p_load(tidyverse,
+               ggforce,
+               conflicted,
+               here,
+               cowplot,
+               lme4,
+               lmerTest,
+               effects,
+               Hmisc,
+               performance,
+               rmarkdown,
+               purrr,
+               gt,
+               ragg,
+               readr,
+               scales,
+               patchwork,
+               corrplot,
+               magick,
+               pdftools,
+               simr
+               )
+
+walk(c("select", "filter", "rename", "mutate", "summarise", "summarize"), ~ 
+       conflict_prefer(.x, "dplyr"))
+
+conflicts_prefer(simr::fixed)
+theme_set(theme_bw())
+sessionInfo()
+
+```
+
+## Set variables
+
+```{r}
+# variables
+desired_order <- c("see something", "hear something", "choose what to do", 
+                   "remember something", "think about something", "reach for something", 
+                   "sit down", "jump up and down", "kick something", "take a walk", 
+                   "get tired", "become hungry", "feel scared", "experience pain", "get sick")
+domain_order <- c("mind", "action", "bio")
+freesort_columns <- c("subject_id", "x", "y", "item")
+freesort_columns_with_trial_order <- c("subject_id", "x", "y", "item", "trial_type", "trial_type_order")
+causation_columns <- c("subject_id", "itemA", "itemB", "response")
+
+# paths
+## script inputs
+base_path <- here("code", "main", "analysis", "1.5_item_selection")
+snapshots_input_path <- paste0(base_path, "/snapshots_study1_preprocessing_analysis") 
+data_input_path <- paste0(snapshots_input_path, "/combined_data_processed_step1.csv")
+
+## script outputs
+snapshots_output_path <- paste0(base_path, "/snapshots_study1_combined_analysis")
+
+## saved dataframes 
+data_processed_output_path <- paste0(snapshots_output_path, "/combined_data_processed_step2.csv") #used in item-selection-main script
+
+```
+
+## Read data
+
+```{r}
+d <- read_csv(data_input_path)
+
+#how many subjects
+d %>% 
+  slice(length(d$subject_id)) %>% 
+  pull(subject_id)
+
+```
+
+## Reshape data
+Create separate data frames for Sorting Task, Causal Task and a combined data frame
+
+```{r}
+df_causal <- d %>%
+  filter(trial_type == "causation", !attention_check, itemA != itemB) %>%
+  select(all_of(causation_columns)) %>%
+  
+# Normalize causal distances and flip scale
+  mutate(
+    causal_distance = (1 - response / 100 - min(1 - response / 100, na.rm = TRUE)) /
+                            (max(1 - response / 100, na.rm = TRUE) - min(1 - response / 100, na.rm = TRUE))
+  ) %>%
+  select(subject_id, itemA, itemB, causal_distance) %>% 
+  mutate(domain_itemA = case_when(itemA == "hear something" ~ "mind", #labels for first item of pair
+                             itemA == "choose what to do" ~ "mind",
+                             itemA == "remember something" ~ "mind",
+                             itemA == "think about something" ~ "mind",
+                             itemA == "see something" ~ "mind",
+                             itemA == "reach for something" ~ "action",
+                             itemA == "sit down" ~ "action", 
+                             itemA == "jump up and down" ~ "action",
+                             itemA == "kick something" ~ "action",
+                             itemA == "take a walk" ~ "action",
+                             itemA == "get tired" ~ "bio", 
+                             itemA == "become hungry" ~ "bio",
+                             itemA == "feel scared"~ "bio",
+                             itemA == "experience pain"~ "bio",
+                             itemA == "get sick"~ "bio"),
+         domain_itemB = case_when(itemB == "hear something" ~ "mind", 
+                               itemB == "choose what to do" ~ "mind",
+                               itemB == "remember something" ~ "mind",
+                               itemB == "think about something" ~ "mind",
+                               itemB == "see something" ~ "mind",
+                               itemB == "reach for something" ~ "action",
+                               itemB == "sit down" ~ "action", 
+                               itemB == "jump up and down" ~ "action",
+                               itemB == "kick something" ~ "action",
+                               itemB == "take a walk" ~ "action",
+                               itemB == "get tired" ~ "bio", 
+                               itemB == "become hungry" ~ "bio",
+                               itemB == "feel scared"~ "bio",
+                               itemB == "experience pain"~ "bio",
+                               itemB == "get sick"~ "bio")) %>% 
+  relocate(domain_itemA, .after = "itemB") %>% 
+  relocate(domain_itemB, .after = "domain_itemA") %>% 
+  mutate(itemA = factor(itemA, levels = desired_order),
+         itemB = factor(itemB, levels = desired_order)) 
+
+
+df_freesort <- d %>%
+  filter(trial_type == "free_sort") %>%
+  select(all_of(freesort_columns_with_trial_order)) %>%
+  rename(item_freesort = item) %>%
+  
+  #expand pairs within each subject
+  group_by(subject_id, trial_type_order) %>%
+  summarize(pairs = list(expand.grid(itemA = item_freesort, itemB = item_freesort, stringsAsFactors = FALSE)), .groups = "drop") %>%
+  unnest(pairs) %>%
+  filter(itemA != itemB) %>%
+  
+  #join in freesort coordinates
+  left_join(d %>% filter(trial_type == "free_sort") %>%
+              select(subject_id, itemA = item, x, y),
+            by = c("subject_id", "itemA")) %>%
+  rename(x_itemA = x, y_itemA = y) %>%
+  
+  left_join(d %>% filter(trial_type == "free_sort") %>%
+              select(subject_id, itemB = item, x, y),
+            by = c("subject_id", "itemB")) %>%
+  rename(x_itemB = x, y_itemB = y) %>%
+  
+  group_by(subject_id) %>% 
+  
+  #compute and normalize Euclidean distances
+  mutate(
+    euclidean_distance = sqrt((x_itemA - x_itemB)^2 + (y_itemA - y_itemB)^2),
+    freesort_distance = round( (euclidean_distance - min(euclidean_distance, na.rm = TRUE)) /
+                    (max(euclidean_distance, na.rm = TRUE) - min(euclidean_distance, na.rm = TRUE)),2),
+    
+    trial_type_order = ifelse(trial_type_order == "first", "causation_second", "causation_first"),
+    
+    itemA = factor(itemA, levels = desired_order),
+    itemB = factor(itemB, levels = desired_order)) %>%
+  select(subject_id, itemA, itemB, freesort_distance, trial_type_order) %>%
+  ungroup() %>% 
+  mutate(domain_itemA = case_when(itemA == "hear something" ~ "mind", #labels for first item of pair
+                             itemA == "choose what to do" ~ "mind",
+                             itemA == "remember something" ~ "mind",
+                             itemA == "think about something" ~ "mind",
+                             itemA == "see something" ~ "mind",
+                             itemA == "reach for something" ~ "action",
+                             itemA == "sit down" ~ "action", 
+                             itemA == "jump up and down" ~ "action",
+                             itemA == "kick something" ~ "action",
+                             itemA == "take a walk" ~ "action",
+                             itemA == "get tired" ~ "bio", 
+                             itemA == "become hungry" ~ "bio",
+                             itemA == "feel scared"~ "bio",
+                             itemA == "experience pain"~ "bio",
+                             itemA == "get sick"~ "bio"),
+         domain_itemB = case_when(itemB == "hear something" ~ "mind", 
+                               itemB == "choose what to do" ~ "mind",
+                               itemB == "remember something" ~ "mind",
+                               itemB == "think about something" ~ "mind",
+                               itemB == "see something" ~ "mind",
+                               itemB == "reach for something" ~ "action",
+                               itemB == "sit down" ~ "action", 
+                               itemB == "jump up and down" ~ "action",
+                               itemB == "kick something" ~ "action",
+                               itemB == "take a walk" ~ "action",
+                               itemB == "get tired" ~ "bio", 
+                               itemB == "become hungry" ~ "bio",
+                               itemB == "feel scared"~ "bio",
+                               itemB == "experience pain"~ "bio",
+                               itemB == "get sick"~ "bio")) 
+
+df_combined <- df_freesort %>%
+  # left_join(df_causal, by = c("subject_id", "itemA", "itemB")) # %>% 
+  left_join(df_causal, by = c("subject_id", "itemA", "itemB", "domain_itemA", "domain_itemB")) %>%
+  mutate(domain_itemA = factor(domain_itemA, levels = domain_order),
+         domain_itemB = factor(domain_itemB, levels = domain_order)) %>% 
+  relocate(freesort_distance, .before = "causal_distance") %>%
+  relocate(trial_type_order, .after = "domain_itemB")
+
+paged_table(df_combined)
+
+write.csv(df_combined, data_processed_output_path, row.names = F)
+
+```
+
+THE END
+
+```{r}
+
+```
+
