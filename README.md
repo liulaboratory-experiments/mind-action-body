@@ -28,11 +28,11 @@ This folder contains the R analysis scripts and data files and codebooks (knitte
 Feel free to download the repository (button on top right) and look through the files. If you would like to quickly view the analysis reports, you can download just the .html report for the corresponding study, and double-click to open it on your browser (i.e. go to `/code/analysis/1_measure/` and download `/experiment1_analysis.html`). 
 
 ### Docs
-This folder contains the experimental stimuli. Both experiments was implemented using jsPsych, and are available at the html files `docs/study1.html`, `docs/study2_inference.html` and `docs/study2_intervention.html`. The `/images`, `video`, and `/jspsych` folders contain supporting materials for the experiments. 
+This folder contains the experimental stimuli. All experiments was implemented using jsPsych. The `/images`, `video`, and `/jspsych` folders contain supporting materials for the experiments. 
 
 ### Manuscript
 
-Contains the manuscript. 
+Contains a pdf of the manuscript (subject to change). 
 
 ### Preregistrations
 
