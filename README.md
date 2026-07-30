@@ -10,10 +10,6 @@ This is the repository structure and breakdown:
 │   ├── analysis
 │   ├── codebooks
 │   └── data
-├── docs
-│   ├── images
-│   ├── jspsych
-│   └── video
 ├── manuscript
 │   └── figures
 ├── preregistrations
@@ -26,9 +22,6 @@ This is the repository structure and breakdown:
 This folder contains the R analysis scripts and data files and codebooks (knitted `.html` reports generated using the `codebook` package from Arslan (2019)) for Experiments 1 - 6.
 
 Feel free to download the repository (button on top right) and look through the files. If you would like to quickly view the analysis reports, you can download just the .html report for the corresponding study, and double-click to open it on your browser (i.e. go to `/code/analysis/1_measure/` and download `/experiment1_analysis.html`). 
-
-### Docs
-This folder contains the experimental stimuli. All experiments was implemented using jsPsych. The `/images`, `video`, and `/jspsych` folders contain supporting materials for the experiments. 
 
 ### Manuscript
 
